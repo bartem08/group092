@@ -5,7 +5,7 @@ import com.interview.model.Interviewer;
 import java.util.List;
 
 /**
- * @author nss
+ * Created by NSS on 26.03.2016.
  */
 public interface InterviewerService {
 
@@ -13,10 +13,11 @@ public interface InterviewerService {
 
     Interviewer readInterviewer(String id);
 
+    Interviewer findInterviewer(String login);
+
     List<Interviewer> readAllInterviewers();
 
     Interviewer updateInterviewer(Interviewer interviewer);
 
     boolean deleteInterviewer(String id);
-
 }

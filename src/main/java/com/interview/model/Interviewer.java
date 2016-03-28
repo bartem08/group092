@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author NSS
+ * Created by NSS on 26.03.2016.
  */
 @Document(collection = "interviewers")
 @TypeAlias("Interviewer")
@@ -23,7 +23,17 @@ public class Interviewer implements Serializable {
 
     private String lastName;
 
-    private String mail;
+    private String email;
+
+    private String skype;
+
+    private String phone;
+
+    private String login;
+
+    private String password;
+
+    private String role;
 
     private List<Group> groups = new ArrayList();
 
@@ -32,11 +42,15 @@ public class Interviewer implements Serializable {
     public Interviewer() {}
 
     @PersistenceConstructor
-    public Interviewer(String firstName, String lastName, String mail) {
+    public Interviewer(String firstName, String lastName, String email, String skype, String phone) {
         setFirstName(firstName);
         setLastName(lastName);
-        setMail(mail);
+        setEmail(email);
+        setSkype(skype);
+        setPhone(phone);
     }
+
+
 
     public String getId() {
         return id;
@@ -62,12 +76,52 @@ public class Interviewer implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSkype() {
+        return skype;
+    }
+
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public List<Group> getGroups() {
@@ -87,11 +141,15 @@ public class Interviewer implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
-        Interviewer that = (Interviewer) o;
+        Interviewer that = (Interviewer) obj;
 
         return firstName != null ? firstName.equals(that.firstName) : that.firstName == null
                 && (lastName != null ? lastName.equals(that.lastName) : that.lastName == null);
@@ -108,5 +166,4 @@ public class Interviewer implements Serializable {
     public String toString() {
         return String.format("%s %s", firstName, lastName);
     }
-
 }
