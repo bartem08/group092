@@ -1,0 +1,27 @@
+# layout
+application_name=Interview
+header_text=Interview Application
+home_text=Home
+menu_header_text=Menu
+label_welcome=Welcome
+label_login=Login
+label_logout=Logout
+
+#menu
+menu_add_interviewer=New Interviewer
+
+# Labels for contacts
+label_interviewer_list=Interviewer Listing
+label_interviewer_first_name=First Name
+label_interviewer_last_name=Last Name
+label_interviewer_phone=Phone Number
+label_interviewer_skype=Skype
+label_interviewer_email=E-mail
+label_interviewer_user_name=User Name
+label_interviewer_password=Password
+label_interviewer_info=Interviewer Information
+label_interviewer_new=Add Interviewer
+label_interviewer_update=Edit Interviewer
+label_interviewer_delte=Delete Interviewer
+label_forgot_password=Forgot password ?
+label_remember_me=Remember me
