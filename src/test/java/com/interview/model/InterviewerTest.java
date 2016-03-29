@@ -7,7 +7,7 @@ import static org.testng.Assert.*;
 
 public class InterviewerTest {
 
-    private Interviewer full;
+    /*private Interviewer full;
     private Interviewer empty;
 
     @BeforeMethod
@@ -47,5 +47,5 @@ public class InterviewerTest {
     public void notNullToString() {
         assertNotNull(full.toString());
         assertNotNull(empty.toString());
-    }
+    }*/
 }

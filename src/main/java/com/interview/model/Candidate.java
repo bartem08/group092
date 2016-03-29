@@ -1,6 +1,5 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,10 +10,7 @@ import java.util.List;
 
 @Document(collection = "candidates")
 @TypeAlias("Candidate")
-public class Candidate implements Serializable {
-
-    @Id
-    private String id;
+public class Candidate extends AbstractDocument implements Serializable {
 
     private String surname;
 
@@ -51,10 +47,6 @@ public class Candidate implements Serializable {
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setSkype(skype);
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setSurname(String surname) {
@@ -120,10 +112,6 @@ public class Candidate implements Serializable {
                 ", email='" + email + '\'' +
                 ", skype='" + skype + '\'' +
                 '}';
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getSurname() {

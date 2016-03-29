@@ -1,6 +1,6 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
+import com.interview.validation.annotation.Existed;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -18,12 +18,9 @@ import java.util.Set;
  */
 @Document(collection = "interviews")
 @TypeAlias("Interview")
-public class Interview implements Serializable {
+public class Interview extends AbstractDocument implements Serializable {
 
-    @Id
-    private String id;
-
-    @DBRef
+    @DBRef @Existed(collection = "interviewers")
     private Interviewer interviewer;
 
     private Set<InterviewQuestion> questions;
@@ -48,14 +45,6 @@ public class Interview implements Serializable {
         setMaxValue(maxValue);
         setFinalValue(finalValue);
         setComments(comments);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Set<InterviewQuestion> getQuestions() {
