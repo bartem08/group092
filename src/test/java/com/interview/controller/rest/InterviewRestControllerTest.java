@@ -2,12 +2,16 @@ package com.interview.controller.rest;
 
 import com.interview.config.MvcConfigurer;
 import com.interview.model.Interview;
+import com.interview.model.Interviewer;
+import com.interview.service.InterviewerService;
 import com.jayway.restassured.RestAssured;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -31,10 +35,21 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
 
     private Interview interview;
 
+    @Autowired
+    private InterviewerService interviewerService;
+
+    private Interviewer interviewer;
+
     @BeforeClass
     public void initInterview() {
-        interview = new Interview();
+        interviewer = interviewerService.createInterviewer(new Interviewer());
+        interview = new Interview(interviewer);
         RestAssured.port = port;
+    }
+
+    @AfterClass
+    public void tearDown() {
+        interviewerService.deleteInterviewer(interviewer.getId());
     }
 
     @Test
@@ -70,7 +85,7 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
         .then()
                 .statusCode(SC_OK)
                 .body("id", notNullValue())
-                .body("interviewer", nullValue())
+                .body("interviewer", notNullValue())
                 .body("questions", nullValue())
                 .body("maxValue", is(0f))
                 .body("finalValue", is(0f))

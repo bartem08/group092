@@ -1,6 +1,5 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -14,10 +13,7 @@ import java.util.List;
  */
 @Document(collection="templates")
 @TypeAlias("Template")
-public class Template implements Serializable {
-
-    @Id
-    private String id;
+public class Template extends AbstractDocument implements Serializable {
 
     private String name;
 
@@ -37,14 +33,6 @@ public class Template implements Serializable {
         setQuestions(questions);
         setFavourite(favourite);
         setInterviewer(interviewer);
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setName(String name) {
