@@ -15,6 +15,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Collection;
 
+/**
+ * @author Artem Baranovskiy
+ */
 @Component
 public class ExistedValidator implements ConstraintValidator<Existed, Object> {
 
