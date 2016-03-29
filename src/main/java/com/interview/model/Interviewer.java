@@ -1,6 +1,5 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,14 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by NSS on 26.03.2016.
+ * @author NSS
  */
 @Document(collection = "interviewers")
 @TypeAlias("Interviewer")
-public class Interviewer implements Serializable {
-
-    @Id
-    private String id;
+public class Interviewer extends AbstractDocument implements Serializable {
 
     private String firstName;
 
@@ -166,4 +162,5 @@ public class Interviewer implements Serializable {
     public String toString() {
         return String.format("%s %s", firstName, lastName);
     }
+
 }

@@ -1,6 +1,5 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,10 +11,7 @@ import java.io.Serializable;
  */
 @Document(collection="questions")
 @TypeAlias("Question")
-public class Question implements Serializable {
-
-    @Id
-    private String id;
+public class Question extends AbstractDocument implements Serializable {
 
     private String questionString;
 
@@ -27,14 +23,6 @@ public class Question implements Serializable {
     public Question(String questionString, double maxQuestionValue) {
         setQuestionString(questionString);
         setMaxQuestionValue(maxQuestionValue);
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setQuestionString(String questionString) {
