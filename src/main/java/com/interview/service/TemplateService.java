@@ -20,10 +20,10 @@ public interface TemplateService {
 
     boolean deleteTemplate(String id);
 
-    List<Question> getQuestionsFromTemplate(String id);
+    List<Question> getAllQuestionsFromTemplate(String templateId);
 
-    void addQuestionToTemplate(String templateId, Question question);
+    Template addQuestionToTemplate(String templateId, Question question);
 
-    void deleteQuestionFromTemplate(String templateId, String questionId);
+    boolean deleteQuestionFromTemplate(String templateId, String questionId);
 
 }

@@ -13,7 +13,7 @@ public interface QuestionService {
 
     Question readQuestion(String id);
 
-    List<Question> readAllAllQuestions();
+    List<Question> readAllQuestions();
 
     Question updateQuestion(Question question);
 

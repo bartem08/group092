@@ -1,5 +1,7 @@
 package com.interview.model;
 
+import com.interview.validation.annotation.Existed;
+
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -20,9 +22,11 @@ public class Template extends AbstractDocument implements Serializable {
     private boolean favourite;
 
     @DBRef
+    @Existed(collection = "interviewers")
     private Interviewer interviewer;
 
     @DBRef
+    @Existed(collection = "questions")
     private List<Question> questions;
 
     public Template() {}
