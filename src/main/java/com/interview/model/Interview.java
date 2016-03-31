@@ -1,5 +1,6 @@
 package com.interview.model;
 
+import com.interview.util.ResultFormer;
 import com.interview.validation.annotation.Existed;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
@@ -8,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,9 +25,7 @@ public class Interview extends AbstractDocument implements Serializable {
 
     private Set<InterviewQuestion> questions;
 
-    private double maxValue;
-
-    private double finalValue;
+    private double result;
 
     private List<String> comments;
 
@@ -38,12 +36,9 @@ public class Interview extends AbstractDocument implements Serializable {
     }
 
     @PersistenceConstructor
-    public Interview(Set<InterviewQuestion> questions, Interviewer interviewer,
-                     Double maxValue, Double finalValue, List<String> comments) {
+    public Interview(Set<InterviewQuestion> questions, Interviewer interviewer, List<String> comments) {
         this(interviewer);
         setQuestions(questions);
-        setMaxValue(maxValue);
-        setFinalValue(finalValue);
         setComments(comments);
     }
 
@@ -51,18 +46,9 @@ public class Interview extends AbstractDocument implements Serializable {
         return questions;
     }
 
-    public void addQuestion(final InterviewQuestion question) {
-        if (questions == null) {
-            questions = new HashSet<>();
-        }
-        if (!question.isSkipped()) {
-            finalValue += question.getFinalQuestionValue();
-            maxValue += question.getMaxQuestionValue();
-        }
-    }
-
-    public void setQuestions(Set<InterviewQuestion> questions) {
+    public void setQuestions(final Set<InterviewQuestion> questions) {
         this.questions = questions;
+        result = ResultFormer.form(this.questions);
     }
 
     public Interviewer getInterviewer() {
@@ -73,30 +59,15 @@ public class Interview extends AbstractDocument implements Serializable {
         this.interviewer = interviewer;
     }
 
-    public double getFinalValue() {
-        return finalValue;
-    }
-
-    private void setFinalValue(Double finalValue) {
-        if (finalValue != null)
-            this.finalValue = finalValue;
-    }
-
-    public double getMaxValue() {
-        return maxValue;
-    }
-
-    private void setMaxValue(Double maxValue) {
-        if (maxValue != null) {
-            this.maxValue = maxValue;
-        }
+    public double getResult() {
+        return result;
     }
 
     public List<String> getComments() {
         return comments;
     }
 
-    private void setComments(List<String> comments) {
+    public void setComments(List<String> comments) {
         this.comments = comments;
     }
 
@@ -125,7 +96,7 @@ public class Interview extends AbstractDocument implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Interview{comments=%s, interviewer=%s, finalValue=%s}", comments, interviewer, finalValue);
+        return String.format("Interview {comments=%s, interviewer=%s, result=%.2f}", comments, interviewer, result);
     }
 
 }
