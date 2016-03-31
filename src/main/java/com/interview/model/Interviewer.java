@@ -15,9 +15,9 @@ import java.util.List;
 @TypeAlias("Interviewer")
 public class Interviewer extends AbstractDocument implements Serializable {
 
-    private String firstName;
-
     private String lastName;
+
+    private String firstName;
 
     private String email;
 
@@ -37,16 +37,22 @@ public class Interviewer extends AbstractDocument implements Serializable {
 
     public Interviewer() {}
 
-    @PersistenceConstructor
-    public Interviewer(String firstName, String lastName, String email, String skype, String phone) {
-        setFirstName(firstName);
+    public Interviewer(String lastName, String firstName, String email, String skype, String phone) {
         setLastName(lastName);
+        setFirstName(firstName);
         setEmail(email);
         setSkype(skype);
         setPhone(phone);
     }
 
-
+    @PersistenceConstructor
+    public Interviewer(String lastName, String firstName, String email, String skype, String phone,
+                       String login, String password, String role) {
+        this(lastName, firstName, email, skype, phone);
+        setLogin(login);
+        setPassword(password);
+        setRole(role);
+    }
 
     public String getId() {
         return id;
@@ -137,24 +143,51 @@ public class Interviewer extends AbstractDocument implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        Interviewer that = (Interviewer) obj;
+        Interviewer that = (Interviewer) o;
 
-        return firstName != null ? firstName.equals(that.firstName) : that.firstName == null
-                && (lastName != null ? lastName.equals(that.lastName) : that.lastName == null);
+        if (getLastName() != null ? !getLastName().equals(that.getLastName()) : that.getLastName() != null) {
+            return false;
+        }
+        if (getFirstName() != null ? !getFirstName().equals(that.getFirstName()) : that.getFirstName() != null) {
+            return false;
+        }
+        if (getEmail() != null ? !getEmail().equals(that.getEmail()) : that.getEmail() != null) {
+            return false;
+        }
+        if (getSkype() != null ? !getSkype().equals(that.getSkype()) : that.getSkype() != null) {
+            return false;
+        }
+        if (getPhone() != null ? !getPhone().equals(that.getPhone()) : that.getPhone() != null) {
+            return false;
+        }
+        if (getLogin() != null ? !getLogin().equals(that.getLogin()) : that.getLogin() != null) {
+            return false;
+        }
+        if (getPassword() != null ? !getPassword().equals(that.getPassword()) : that.getPassword() != null) {
+            return false;
+        }
+        return getRole() != null ? getRole().equals(that.getRole()) : that.getRole() == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        int result = getLastName() != null ? getLastName().hashCode() : 0;
+        result = 31 * result + (getFirstName() != null ? getFirstName().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getSkype() != null ? getSkype().hashCode() : 0);
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
         return result;
     }
 

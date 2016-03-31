@@ -19,16 +19,19 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 /**
- * Simple rest controller which is responsible for C.R.U.D.
- * and for interview manipulating operations:
+ * REST controller which is responsible for manipulating interviewer's informations:
  *      GET    - /rest/interviewers     - get all interviewers
  *      GET    - /rest/interviewers/id  - get interviewer with specified id
+ *      GET    - /rest/interviewers/login  - get interviewer with specified login
  *      POST   - /rest/interviewers     - add interviewer
  *      PUT    - /rest/interviewers/id  - update interviewer with specified id
  *      DELETE - /rest/interviewers/id  - delete interviewer from the repository
  *
- * Simple way to create interview with specified interviewer is to set interviewer id
- * in interviewer field
+ *      POST   - /rest/interviewers/id/templates/id  - add template into the interviewer
+ *      DELETE - /rest/interviewers/id/templates/id  - delete template from the interviewer
+ *
+ *      POST   - /rest/interviewers/id/groups/id  - add group into the interviewer
+ *      DELETE - /rest/interviewers/id/groups/id  - delete group from the interviewer
  *
  * Created by NSS on 26.03.2016.
  */
@@ -62,6 +65,19 @@ public class InterviewerRestController {
     public ResponseEntity readInterviewer(@PathVariable String id) {
         logRequestInfo(request);
         final Interviewer interviewer = interviewerService.readInterviewer(id);
+        if (interviewer == null) {
+            LOG.info("HTTP Status: NO_CONTENT");
+            return new ResponseEntity<>(NO_CONTENT);
+        } else {
+            LOG.info("HTTP Status: OK");
+            return new ResponseEntity<>(interviewer, OK);
+        }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ResponseEntity findInterviewer(@RequestParam(value = "login", required = true) String login) {
+        logRequestInfo(request);
+        final Interviewer interviewer = interviewerService.findInterviewer(login);
         if (interviewer == null) {
             LOG.info("HTTP Status: NO_CONTENT");
             return new ResponseEntity<>(NO_CONTENT);

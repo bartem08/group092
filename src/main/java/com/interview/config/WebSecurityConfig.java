@@ -37,19 +37,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().antMatchers("/resources/**").permitAll();
         http
-                .httpBasic()
-                .and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/rest/interviewers").permitAll()
-                .antMatchers(HttpMethod.POST, "/rest/interviewers").permitAll()
-                .antMatchers(HttpMethod.PUT, "/rest/interviewers/**").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/rest/interviewers/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/rest//interviewers**").permitAll()
+                .exceptionHandling()
+                .accessDeniedPage("/interview/accessdenied")
                 .and()
-                .rememberMe()
+                .authorizeRequests()
+                .antMatchers("/interview").permitAll()
+                .antMatchers("/interview/interviewer").hasAuthority("ADMIN")
                 .and()
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin()
+                .formLogin()
+                .loginPage("/interview")
+                .defaultSuccessUrl("/interview/interviewer")
+                .permitAll()
+                .failureUrl("/interview/loginerror")
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .logout()
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 }
