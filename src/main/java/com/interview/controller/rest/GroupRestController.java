@@ -2,6 +2,7 @@ package com.interview.controller.rest;
 
 import com.interview.model.Group;
 import com.interview.model.Interview;
+import com.interview.model.dto.GroupDTO;
 import com.interview.service.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,8 +28,9 @@ import java.util.List;
  *      PUT    - /rest/groups/{id}      - update group with specified id
  *      DELETE - /rest/groups/{id}      - delete group with specified id
  *
- * Simple way to create interview with specified interviewer is to set interviewer id
- * in interviewer field
+ * Interacting with groups through DTO:
+ *      GET    - /rest/groups/dto       - get all group DTO
+ *      GET    - /rest/groups/{id}/dto  - get particular group DTO with specified id
  *
  * @author Yegor Gulimov
  */
@@ -122,5 +126,41 @@ public class GroupRestController {
             log.error("Deleting '{}' group: NO CONTENT", id);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+    }
+
+    //Methods for fetching group DTO instead of actual group
+
+    @RequestMapping("/dto")
+    public ResponseEntity readAllGroupsDto() {
+        List<Group> actualGroups = groupService.readAllGroups();
+
+        if (actualGroups.isEmpty()) {
+            log.error("Fetching all group DTO: NO CONTENT");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        List<GroupDTO> dtoGroups = new ArrayList<>();
+
+        for (Group actualGroup : actualGroups) {
+            dtoGroups.add(new GroupDTO(actualGroup));
+        }
+
+        Collections.sort(dtoGroups);    //get groups DTO sorted in alphabetic order
+
+        log.info("Fetching all group DTO: OK");
+        return new ResponseEntity<>(dtoGroups, HttpStatus.OK);
+    }
+
+    @RequestMapping("/{id}/dto")
+    public ResponseEntity readGroupDto(@PathVariable("id") String id) {
+        Group actualGroup = groupService.readGroup(id);
+
+        if (actualGroup == null) {
+            log.error("Fetching group '{}' DTO: NO CONTENT", id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        log.info("Fetching group '{}' DTO: OK", id);
+        return new ResponseEntity<>(new GroupDTO(actualGroup), HttpStatus.OK);
     }
 }
