@@ -20,7 +20,6 @@ import java.util.Collection;
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-
     @Autowired
     private InterviewerService interviewerService;
 

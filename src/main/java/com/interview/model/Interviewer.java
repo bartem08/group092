@@ -1,5 +1,6 @@
 package com.interview.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,9 +16,9 @@ import java.util.List;
 @TypeAlias("Interviewer")
 public class Interviewer extends AbstractDocument implements Serializable {
 
-    private String firstName;
-
     private String lastName;
+
+    private String firstName;
 
     private String email;
 
@@ -37,16 +38,22 @@ public class Interviewer extends AbstractDocument implements Serializable {
 
     public Interviewer() {}
 
-    @PersistenceConstructor
-    public Interviewer(String firstName, String lastName, String email, String skype, String phone) {
-        setFirstName(firstName);
+    public Interviewer(String lastName, String firstName, String email, String skype, String phone) {
         setLastName(lastName);
+        setFirstName(firstName);
         setEmail(email);
         setSkype(skype);
         setPhone(phone);
     }
 
-
+    @PersistenceConstructor
+    public Interviewer(String lastName, String firstName, String email, String skype, String phone,
+                       String login, String password, String role) {
+        this(lastName, firstName, email, skype, phone);
+        setLogin(login);
+        setPassword(password);
+        setRole(role);
+    }
 
     public String getId() {
         return id;
@@ -137,24 +144,39 @@ public class Interviewer extends AbstractDocument implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
 
-        Interviewer that = (Interviewer) obj;
+        Interviewer that = (Interviewer) object;
 
-        return firstName != null ? firstName.equals(that.firstName) : that.firstName == null
-                && (lastName != null ? lastName.equals(that.lastName) : that.lastName == null);
+        if (!getLastName().equals(that.getLastName())) {
+            return false;
+        }
+        if (!getFirstName().equals(that.getFirstName())) {
+            return false;
+        }
+        if (!getEmail().equals(that.getEmail())) {
+            return false;
+        }
+        if (!getSkype().equals(that.getSkype())){
+            return false;
+        }
+        return getPhone().equals(that.getPhone());
+
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        int result = getLastName().hashCode();
+        result = 31 * result + getFirstName().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getSkype().hashCode();
+        result = 31 * result + getPhone().hashCode();
         return result;
     }
 
