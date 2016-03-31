@@ -143,7 +143,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void givenWhenReadGroupCallWithNotExistedIdThenStatusCodeOk() {
+    public void givenWhenReadGroupCallWithNotExistedIdThenStatusCodeNoContent() {
 
         given()
                 .contentType(JSON)
