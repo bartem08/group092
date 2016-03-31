@@ -25,9 +25,6 @@ import java.util.List;
  *      PUT    - /rest/groups/{id}      - update group with specified id
  *      DELETE - /rest/groups/{id}      - delete group with specified id
  *
- * Simple way to create interview with specified interviewer is to set interviewer id
- * in interviewer field
- *
  * @author Yegor Gulimov
  */
 
