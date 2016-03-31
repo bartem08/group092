@@ -77,6 +77,20 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
     }
 
     @Test(dependsOnMethods = "badRequestWhenCreateInterviewWithNoBody")
+    public void badRequestWhenCreateInterviewWithNonexistentInterviewer() {
+        final Interview interview = new Interview();
+        given()
+                .contentType(JSON)
+                .body(interview)
+        .when()
+                .post("/rest/interviews")
+        .then()
+                .statusCode(SC_BAD_REQUEST)
+                .assertThat()
+                .content(equalTo("Does not exist"));
+    }
+
+    @Test(dependsOnMethods = "badRequestWhenCreateInterviewWithNonexistentInterviewer")
     public void okWhenReadInterview() {
         given()
                 .contentType(JSON)
@@ -87,9 +101,8 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
                 .body("id", notNullValue())
                 .body("interviewer", notNullValue())
                 .body("questions", nullValue())
-                .body("maxValue", is(0f))
-                .body("finalValue", is(0f))
-                .body("questions", nullValue());
+                .body("comments", nullValue())
+                .body("result", is(0f));
     }
 
     @Test(dependsOnMethods = "okWhenReadInterview")
@@ -139,6 +152,20 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
     }
 
     @Test(dependsOnMethods = "noContentWhenUpdateNonexistentInterview")
+    public void badRequestWhenUpdateInterviewOnInterviewWithNonexistentInterviewer() {
+        interview.setInterviewer(new Interviewer());
+        given()
+                .contentType(JSON)
+                .body(interview)
+        .when()
+                .put("/rest/interviews/001100")
+        .then()
+                .statusCode(SC_BAD_REQUEST)
+                .assertThat()
+                .content(equalTo("Does not exist"));
+    }
+
+    @Test(dependsOnMethods = "badRequestWhenUpdateInterviewOnInterviewWithNonexistentInterviewer")
     public void okWhenDeleteExistedInterview() {
         given()
                 .contentType(JSON)
