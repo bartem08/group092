@@ -1,6 +1,5 @@
-$(document).ready(function () {
-    var userPrincipal = $("#userPrincipal").val();
-
+$(document).ready(function() {
+   //hdrDropdownSchedule
     $.ajax({
         type: "GET",
         url: "/rest/groups/dto",    //all groups so far (not wired with Interviewer)
@@ -10,11 +9,10 @@ $(document).ready(function () {
             groupDtoList = JSON.parse(groupDtoList);
 
             $.each(groupDtoList, function(i, groupDto) {
-                $("#groupsTable > tbody").append(
-                    '<tr>' +
-                        '<td>' + groupDto.name + '</td>' +
-                        '<td><a href="/web/groups/' + groupDto.id + '">&gt;</a></td>' +
-                    '</tr>'
+                $("#hdrDropdownSchedule").append(
+                    '<li>' +
+                        '<td><a href="/web/groups/' + groupDto.id + '">' + groupDto.name + '</a></td>' +
+                    '</li>'
                 );
             });
         }
