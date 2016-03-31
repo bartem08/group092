@@ -1,6 +1,7 @@
 package com.interview.controller.rest;
 
 import com.interview.model.Interviewer;
+import com.interview.model.dto.InterviewerDTO;
 import com.interview.service.InterviewerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public class InterviewerRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity readInterviewer(@PathVariable String id) {
+    public ResponseEntity readInterviewer(@PathVariable("id") String id) {
         logRequestInfo(request);
         final Interviewer interviewer = interviewerService.readInterviewer(id);
         if (interviewer == null) {
@@ -74,8 +75,8 @@ public class InterviewerRestController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity findInterviewer(@RequestParam(value = "login", required = true) String login) {
+    @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
+    public ResponseEntity findInterviewer(@PathVariable("login") String login) {
         logRequestInfo(request);
         final Interviewer interviewer = interviewerService.findInterviewer(login);
         if (interviewer == null) {
@@ -136,6 +137,21 @@ public class InterviewerRestController {
             LOG.info("HTTP Status: NO_CONTENT");
             return new ResponseEntity(NO_CONTENT);
         }
+    }
+
+    @RequestMapping(value = "/login/dto/{login}", method = RequestMethod.GET)
+    public ResponseEntity findInterviewerDTO(@PathVariable("login") String login) {
+        logRequestInfo(request);
+        final Interviewer interviewer = interviewerService.findInterviewer(login);
+        if (interviewer == null) {
+            LOG.info("HTTP Status: NO_CONTENT");
+            return new ResponseEntity<>(NO_CONTENT);
+        }
+
+        InterviewerDTO interviewerDTO = new InterviewerDTO(interviewer);
+
+        LOG.info("HTTP Status: OK");
+        return new ResponseEntity<>(interviewerDTO, OK);
     }
 
     private void logRequestInfo(HttpServletRequest request) {

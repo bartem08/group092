@@ -28,19 +28,23 @@ public class InterviewerTest {
     @Test
     public void twoSameObjectsEqualsEachOther() {
         final Interviewer test = new Interviewer();
-        test.setFirstName("FirstName");
         test.setLastName("LastName");
+        test.setFirstName("FirstName");
+        test.setEmail("mail@mail");
+        test.setSkype("skype111");
+        test.setPhone("111");
         assertEquals(full, test);
-        assertEquals(empty, new Interviewer());
     }
 
     @Test
     public void twoSameObjectsReturnSameHashCode() {
         final Interviewer test = new Interviewer();
-        test.setFirstName("FirstName");
         test.setLastName("LastName");
+        test.setFirstName("FirstName");
+        test.setEmail("mail@mail");
+        test.setSkype("skype111");
+        test.setPhone("111");
         assertEquals(full.hashCode(), test.hashCode());
-        assertEquals(empty.hashCode(), new Interviewer().hashCode());
     }
 
     @Test

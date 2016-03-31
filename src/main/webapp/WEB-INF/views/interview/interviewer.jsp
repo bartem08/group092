@@ -10,13 +10,13 @@
             var login = $("#userPrincipal").val();
             $.ajax({
                 type: "GET",
-                url: "/rest/interviewers/login?login=" + login,
+                url: "/rest/interviewers/login/dto/" + login,
                 success: function(result) {
                     var interviewer = JSON.stringify(result);
                     console.log("JSON: " + interviewer);
                     interviewer = JSON.parse(interviewer);
 
-                    $("#interviewerName").text(interviewer.firstName);
+                    $("#interviewerName").text(interviewer.name);
                 }
             });
         });

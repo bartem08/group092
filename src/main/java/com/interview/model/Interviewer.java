@@ -154,13 +154,30 @@ public class Interviewer extends AbstractDocument implements Serializable {
 
         Interviewer that = (Interviewer) object;
 
-        return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
+        if (!getLastName().equals(that.getLastName())) {
+            return false;
+        }
+        if (!getFirstName().equals(that.getFirstName())) {
+            return false;
+        }
+        if (!getEmail().equals(that.getEmail())) {
+            return false;
+        }
+        if (!getSkype().equals(that.getSkype())){
+            return false;
+        }
+        return getPhone().equals(that.getPhone());
 
     }
 
     @Override
     public int hashCode() {
-        return getId() != null ? getId().hashCode() : 0;
+        int result = getLastName().hashCode();
+        result = 31 * result + getFirstName().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getSkype().hashCode();
+        result = 31 * result + getPhone().hashCode();
+        return result;
     }
 
     @Override
