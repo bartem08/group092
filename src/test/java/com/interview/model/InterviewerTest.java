@@ -7,19 +7,19 @@ import static org.testng.Assert.*;
 
 public class InterviewerTest {
 
-    /*private Interviewer full;
+    private Interviewer full;
     private Interviewer empty;
 
     @BeforeMethod
     public void initialize() {
-        full = new Interviewer("FirstName", "LastName", "mail@mail", "skype111", "111");
+        full = new Interviewer("LastName", "FirstName", "mail@mail", "skype111", "111");
         empty = new Interviewer();
     }
 
     @Test
     public void equalitySpecifiedFields() {
-        assertEquals("FirstName", full.getFirstName());
         assertEquals("LastName", full.getLastName());
+        assertEquals("FirstName", full.getFirstName());
         assertEquals("mail@mail", full.getEmail());
         assertEquals("skype111", full.getSkype());
         assertEquals("111", full.getPhone());
@@ -47,5 +47,5 @@ public class InterviewerTest {
     public void notNullToString() {
         assertNotNull(full.toString());
         assertNotNull(empty.toString());
-    }*/
+    }
 }

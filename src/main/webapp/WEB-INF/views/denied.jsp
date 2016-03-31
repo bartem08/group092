@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div>
 
-  <spring:url value="/interview" var="loginUrl"/>
+  <spring:url value="/web/login" var="loginUrl"/>
 
   <c:if test="${not empty message}">
     <div style="color:red">

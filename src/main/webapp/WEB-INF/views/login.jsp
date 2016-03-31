@@ -6,7 +6,7 @@
 </head>
 <center>
     <body>
-    <form action="/interview" method="POST">
+    <form action="/web/login" method="POST">
         <table>
             <tr>
                 <td>User Name:</td>

@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping(value = "/interview")
-public class InterviewWebController {
+@RequestMapping(value = "/web")
+public class InterviewerWebController {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
         ModelAndView model = new ModelAndView();
         model.setViewName("login");
