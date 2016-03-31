@@ -8,6 +8,9 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
+/**
+ * @author Artem Baranovskiy
+ */
 public class InterviewTest {
 
     private Interview interview;

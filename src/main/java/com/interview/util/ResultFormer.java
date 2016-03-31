@@ -4,6 +4,9 @@ import com.interview.model.InterviewQuestion;
 
 import java.util.Set;
 
+/**
+ * @author Artem Baranovskiy
+ */
 public class ResultFormer {
 
     public static double form(final Set<InterviewQuestion> questions) {
