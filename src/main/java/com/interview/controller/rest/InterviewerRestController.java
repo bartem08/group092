@@ -173,7 +173,7 @@ public class InterviewerRestController {
     }
 
     @RequestMapping(value = "/{interviewerId}/groups/{groupId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteGroupFromInterviewer(@PathVariable("interviewerId") String interviewerId,
+    public ResponseEntity deleteGroupFromInterviewer(@PathVariable("interviewerId") String interviewerId,
                                                            @PathVariable("groupId") String groupId) {
         Interviewer receivedInterviewer = interviewerService.readInterviewer(interviewerId);
         Group receivedGroup = groupService.readGroup(groupId);
