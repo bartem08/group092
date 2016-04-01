@@ -52,7 +52,6 @@
             <fieldset>
                 <legend style="padding-left: 7em">Add a question to template</legend>
                 <div class="form-group">
-
                     <ul class="nav nav-pills">
                         <label for="dropdown" class="col-lg-2 control-label">Choose a template</label>
                         <li id="dropdown" class="dropdown" style="padding-left: 1em">
@@ -67,13 +66,10 @@
                     </ul>
                     <br>
                     <label for="textArea" class="col-lg-2 control-label">Enter your question</label>
-
                     <div class="col-lg-10">
-
                         <textarea class="form-control" rows="3" id="textArea"
                                   style="width: 100%; max-width: 100%"></textarea>
                         <span class="help-block"></span>
-                        
                     </div>
                     <label for="maxValue" class="col-lg-2 control-label">Maximum value</label>
                     <div class="col-lg-10">
@@ -93,62 +89,23 @@
                         <a href="#" class="btn btn-default" id="addQuestion">Add question</a>
                     </div>
                     <br><br>
-                    <div style="padding-top: 5em">
-
-                    </div>
                 </div>
-
             </fieldset>
         </form>
-
-        <%--        <legend style="padding-top: 1em; padding-left: 7em">Templates</legend>
-                <table class="table table-striped table-hover " id="templatesTable">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Existing Templates</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Template NO1</td>
-
-
-                    </tr>
-                    </tbody>
-                </table>--%>
     </div>
     <div class="right" style="padding-top: 5em; padding-right: 2em">
         <input hidden id="activeTemplateId" value="">
         <div>
             <legend style="float: left">Active template : <span id="activeTemplate"></span></legend>
         </div>
-
         <table class="table table-striped table-hover" id="templateQuestions">
             <thead>
             <tr>
-
                 <th>Questions</th>
-
             </tr>
             </thead>
             <tbody id="tbodyId">
-            <tr>
-                <td>Question NO1</td>
-            </tr>
-            <tr>
-                <td>Question NO2</td>
-            </tr>
-            <tr>
-                <td>Question NO3</td>
-            </tr>
-            <tr>
-                <td>Question NO4</td>
-            </tr>
-
-
+                <!-- Populated by JS-->
             </tr>
             </tbody>
         </table>
