@@ -1,0 +1,22 @@
+ input {
+     text-align: left;
+     color: #CCCCCC;
+     background-color: #3a3f44;
+     border-color: #3a3f44 ;
+     width: 300px;
+}
+ input:focus{
+     outline: none;
+ }
+
+/* tr input {
+     display: none;
+ }
+
+ tr.edit span {
+     display: none;
+ }
+
+ tr.edit input {
+     display: initial;
+ } */
