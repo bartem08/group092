@@ -135,6 +135,14 @@ public class Interviewer extends AbstractDocument implements Serializable {
         this.groups = groups;
     }
 
+    public void removeGroup(Group group) {
+        groups.remove(group);
+    }
+
+    public void addGroup(Group group) {
+        groups.add(group);
+    }
+
     public List<Template> getTemplates() {
         return templates;
     }
