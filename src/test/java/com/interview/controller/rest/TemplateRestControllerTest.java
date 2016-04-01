@@ -18,9 +18,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.*;
@@ -49,7 +46,6 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
     private String templateId;
     private Template template;
 
-    private String questionId;
     private Question question;
 
     private Interviewer interviewer;
@@ -64,9 +60,10 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
     public void initQuestion() {
         question = questionService.createQuestion(new Question("Do you have brain?", 100));
         interviewer = interviewerService.createInterviewer(new Interviewer("Test", "Test", "Test", "Test", "Test"));
-        template = templateService.createTemplate(new Template());
+        template = new Template();
         template.addQuestion(question);
         template.setInterviewer(interviewer);
+        templateService.createTemplate(template);
         RestAssured.port = port;
     }
 
@@ -161,24 +158,71 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
             .statusCode(SC_NO_CONTENT);
     }
 
-/////////////////////////
-
-   /* @Test(dependsOnMethods = "noContentWhenUpdateNoExistedTemplate")
+    @Test(dependsOnMethods = "noContentWhenUpdateNoExistedTemplate")
     public void okWhenReadAllQuestionsFromTemplate() {
         given()
            .contentType(JSON)
         .when()
-           .get(TEMPLATE_QUESTIONS, templateId)
+           .get("/rest/templates/" + templateId + "/questions")
         .then()
-            .statusCode(SC_OK)
-            .body("questions", hasItemInArray(question))
-            .body("questions", arrayWithSize(1));
-    }*/
+            .statusCode(SC_OK);
+    }
 
+    @Test(dependsOnMethods = "okWhenReadAllQuestionsFromTemplate")
+    public void okWhenDeleteQuestionFromTemplate() {
+        given()
+            .contentType(JSON)
+        .when()
+            .delete("/rest/templates/" + templateId + "/questions/" + question.getId())
+        .then()
+            .statusCode(SC_OK);
+    }
 
-////////////////////////////
+    @Test(dependsOnMethods = "okWhenDeleteQuestionFromTemplate")
+    public void noContentWhenDeleteNoExistedQuestionFromTemplate() {
+        given()
+            .contentType(JSON)
+        .when()
+            .delete("/rest/templates/" + templateId + "/questions/" + question.getId())
+        .then()
+            .statusCode(SC_NO_CONTENT);
+    }
 
-    @Test(dependsOnMethods = "noContentWhenUpdateNoExistedTemplate")
+    @Test(dependsOnMethods = "noContentWhenDeleteNoExistedQuestionFromTemplate")
+    public void noContentWhenGetAllQuestionsFromEmptyTemplate() {
+        given()
+            .contentType(JSON)
+        .when()
+            .get("/rest/templates/" + templateId + "/questions")
+        .then()
+            .statusCode(SC_NO_CONTENT);
+    }
+
+    @Test(dependsOnMethods = "noContentWhenGetAllQuestionsFromEmptyTemplate")
+    public void createdWhenSuccessAddingQuestionToTemplate() {
+        given()
+            .contentType(JSON)
+            .body(question)
+        .when()
+            .post("/rest/templates/" + templateId + "/questions")
+        .then()
+            .statusCode(SC_CREATED)
+            .extract()
+            .jsonPath()
+            .getString("id").replaceAll("\\[", "").replaceAll("\\]", "");
+    }
+
+    @Test(dependsOnMethods = "createdWhenSuccessAddingQuestionToTemplate")
+    public void badRequestWhenAddQuestionToTemplateWithNoBody() {
+        given()
+            .contentType(JSON)
+        .when()
+            .post("/rest/templates/" + templateId + "/questions")
+        .then()
+            .statusCode(SC_BAD_REQUEST);
+    }
+
+    @Test(dependsOnMethods = "badRequestWhenAddQuestionToTemplateWithNoBody")
     public void okWhenDeleteExistedTemplate() {
         given()
             .contentType(JSON)
@@ -207,7 +251,5 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
         .then()
             .statusCode(SC_NO_CONTENT);
     }
-
-
 
 }

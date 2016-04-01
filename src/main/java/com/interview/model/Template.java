@@ -28,7 +28,7 @@ public class Template extends AbstractDocument implements Serializable {
 
     @DBRef
     @Existed(collection = "questions")
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questions;
 
     public Template() {}
 
@@ -65,7 +65,12 @@ public class Template extends AbstractDocument implements Serializable {
     }
 
     public void addQuestion(Question question) {
-        questions.add(question);
+        if (questions == null) {
+            questions = new ArrayList<>();
+            questions.add(question);
+        } else {
+            questions.add(question);
+        }
     }
 
     public Interviewer getInterviewer() {
