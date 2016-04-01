@@ -139,7 +139,7 @@ public class InterviewerRestController {
         }
     }
 
-    @RequestMapping(value = "/login/dto/{login}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{login}/groups/dto", method = RequestMethod.GET)
     public ResponseEntity findInterviewerDTO(@PathVariable("login") String login) {
         logRequestInfo(request);
         final Interviewer interviewer = interviewerService.findInterviewer(login);
