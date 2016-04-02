@@ -55,13 +55,13 @@ public class Question extends AbstractDocument implements Serializable {
 
         Question question = (Question) o;
 
-        if (id != null ? !id.equals(question.id) : question.id != null) return false;
+        if (questionString != null ? !questionString.equals(question.questionString) : question.questionString != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return questionString != null ? questionString.hashCode() : 0;
     }
 
 }

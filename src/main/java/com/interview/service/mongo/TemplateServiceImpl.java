@@ -2,6 +2,7 @@ package com.interview.service.mongo;
 
 import com.interview.model.Question;
 import com.interview.model.Template;
+import com.interview.repository.QuestionRepository;
 import com.interview.repository.TemplateRepository;
 import com.interview.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Autowired
     private TemplateRepository repository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Override
     public Template createTemplate(Template template) {
@@ -60,19 +63,23 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public Template addQuestionToTemplate(String templateId, Question question) {
-        Template template = repository.findOne(templateId);
-        template.addQuestion(question);
-        return template;
+        if (repository.findOne(templateId) != null) {
+            Template template = repository.findOne(templateId);
+            template.addQuestion(question);
+            return repository.save(template);
+        }
+        return null;
     }
 
     @Override
     public boolean deleteQuestionFromTemplate(String templateId, String questionId) {
-        if (repository.exists(templateId) && repository.exists(questionId)) {
+        if (repository.exists(templateId) && questionRepository.exists(questionId)) {
             Template template = repository.findOne(templateId);
             List<Question> questions = template.getQuestions();
             for (Question question : questions) {
                 if (question.getId().equals(questionId)) {
                     questions.remove(question);
+                    repository.save(template);
                     return true;
                 }
             }
