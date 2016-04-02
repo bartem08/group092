@@ -67,10 +67,8 @@ public class Template extends AbstractDocument implements Serializable {
     public void addQuestion(Question question) {
         if (questions == null) {
             questions = new ArrayList<>();
-            questions.add(question);
-        } else {
-            questions.add(question);
         }
+            questions.add(question);
     }
 
     public Interviewer getInterviewer() {
