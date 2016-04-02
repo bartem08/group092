@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.*;
 /**
  * Simple rest controller which is responsible for C.R.U.D.
  *
- *      GET    - /rest/questions/        - get all questions
+ *      GET    - /rest/questions         - get all questions
  *      GET    - /rest/questions/id      - get question with specified id
  *      POST   - /rest/questions         - add question
  *      PUT   - /rest/questions/id       - update question with specified id

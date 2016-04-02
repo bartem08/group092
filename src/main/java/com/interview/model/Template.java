@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,7 +65,10 @@ public class Template extends AbstractDocument implements Serializable {
     }
 
     public void addQuestion(Question question) {
-        questions.add(question);
+        if (questions == null) {
+            questions = new ArrayList<>();
+        }
+            questions.add(question);
     }
 
     public Interviewer getInterviewer() {
