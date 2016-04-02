@@ -104,8 +104,8 @@ public class CandidateRestController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        log.info("HttpStatus: BAD_REQUEST");
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        log.info("HttpStatus: NO_CONTENT");
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/{idCandidate}/interviews/{idInterview}", produces = MediaType.APPLICATION_JSON_VALUE)
