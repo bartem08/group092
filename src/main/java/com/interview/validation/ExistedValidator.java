@@ -56,7 +56,7 @@ public class ExistedValidator implements ConstraintValidator<Existed, Object> {
         try {
             query = new BasicDBObject("_id", new ObjectId(o.getId()));
         } catch (IllegalArgumentException ex) {
-            LOG.error("Does not exist in {}", collection.getName());
+            LOG.error("id {} does not exist in {}", o.getId(), collection.getName());
             return false;
         }
         return collection.findOne(query) != null;
