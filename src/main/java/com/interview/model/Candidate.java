@@ -1,6 +1,7 @@
 package com.interview.model;
 
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Candidate extends AbstractDocument implements Serializable {
 
     private String patronymic;
 
+    @DBRef
     private List<Interview> interviewList;
 
     private Calendar date;
