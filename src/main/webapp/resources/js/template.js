@@ -19,14 +19,42 @@ function getQuestions(id, name) {
             $.each(questions, function (i, question) {
                 console.log("---" + question.id + "---" + question.questionString);
                 //Do we need separate question.jsp?
-                $("#templateQuestions").append('<tr><td><a href="/web/questions/' + question.id + '">' +
+                $("#templateQuestions").append('<tr><td><a id="questionString" href="/web/questions/' + question.id + '">' +
                     question.questionString + '</a></td>' +
-                    '<td><a id="editQuestion" class="glyphicon glyphicon-pencil">&nbsp;' +
+                    '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
+                    + '\'' + question.id + '\',' + '\'' + question.questionString + '\')" class="glyphicon glyphicon-pencil">&nbsp;' +
                     '<a id="deleteQuestion" onclick="deleteQuestion(\'' + id + '\','
                     + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td></tr>');
             });
         }
     });
+}
+
+function addNewTemplate() {
+    var template = prompt("Please enter template's name", "");
+    if (template != null) {
+        var name = template;
+/*        var questionList = [];
+        var interviewer = null;
+        var favourite = false;*/
+        var newTemplate = {
+            name: name,
+/*            questions: questionList,
+            favourite: favourite,
+            interviewer: interviewer,*/
+        }
+        console.log(newTemplate)
+        $.ajax({
+            type: "POST",
+            url: "/rest/templates/",
+            data: JSON.stringify(newTemplate),
+            contentType: "application/json",
+            success: function () {
+                console.log("Template created");
+                loadTemplates();
+            }
+        });
+    }
 }
 
 function deleteQuestion(templateId, questionId){
@@ -37,16 +65,33 @@ function deleteQuestion(templateId, questionId){
         url: "/rest/templates/" + templateId + "/questions/" + questionId,
         success: function() {
             console.log("/rest/templates/" + templateId + "/questions/" + questionId);
-            getQuestions(templateId, $("#activeTemplate").html());
+            $.ajax({
+                type: "DELETE",
+                url: "/rest/questions/" + questionId,
+                success: function() {
+                    console.log("/rest/questions/" + questionId);
+                    getQuestions(templateId, $("#activeTemplate").html());
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
         },
         error: function(result) {
             console.log(result);
         }
-    })
+    });
 }
 
+function editQuestion(templateId, questionId, questionString){
+    console.log("Function deleteQuestion binded to ref deleteQuestion fired");
+    console.log("Template Id is: " + templateId + " Question Id is: " + questionId +
+        " QuestionString is: " + questionString);
+    $("#textArea").val(questionString);
+    $("#editQuestionId").val(questionId);
+}
 
-$(document).ready(function () {
+function loadTemplates () {
     $.ajax({
         type: "GET",
         url: "/rest/templates/",
@@ -61,6 +106,11 @@ $(document).ready(function () {
         }
     });
 
+}
+
+$(document).ready(function () {
+    loadTemplates();
+
     $("#addQuestion").click(function () {
         console.log("Function addQuestion binded to button Add question fired");
         var templateId = $("#activeTemplateId").val();
@@ -71,33 +121,50 @@ $(document).ready(function () {
             maxQuestionValue: maxValue,
         }
         console.log(question);
-
-        $.ajax({
-            type: "POST",
-            url: "/rest/questions/",
-            data: JSON.stringify(question),
-            contentType: "application/json;",
-            success: function (createdQuestion, textStatus, request) {
-                var questionUrl = request.getResponseHeader('Location')
-                console.log(questionUrl)
-                console.log("Done creating question");
-                $.ajax({
-                    type: "POST",
-                    url: "/rest/templates/" + templateId + "/questions",
-                    data: JSON.stringify(createdQuestion),
-                    contentType: "application/json;",
-                    success: function () {
-                        console.log("Done saving created question to template");
-                        getQuestions(templateId, $("#activeTemplate").html());
-                    },
-                    error: function () {
-                        console.log("Saving question to template failed");
-                    }
-                });
-            },
-            error: function () {
-                console.log("failed");
-            }
-        });
+        var questionToEditId= $("#editQuestionId");
+        console.log(questionToEditId.val());
+        if (questionToEditId.val()!=""){
+            console.log("Question to edit ID: " + questionToEditId.val());
+            $.ajax({
+                type: "PUT",
+                url: "/rest/questions/" + questionToEditId.val(),
+                data: JSON.stringify(question),
+                contentType: "application/json",
+                success: function (){
+                    console.log("Successfully edited question");
+                    questionToEditId.val("");
+                    getQuestions(templateId, $("#activeTemplate").html());
+                }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/rest/questions/",
+                data: JSON.stringify(question),
+                contentType: "application/json",
+                success: function (createdQuestion, textStatus, request) {
+                    var questionUrl = request.getResponseHeader('Location')
+                    console.log(questionUrl)
+                    console.log("Done creating question");
+                    $.ajax({
+                        type: "POST",
+                        url: "/rest/templates/" + templateId + "/questions",
+                        data: JSON.stringify(createdQuestion),
+                        contentType: "application/json;",
+                        success: function () {
+                            console.log("Done saving created question to template");
+                            getQuestions(templateId, $("#activeTemplate").html());
+                        },
+                        error: function () {
+                            console.log("Saving question to template failed");
+                        }
+                    });
+                },
+                error: function () {
+                    console.log("failed");
+                }
+            });
+        }
+        $("#textArea").val("");
     });
 });

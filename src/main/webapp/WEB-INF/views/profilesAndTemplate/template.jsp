@@ -48,6 +48,7 @@
 
 <div class="myContainer" style="padding-top: 3em">
     <div class="left">
+        <input hidden id="editQuestionId" value="">
         <form class="form-horizontal" style="padding-top: 5em">
             <fieldset>
                 <legend style="padding-left: 7em">Add a question to template</legend>
@@ -59,7 +60,7 @@
                                 Templates <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu selectTemplate">
-                                <li><a href="#">New template</a></li>
+                                <li><a href="#" onclick="addNewTemplate()">New template</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>
@@ -86,7 +87,7 @@
                             <option>10</option>
                         </select>
                         <br>
-                        <a href="#" class="btn btn-default" id="addQuestion">Add question</a>
+                        <a href="#" class="btn btn-default" id="addQuestion">Save question</a>
                     </div>
                     <br><br>
                 </div>

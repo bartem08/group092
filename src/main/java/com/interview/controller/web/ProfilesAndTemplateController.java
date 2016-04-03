@@ -16,12 +16,12 @@ public class ProfilesAndTemplateController {
         return new ModelAndView( "profilesAndTemplate/candidateProfile", "id", id);
     }
 
-    @RequestMapping("/profile")
-    public ModelAndView interviewerProfile() {
-        return new ModelAndView("profilesAndTemplate/interviewerProfile");
+    @RequestMapping("/interviewer/{id}")
+    public ModelAndView interviewerProfile(@PathVariable("id") String id) {
+        return new ModelAndView("profilesAndTemplate/interviewerProfile", "id", id);
     }
 
-    @RequestMapping("/templates")
+    @RequestMapping("/template")
     public ModelAndView template() {
         return new ModelAndView("profilesAndTemplate/template");
     }
