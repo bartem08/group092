@@ -22,7 +22,7 @@ public interface InterviewerService {
 
     boolean deleteInterviewer(String id);
 
-    Interviewer addGroupToInterviewer(String id, Group group);
+    Interviewer addGroupToInterviewer(Interviewer interviewer, Group group);
 
-    boolean deleteGroupFromInterviewer(String id, Group group);
+    boolean deleteGroupFromInterviewer(Interviewer interviewer, Group group);
 }

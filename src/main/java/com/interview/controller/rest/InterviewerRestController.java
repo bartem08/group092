@@ -167,7 +167,7 @@ public class InterviewerRestController {
             return new ResponseEntity<>(NOT_FOUND);
         }
 
-        interviewerService.addGroupToInterviewer(interviewerId, receivedGroup);
+        interviewerService.addGroupToInterviewer(receivedInterviewer, receivedGroup);
         LOG.info("HTTP Status: OK");
         return new ResponseEntity<>(OK);
     }
@@ -182,7 +182,7 @@ public class InterviewerRestController {
             return new ResponseEntity<>(NOT_FOUND);
         }
 
-        interviewerService.deleteGroupFromInterviewer(interviewerId, receivedGroup);
+        interviewerService.deleteGroupFromInterviewer(receivedInterviewer, receivedGroup);
         LOG.info("HTTP Status: OK");
         return new ResponseEntity<>(OK);
     }

@@ -1,6 +1,7 @@
 package com.interview.service.mongo;
 
 import com.interview.model.Group;
+import com.interview.model.Interview;
 import com.interview.model.Interviewer;
 import com.interview.repository.GroupRepository;
 import com.interview.repository.InterviewerRepository;
@@ -88,25 +89,27 @@ public class InterviewerServiceImpl  implements InterviewerService {
     }
 
     @Override
-    public Interviewer addGroupToInterviewer(String id, Group group) {
-        Interviewer interviewer = interviewerRepository.findOne(id);
-        if (interviewer.getGroups().contains(group)) {
-            LOG.info(String.format("Interviewer contains group with id = '%s'", group.getId()));
+    public Interviewer addGroupToInterviewer(Interviewer interviewer, Group group) {
+        if ( !interviewer.getGroups().contains(group) ) {
+            interviewer.addGroup(group);
+            LOG.info(String.format("Interviewer has been added group with id = '%s'", group.getId()));
+            return interviewerRepository.save(interviewer);
+        } else {
+            LOG.error(String.format("Interviewer contains group with id      = '%s'", group.getId()));
+            return interviewer;
         }
-        interviewer.addGroup(group);
-        LOG.info(String.format("Interviewer has been added group with id = '%s'", group.getId()));
-        return interviewerRepository.save(interviewer);
     }
 
     @Override
-    public boolean deleteGroupFromInterviewer(String id, Group group) {
-        Interviewer interviewer = interviewerRepository.findOne(id);
+    public boolean deleteGroupFromInterviewer(Interviewer interviewer, Group group) {
         if (interviewer.getGroups().contains(group)) {
             interviewer.removeGroup(group);
+            interviewerRepository.save(interviewer);
             LOG.info(String.format("Group with id = '%s' has been deleted from interviewer ", group.getId()));
             return true;
+        } else {
+            LOG.error(String.format("Interviewer doesn't contain group with id = '%s'", group.getId()));
+            return false;
         }
-        LOG.info(String.format("Interviewer doesn't contain group with id = '%s'", group.getId()));
-        return false;
     }
 }

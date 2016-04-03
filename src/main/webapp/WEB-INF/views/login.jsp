@@ -19,11 +19,11 @@
                 <table>
                     <tr>
                         <td>User Name:</td>
-                        <td><input class="form-control" type="text" name="username" placeholder="Login" required autofocus/></td>
+                        <td><input class="form-control" type="text" name="username" placeholder="Enter login" required autofocus/></td>
                     </tr>
                     <tr>
                         <td>Password:</td>
-                        <td><input class="form-control" type="password" name="password" placeholder="Password" /></td>
+                        <td><input class="form-control" type="password" name="password" placeholder="Enter password" /></td>
                     </tr>
                     <tr>
                         <td>Remember me</td>
