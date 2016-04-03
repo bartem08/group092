@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Session</title>
+    <title>Day</title>
 
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
 
@@ -9,11 +9,13 @@
     <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="../../resources/js/header.js"></script>
-    <script src="../../resources/js/groups.js"></script>
+    <script src="../../resources/js/group.js"></script>
 </head>
 <body>
 
-<input id="userPrincipal" type="hidden" value="">
+<input id="groupId" type="hidden" value="${groupId}"/>
+
+<input id="userPrincipal" type="hidden" value=""/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -46,21 +48,25 @@
 </nav>
 
 <div class="container" style="padding-top: 5em">
-    <h1 style="color: #add8e6">Session</h1>
-    <table id="groupsTable" class="table table-striped table-hover">
+
+
+
+    <h2><span id="groupName" style="color: #add8e6"></span></h2>
+
+    <table id="groupTable" class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Group</th>
-            <th style="width: 10em">Check</th>
+            <th>Name</th>
+            <th style="width: 10em">Time</th>
+            <th style="width: 10em">Interview</th>
         </tr>
         </thead>
         <tbody>
         <!-- Populated by JS -->
         </tbody>
     </table>
-
-    <p>See <a href="/web/template">templates</a></p>
-
+    <a href="/web/groups" style="padding-top: 2em; color: #add8e6">Back to the session</a>
 </div>
+
 </body>
 </html>

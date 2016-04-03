@@ -38,10 +38,10 @@ public class InterviewerRestControllerTest extends AbstractTestNGSpringContextTe
 
     @BeforeClass
     public void setUp() {
-        first = new Interviewer("FirstInterviewer", "LastName", "mail@mail", "skype111", "111");
-        second = new Interviewer("SecondInterviewer", "LastNameSecond", "mail2@mail", "skype222", "222");
-        forRemove = new Interviewer("ForRemoveInterviewer", "LastNameForRemove", "mail2@mail", "skype222", "222");
-        toAdd = new Interviewer("ToAddInterviewer", "LastNameToAdd", "mail2@mail", "skype222", "222");
+        first = new Interviewer("LastName", "FirstInterviewer", "mail@mail", "skype111", "111");
+        second = new Interviewer("LastNameSecond", "SecondInterviewer", "mail2@mail", "skype222", "222");
+        forRemove = new Interviewer("LastNameForRemove", "ForRemoveInterviewer", "mail2@mail", "skype222", "222");
+        toAdd = new Interviewer( "LastNameToAdd", "ToAddInterviewer", "mail2@mail", "skype222", "222");
 
         first = interviewerService.createInterviewer(first);
         second = interviewerService.createInterviewer(second);

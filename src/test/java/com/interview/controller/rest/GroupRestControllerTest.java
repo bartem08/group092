@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interview.config.MvcConfigurer;
 import com.interview.model.Group;
+import com.interview.model.dto.GroupDTO;
 import com.interview.service.GroupService;
 import com.jayway.restassured.RestAssured;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,6 +260,69 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
                 .contentType(JSON)
         .when()
                 .delete("/rest/groups/invalidId")
+        .then()
+                .statusCode(SC_NO_CONTENT);
+    }
+
+    //testing methods interacting with Group DTO
+
+    @Test
+    public void givenWhenReadAllGroupsDtoCallThenStatusCodeOk() throws JsonProcessingException {
+        //to ensure that at least one group existed in database
+        Group group = groupService.createGroup(new Group("Test"));
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        GroupDTO groupDto = new GroupDTO(group);
+        String groupDtoJson = mapper.writeValueAsString(groupDto);
+
+        String receivedJson =
+            given()
+                .contentType(JSON)
+            .when()
+                .get("/rest/groups/dto")
+            .then()
+                .statusCode(SC_OK)
+                .extract()
+                .asString();
+
+        assertTrue(receivedJson.contains(groupDtoJson));
+
+        groupService.deleteGroup(group.getId());
+    }
+
+    @Test
+    public void givenWhenReadGroupDtoCallThenStatusCodeOk() throws JsonProcessingException {
+        //to ensure that at least one group existed in database
+        Group group = groupService.createGroup(new Group("Test"));
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        GroupDTO groupDto = new GroupDTO(group);
+        String groupDtoJson = mapper.writeValueAsString(groupDto);
+
+        String receivedJson =
+                given()
+                        .contentType(JSON)
+                .when()
+                        .get("/rest/groups/" + group.getId() + "/dto")
+                .then()
+                        .statusCode(SC_OK)
+                        .extract()
+                        .asString();
+
+        assertEquals(receivedJson, groupDtoJson);
+
+        groupService.deleteGroup(group.getId());
+    }
+
+    @Test
+    public void givenWhenReadGroupDtoCallWithNotExistedIdThenStatusCodeNoContent() {
+
+        given()
+                .contentType(JSON)
+        .when()
+                .get("/rest/groups/invalidId/dto")
         .then()
                 .statusCode(SC_NO_CONTENT);
     }
