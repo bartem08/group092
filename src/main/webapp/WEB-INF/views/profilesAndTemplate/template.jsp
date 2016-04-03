@@ -9,8 +9,7 @@
     <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
     <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
-    <%--<script src="../../../resources/js/interviewerProfile.js"></script>--%>
-    <script src="../../../resources/js/headerPopulator.js"></script>
+    <script src="../../../resources/js/header.js"></script>
     <script src="../../../resources/js/template.js"></script>
 </head>
 <body>
@@ -110,8 +109,6 @@
             </tr>
             </tbody>
         </table>
-
-
     </div>
 </div>
 </body>
