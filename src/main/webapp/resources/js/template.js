@@ -34,14 +34,8 @@ function addNewTemplate() {
     var template = prompt("Please enter template's name", "");
     if (template != null) {
         var name = template;
-/*        var questionList = [];
-        var interviewer = null;
-        var favourite = false;*/
         var newTemplate = {
             name: name,
-/*            questions: questionList,
-            favourite: favourite,
-            interviewer: interviewer,*/
         }
         console.log(newTemplate)
         $.ajax({
