@@ -3,6 +3,7 @@ package com.interview.service.mongo;
 import com.interview.config.MvcConfigurer;
 import com.interview.model.Candidate;
 import com.interview.model.Group;
+import com.interview.service.CandidateService;
 import com.interview.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -13,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -32,7 +34,10 @@ import static org.testng.Assert.*;
 public class GroupServiceImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    GroupService groupService;
+    private GroupService groupService;
+
+    @Autowired
+    private CandidateService candidateService;
 
     @BeforeClass
     public void beforeEachTest() {
@@ -174,31 +179,34 @@ public class GroupServiceImplTest extends AbstractTestNGSpringContextTests {
         assertNull(groupService.readGroupByName("invalid group name"));
     }
 
-    //TODO: implement tests for getGroupCandidatesByDate and getGroupDates after CandidateService will be implemented
-
-    /*@Test
+    @Test
     public void givenWhenGetGroupCandidatesByDateCallThenReturnListOfCandidates() {
-        Group group = new Group("Test");
-        List<Candidate> candidates = new ArrayList<>();
+        Group group = groupService.createGroup(new Group("Test"));
+
         Candidate candidate1 = new Candidate();
         Candidate candidate2 = new Candidate();
         Candidate candidate3 = new Candidate();
         candidate1.setDate(new GregorianCalendar(2000, 1, 1, 10, 30));
         candidate1.setName("Candidate-1");
-        candidate1.setId("test-candidate-1");
+
         candidate2.setDate(new GregorianCalendar(2000, 1, 2, 11, 0));
         candidate2.setName("Candidate-2");
-        candidate2.setId("test-candidate-2");
+
         candidate3.setDate(new GregorianCalendar(2000, 1, 1, 11, 0));
         candidate3.setName("Candidate-3");
-        candidate3.setId("test-candidate-3");
+
+        candidate1 = candidateService.createCandidate(candidate1);
+        candidate2 = candidateService.createCandidate(candidate2);
+        candidate3 = candidateService.createCandidate(candidate3);
+
+        List<Candidate> candidates = new ArrayList<>();
         candidates.add(candidate1);
         candidates.add(candidate2);
         candidates.add(candidate3);
+
         group.setCandidates(candidates);
 
-
-        group = groupService.createGroup(group);
+        groupService.updateGroup(group.getId(), group);
 
         List<Candidate> receivedCandidateList = groupService.getGroupCandidatesByDate(group.getId(),
                 new GregorianCalendar(2000, 1, 2));
@@ -214,8 +222,47 @@ public class GroupServiceImplTest extends AbstractTestNGSpringContextTests {
         assertEquals(receivedCandidateList.get(1).getName(), "Candidate-3");
 
         groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate1.getId());
+        candidateService.deleteCandidate(candidate2.getId());
+        candidateService.deleteCandidate(candidate3.getId());
+    }
 
-    }*/
+    @Test
+    public void givenWhenGetGroupCandidatesByDateCallWithBadIdThenReturnNull() {
+        assertNull(groupService.getGroupCandidatesByDate("invalidId", new GregorianCalendar(2000, 1, 1)));
+    }
 
+    @Test
+    public void givenWhenGetGroupDatesCallThenReturnListOfDistinctDates() {
+        Group group = groupService.createGroup(new Group("Test"));
 
+        Candidate candidate1 = new Candidate();
+        Candidate candidate2 = new Candidate();
+        Candidate candidate3 = new Candidate();
+        candidate1.setDate(new GregorianCalendar(2000, 1, 1, 10, 30));
+        candidate2.setDate(new GregorianCalendar(2000, 1, 2, 11, 0));
+        candidate3.setDate(new GregorianCalendar(2000, 1, 1, 11, 0));
+
+        candidate1 = candidateService.createCandidate(candidate1);
+        candidate2 = candidateService.createCandidate(candidate2);
+        candidate3 = candidateService.createCandidate(candidate3);
+
+        List<Candidate> candidates = new ArrayList<>();
+        candidates.add(candidate1);
+        candidates.add(candidate2);
+        candidates.add(candidate3);
+
+        group.setCandidates(candidates);
+
+        groupService.updateGroup(group.getId(), group);
+
+        List<Calendar> groupDates = groupService.getGroupDates(group.getId());
+
+        assertEquals(groupDates.size(), 2);
+
+        groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate1.getId());
+        candidateService.deleteCandidate(candidate2.getId());
+        candidateService.deleteCandidate(candidate3.getId());
+    }
 }
