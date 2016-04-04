@@ -23,12 +23,16 @@ public class GroupDayDTOTest {
         candidates.add(candidate1);
         candidates.add(candidate2);
         Calendar calendar = new GregorianCalendar(2000, 1, 1);
+        List<CandidateDTO> candidateDTOList = new ArrayList<>();
+        for (Candidate candidate : candidates) {
+            candidateDTOList.add(new CandidateDTO(candidate, "0"));
+        }
 
-        GroupDayDTO groupDayDTO = new GroupDayDTO(candidates, calendar);
+        GroupDayDTO groupDayDTO = new GroupDayDTO(candidateDTOList, calendar);
 
         assertNotNull(groupDayDTO);
         assertEquals(groupDayDTO.getDate(), calendar);
-        assertEquals(groupDayDTO.getCandidates(), candidates);
+        assertEquals(groupDayDTO.getCandidates(), candidateDTOList);
     }
 
     @Test
