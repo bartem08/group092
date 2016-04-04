@@ -18,8 +18,8 @@ public class GroupDayDTOTest {
         List<Candidate> candidates = new ArrayList<>();
         Candidate candidate1 = new Candidate();
         Candidate candidate2 = new Candidate();
-        candidate1.setName("Test1");
-        candidate2.setName("Test2");
+        candidate1.setFirstName("Test1");
+        candidate2.setFirstName("Test2");
         candidates.add(candidate1);
         candidates.add(candidate2);
         Calendar calendar = new GregorianCalendar(2000, 1, 1);

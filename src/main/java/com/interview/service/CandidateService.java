@@ -19,12 +19,4 @@ public interface CandidateService {
 
     void deleteAllCandidates();
 
-    boolean addInterviewToCandidate(String idCandidate, String idInterview);
-
-    boolean removeInterviewFromCandidate(String idCandidate, String idInterview);
-
-    Interview getInterviewOfCandidate(String idCandidate, String idInterview);
-
-    List<Interview> getInterviewListOfCandidate(String id);
-
 }
