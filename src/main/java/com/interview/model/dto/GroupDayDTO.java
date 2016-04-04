@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class GroupDayDTO implements Comparable<GroupDayDTO> {
     private Calendar date;
-    private List<Candidate> candidates = new ArrayList<>();
+    private List<CandidateDTO> candidates = new ArrayList<>();
 
-    public GroupDayDTO(List<Candidate> candidates, Calendar date) {
+    public GroupDayDTO(List<CandidateDTO> candidates, Calendar date) {
         this.candidates = candidates;
         this.date = date;
     }
@@ -29,11 +29,11 @@ public class GroupDayDTO implements Comparable<GroupDayDTO> {
         this.date = date;
     }
 
-    public List<Candidate> getCandidates() {
+    public List<CandidateDTO> getCandidates() {
         return candidates;
     }
 
-    public void setCandidates(List<Candidate> candidates) {
+    public void setCandidates(List<CandidateDTO> candidates) {
         this.candidates = candidates;
     }
 

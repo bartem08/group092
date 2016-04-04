@@ -187,13 +187,13 @@ public class GroupServiceImplTest extends AbstractTestNGSpringContextTests {
         Candidate candidate2 = new Candidate();
         Candidate candidate3 = new Candidate();
         candidate1.setDate(new GregorianCalendar(2000, 1, 1, 10, 30));
-        candidate1.setName("Candidate-1");
+        candidate1.setFirstName("Candidate-1");
 
         candidate2.setDate(new GregorianCalendar(2000, 1, 2, 11, 0));
-        candidate2.setName("Candidate-2");
+        candidate2.setFirstName("Candidate-2");
 
         candidate3.setDate(new GregorianCalendar(2000, 1, 1, 11, 0));
-        candidate3.setName("Candidate-3");
+        candidate3.setFirstName("Candidate-3");
 
         candidate1 = candidateService.createCandidate(candidate1);
         candidate2 = candidateService.createCandidate(candidate2);
@@ -212,14 +212,14 @@ public class GroupServiceImplTest extends AbstractTestNGSpringContextTests {
                 new GregorianCalendar(2000, 1, 2));
 
         assertEquals(receivedCandidateList.size(), 1);
-        assertEquals(receivedCandidateList.get(0).getName(), "Candidate-2");
+        assertEquals(receivedCandidateList.get(0).getFirstName(), "Candidate-2");
 
         receivedCandidateList = groupService.getGroupCandidatesByDate(group.getId(),
                 new GregorianCalendar(2000, 1, 1));
 
         assertEquals(receivedCandidateList.size(), 2);
-        assertEquals(receivedCandidateList.get(0).getName(), "Candidate-1");
-        assertEquals(receivedCandidateList.get(1).getName(), "Candidate-3");
+        assertEquals(receivedCandidateList.get(0).getFirstName(), "Candidate-1");
+        assertEquals(receivedCandidateList.get(1).getFirstName(), "Candidate-3");
 
         groupService.deleteGroup(group.getId());
         candidateService.deleteCandidate(candidate1.getId());

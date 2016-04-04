@@ -13,14 +13,9 @@ import java.util.List;
 @TypeAlias("Candidate")
 public class Candidate extends AbstractDocument implements Serializable {
 
-    private String surname;
+    private String lastName;
 
-    private String name;
-
-    private String patronymic;
-
-    @DBRef
-    private List<Interview> interviewList;
+    private String firstName;
 
     private Calendar date;
 
@@ -33,38 +28,33 @@ public class Candidate extends AbstractDocument implements Serializable {
     private String skype;
 
     public Candidate() {
-        interviewList = new ArrayList<>();
+
+    }
+
+    public Candidate(String lastName, String firstName, Calendar date) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.date = date;
     }
 
     public Candidate(String surname, String name, String patronymic,
                      List<Interview> interviewList, Calendar date, EnglishLevel englishLevel,
                      String phoneNumber, String email, String skype) {
-
-        setName(name);
-        setSurname(surname);
-        setPatronymic(patronymic);
+        setFirstName(name);
+        setLastName(surname);
         setDate(date);
-        setInterviewList(interviewList);
         setEnglishLevel(englishLevel);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setSkype(skype);
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
-    public void setInterviewList(List<Interview> interviewList) {
-        this.interviewList = interviewList;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setDate(Calendar date) {
@@ -106,9 +96,8 @@ public class Candidate extends AbstractDocument implements Serializable {
     public String toString() {
         return "Candidate{" +
                 "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", patronymic='" + patronymic + '\'' +
+                ", last name='" + lastName + '\'' +
+                ", first name='" + firstName + '\'' +
                 ", englishLevel='" + englishLevel + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
@@ -116,20 +105,12 @@ public class Candidate extends AbstractDocument implements Serializable {
                 '}';
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public List<Interview> getInterviewList() {
-        return interviewList;
+    public String getFirstName() {
+        return firstName;
     }
 
     public Calendar getDate() {
@@ -157,7 +138,7 @@ public class Candidate extends AbstractDocument implements Serializable {
     }
 
     public enum Group {
-        JAVA, PYTON;
+        JAVA, PYTHON;
     }
 
 }
