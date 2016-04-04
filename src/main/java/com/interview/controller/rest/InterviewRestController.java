@@ -1,7 +1,6 @@
 package com.interview.controller.rest;
 
 import com.interview.model.Interview;
-import com.interview.model.InterviewQuestion;
 import com.interview.service.InterviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
