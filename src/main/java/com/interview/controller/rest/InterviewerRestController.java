@@ -1,9 +1,7 @@
 package com.interview.controller.rest;
 
-import com.interview.model.Group;
 import com.interview.model.Interviewer;
 import com.interview.model.dto.InterviewerDTO;
-import com.interview.service.GroupService;
 import com.interview.service.InterviewerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +21,13 @@ import static org.springframework.http.HttpStatus.*;
 
 /**
  * REST controller which is responsible for manipulating interviewer's informations:
- *      GET    - /rest/interviewers     - get all interviewers
- *      GET    - /rest/interviewers/id  - get interviewer with specified id
- *      GET    - /rest/interviewers/login  - get interviewer with specified login
- *      POST   - /rest/interviewers     - add interviewer
- *      PUT    - /rest/interviewers/id  - update interviewer with specified id
- *      DELETE - /rest/interviewers/id  - delete interviewer from the repository
+ *      GET    - /rest/interviewers                         - get all interviewers
+ *      GET    - /rest/interviewers/{id}                    - get interviewer with specified id
+ *      GET    - /rest/interviewers/{login}/dto             - get dto interviewer with specified login
+ *      POST   - /rest/interviewers                         - add interviewer
+ *      PUT    - /rest/interviewers/{id}                    - update interviewer with specified id
+ *      DELETE - /rest/interviewers/{id}                    - delete interviewer from the repository
  *
- *      PUT   - /rest/interviewers/id/templates/id  - add template into the interviewer
- *      DELETE - /rest/interviewers/id/templates/id  - delete template from the interviewer
- *
- *      PUT   - /rest/interviewers/id/groups/id  - add group into the interviewer
- *      DELETE - /rest/interviewers/id/groups/id  - delete group from the interviewer
  *
  * Created by NSS on 26.03.2016.
  */
@@ -50,9 +43,6 @@ public class InterviewerRestController {
 
     @Autowired
     private InterviewerService interviewerService;
-
-    @Autowired
-    private GroupService groupService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity readAllInterviewers() {
@@ -80,8 +70,8 @@ public class InterviewerRestController {
         }
     }
 
-    @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
-    public ResponseEntity findInterviewer(@PathVariable("login") String login) {
+    @RequestMapping(value = "/{login}/dto", method = RequestMethod.GET)
+    public ResponseEntity findInterviewerDTO(@PathVariable("login") String login) {
         logRequestInfo(request);
         final Interviewer interviewer = interviewerService.findInterviewer(login);
         if (interviewer == null) {
@@ -89,7 +79,7 @@ public class InterviewerRestController {
             return new ResponseEntity<>(NO_CONTENT);
         } else {
             LOG.info("HTTP Status: OK");
-            return new ResponseEntity<>(interviewer, OK);
+            return new ResponseEntity<>(new InterviewerDTO(interviewer), OK);
         }
     }
 
@@ -142,49 +132,6 @@ public class InterviewerRestController {
             LOG.info("HTTP Status: NO_CONTENT");
             return new ResponseEntity(NO_CONTENT);
         }
-    }
-
-    @RequestMapping(value = "/{login}/groups/dto", method = RequestMethod.GET)
-    public ResponseEntity findInterviewerDTO(@PathVariable("login") String login) {
-        logRequestInfo(request);
-        final Interviewer interviewer = interviewerService.findInterviewer(login);
-        if (interviewer == null) {
-            LOG.info("HTTP Status: NO_CONTENT");
-            return new ResponseEntity<>(NO_CONTENT);
-        }
-
-        LOG.info("HTTP Status: OK");
-        return new ResponseEntity<>(new InterviewerDTO(interviewer), OK);
-    }
-
-    @RequestMapping(value = "/{interviewerId}/groups/{groupId}", method = RequestMethod.PUT)
-    public ResponseEntity addGroupToInterviewer(@PathVariable("interviewerId") String interviewerId,
-                                                @PathVariable("groupId") String groupId) {
-        Interviewer receivedInterviewer = interviewerService.readInterviewer(interviewerId);
-        Group receivedGroup = groupService.readGroup(groupId);
-        if (receivedGroup == null || receivedInterviewer == null) {
-            LOG.info("HTTP Status: NOT_FOUND");
-            return new ResponseEntity<>(NOT_FOUND);
-        }
-
-        interviewerService.addGroupToInterviewer(receivedInterviewer, receivedGroup);
-        LOG.info("HTTP Status: OK");
-        return new ResponseEntity<>(OK);
-    }
-
-    @RequestMapping(value = "/{interviewerId}/groups/{groupId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteGroupFromInterviewer(@PathVariable("interviewerId") String interviewerId,
-                                                           @PathVariable("groupId") String groupId) {
-        Interviewer receivedInterviewer = interviewerService.readInterviewer(interviewerId);
-        Group receivedGroup = groupService.readGroup(groupId);
-        if (receivedGroup == null || receivedInterviewer == null) {
-            LOG.info("HTTP Status: NOT_FOUND");
-            return new ResponseEntity<>(NOT_FOUND);
-        }
-
-        interviewerService.deleteGroupFromInterviewer(receivedInterviewer, receivedGroup);
-        LOG.info("HTTP Status: OK");
-        return new ResponseEntity<>(OK);
     }
 
     private void logRequestInfo(HttpServletRequest request) {

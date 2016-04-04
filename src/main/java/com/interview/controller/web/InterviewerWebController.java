@@ -1,7 +1,9 @@
 package com.interview.controller.web;
 
 import com.interview.model.Greeting;
+import com.interview.model.Interviewer;
 import com.interview.repository.GreetingRepository;
+import com.interview.service.InterviewerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 public class InterviewerWebController {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private InterviewerService interviewerService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
@@ -40,7 +42,7 @@ public class InterviewerWebController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        model.setViewName("logout");
+        model.setViewName("redirect:/web/login?logout");
         return model;
     }
 
@@ -65,10 +67,48 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/interviewer", method = RequestMethod.GET)
-    public ModelAndView show() {
+    @RequestMapping(value = "/groups", method = RequestMethod.GET)
+    public ModelAndView showInterviewer() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("interview/interviewer");
+        model.setViewName("groups");
+        return model;
+    }
+
+    @RequestMapping(value = "/interviewers", method = RequestMethod.GET)
+    public ModelAndView showInterviewers() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("interviewer/list");
+        return model;
+    }
+
+    @RequestMapping(value = "/interviewers/{id}", method = RequestMethod.GET)
+    public ModelAndView showInterviewer(@PathVariable("id") String id) {
+        Interviewer interviewer = interviewerService.readInterviewer(id);
+        ModelAndView model = new ModelAndView();
+        model.setViewName("interviewer/show");
+        return model;
+    }
+
+    @RequestMapping(value = "/interviewers/{id}", method = RequestMethod.DELETE)
+    public ModelAndView deleteInterviewer(@PathVariable("id") String id) {
+        Interviewer interviewer = interviewerService.readInterviewer(id);
+        ModelAndView model = new ModelAndView();
+        model.setViewName("interviewer/list");
+        return model;
+    }
+
+    @RequestMapping(value = "/interviewers/{id}", method = RequestMethod.PUT)
+    public ModelAndView updateInterviewer(@PathVariable("id") String id) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("interviewer/edit");
+        return model;
+    }
+
+
+    @RequestMapping(value = "/interviewers", method = RequestMethod.POST)
+    public ModelAndView addInterviewer(@ModelAttribute("interviewer") Interviewer interviewer) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("interviewer/create");
         return model;
     }
 }

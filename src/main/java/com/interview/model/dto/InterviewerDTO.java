@@ -14,19 +14,26 @@ public class InterviewerDTO implements Serializable {
 
     private String id;
 
-    private String fullName;
+    private String lastName;
+
+    private String firstName;
+
+    private String email;
+
+    private String skype;
+
+    private String phone;
 
     private String login;
 
-    private List<GroupDTO> groupDTOList = new ArrayList();
-
     public InterviewerDTO(Interviewer interviewer) {
         id = interviewer.getId();
-        fullName = interviewer.getLastName() + " " + interviewer.getFirstName();
+        lastName = interviewer.getLastName();
+        firstName = interviewer.getFirstName();
+        email = interviewer.getEmail();
+        skype = interviewer.getSkype();
+        phone = interviewer.getPhone();
         login = interviewer.getLogin();
-        for(Group group : interviewer.getGroups()) {
-            groupDTOList.add(new GroupDTO(group));
-        }
     }
 
     public String getId() {
@@ -36,11 +43,39 @@ public class InterviewerDTO implements Serializable {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getLastName() {
+        return lastName;
     }
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSkype() {
+        return skype;
+    }
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getLogin() {
@@ -48,12 +83,5 @@ public class InterviewerDTO implements Serializable {
     }
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public List<GroupDTO> getGroupDTOList() {
-        return groupDTOList;
-    }
-    public void setGroupDTOList(List<GroupDTO> groupDTOList) {
-        this.groupDTOList = groupDTOList;
     }
 }
