@@ -14,20 +14,21 @@ public class InterviewerDTO implements Serializable {
 
     private String id;
 
-    private String name;
+    private String fullName;
 
     private String login;
 
-    private List<String> groupIdList = new ArrayList();
+    private List<GroupDTO> groupDTOList = new ArrayList();
 
     public InterviewerDTO(Interviewer interviewer) {
         id = interviewer.getId();
-        name = interviewer.getFirstName();
+        fullName = interviewer.getLastName() + " " + interviewer.getFirstName();
         login = interviewer.getLogin();
         for(Group group : interviewer.getGroups()) {
-            groupIdList.add(group.getId());
+            groupDTOList.add(new GroupDTO(group));
         }
     }
+
     public String getId() {
         return id;
     }
@@ -35,11 +36,11 @@ public class InterviewerDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getLogin() {
@@ -49,10 +50,10 @@ public class InterviewerDTO implements Serializable {
         this.login = login;
     }
 
-    public List<String> getGroupIdList() {
-        return groupIdList;
+    public List<GroupDTO> getGroupDTOList() {
+        return groupDTOList;
     }
-    public void setGroupIdList(List<String> groupIdList) {
-        this.groupIdList = groupIdList;
+    public void setGroupDTOList(List<GroupDTO> groupDTOList) {
+        this.groupDTOList = groupDTOList;
     }
 }

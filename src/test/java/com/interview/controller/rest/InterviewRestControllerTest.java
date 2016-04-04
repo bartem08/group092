@@ -158,7 +158,7 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
                 .contentType(JSON)
                 .body(interview)
         .when()
-                .put("/rest/interviews/001100")
+                .put("/rest/interviews/01100")
         .then()
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()

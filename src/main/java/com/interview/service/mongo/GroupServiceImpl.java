@@ -213,7 +213,7 @@ public class GroupServiceImpl implements GroupService {
                     group.getName(), simpleDateFormat.format(date.getTime()));
         } else {
             log.info("Candidates with date '{}' were read from group '{}' with id '{}'. Candidates count: {}",
-                    simpleDateFormat.format(date), group.getName(), group.getId(), currentDateCandidates.size());
+                    simpleDateFormat.format(date.getTime()), group.getName(), group.getId(), currentDateCandidates.size());
         }
 
         return currentDateCandidates;
