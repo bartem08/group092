@@ -338,7 +338,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         Group group = groupService.createGroup(new Group("Test"));
 
         Candidate candidate = new Candidate();
-        candidate.setName("Test");
+        candidate.setFirstName("Test");
         candidate = candidateService.createCandidate(candidate);
 
         given()
@@ -351,7 +351,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         group = groupService.readGroup(group.getId());
         assertEquals(group.getCandidates().size(), 1);
         assertEquals(group.getCandidates().get(0).getId(), candidate.getId());
-        assertEquals(group.getCandidates().get(0).getName(), candidate.getName());
+        assertEquals(group.getCandidates().get(0).getFirstName(), candidate.getFirstName());
 
         groupService.deleteGroup(group.getId());
         candidateService.deleteCandidate(candidate.getId());
@@ -398,7 +398,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         Group group = groupService.createGroup(new Group("Test"));
 
         Candidate candidate = new Candidate();
-        candidate.setName("Test");
+        candidate.setFirstName("Test");
         candidate = candidateService.createCandidate(candidate);
 
         given()
@@ -411,7 +411,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         group = groupService.readGroup(group.getId());
         assertEquals(group.getCandidates().size(), 1);
         assertEquals(group.getCandidates().get(0).getId(), candidate.getId());
-        assertEquals(group.getCandidates().get(0).getName(), candidate.getName());
+        assertEquals(group.getCandidates().get(0).getFirstName(), candidate.getFirstName());
 
         given()
                 .contentType(JSON)

@@ -86,47 +86,4 @@ public class CandidateRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{idCandidate}/interviews/{idInterview}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addInterviewToCandidate(@PathVariable("idCandidate") String idCandidate, @PathVariable("idInterview") String idInterview) {
-        if(candidateService.addInterviewToCandidate(idCandidate,idInterview)){
-            log.info("HttpStatus: OK");
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        log.info("HttpStatus: BAD_REQUEST");
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @RequestMapping(value = "/{idCandidate}/interviews/{idInterview}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> removeInterviewFromCandidate(@PathVariable("idCandidate") String idCandidate, @PathVariable("idInterview") String idInterview) {
-        if(candidateService.removeInterviewFromCandidate(idCandidate, idInterview)){
-            log.info("HttpStatus: OK");
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        log.info("HttpStatus: NO_CONTENT");
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/{idCandidate}/interviews/{idInterview}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Interview> getInterviewOfCandidate(@PathVariable("idCandidate") String idCandidate, @PathVariable("idInterview") String idInterview){
-        Interview interview = candidateService.getInterviewOfCandidate(idCandidate,idInterview);
-
-        if(interview != null){
-            return new ResponseEntity<>(interview,HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @RequestMapping(value = "/{id}/interviews", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Interview>> getInterviewListOfCandidate(@PathVariable("id") String id){
-        List<Interview> interviewList = candidateService.getInterviewListOfCandidate(id);
-
-        if (!interviewList.isEmpty()){
-            return new ResponseEntity<>(interviewList,HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
