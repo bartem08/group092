@@ -10,11 +10,12 @@ import java.util.*;
  */
 public class ResultFormer {
 
-    public static double form(final Set<InterviewQuestion> questions) {
+    public static float form(final Set<InterviewQuestion> questions) {
         if (questions == null) {
             return 0;
         }
-        double max = 0, actual = 0;
+        byte max = 0;
+        float actual = 0;
         for (InterviewQuestion question: questions) {
             if (!question.isSkipped()) {
                 max += question.getMaxQuestionValue();
@@ -39,8 +40,8 @@ public class ResultFormer {
     }
 
     private static InterviewQuestion interviewQuestion(List<String> toSkip, Question question, String value) {
-        return toSkip.contains(question.getId()) ? new InterviewQuestion(question, Double.parseDouble(value), true)
-                : new InterviewQuestion(question, Double.parseDouble(value), false);
+        return toSkip.contains(question.getId()) ? new InterviewQuestion(question, Float.parseFloat(value), true)
+                : new InterviewQuestion(question, Float.parseFloat(value), false);
     }
 
 }

@@ -5,20 +5,20 @@ package com.interview.model;
  */
 public class InterviewQuestion extends Question {
 
-    private double finalQuestionValue;
+    private float finalQuestionValue;
 
     private boolean skipped;
 
     public InterviewQuestion() {}
 
-    public InterviewQuestion(Question question, double finalQuestionValue, boolean skipped) {
+    public InterviewQuestion(Question question, float finalQuestionValue, boolean skipped) {
         super(question.getQuestionString(), question.getMaxQuestionValue());
         setId(question.getId());
         setFinalQuestionValue(finalQuestionValue);
         setSkipped(skipped);
     }
 
-    public void setFinalQuestionValue(double value) {
+    public void setFinalQuestionValue(float value) {
         this.finalQuestionValue = value;
     }
 
