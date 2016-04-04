@@ -52,10 +52,6 @@
     font-size: 13px;
 }
 
-.ui-widget-header {
-    background-color: #D54A46;
-}
-
 .ui-widget-content {
     background-color: #4FAA4F;
 }
@@ -108,6 +104,17 @@ textarea,
 }
 .ui-dialog textarea {
     width: 300px;
+}
+
+#template-name {
+    height: 25px;
+}
+
+#question-table {
+    height: inherit;
+}
+.loading td {
+    background: url("../images/icons/preload_xs.gif") no-repeat center center;
 }
 
 

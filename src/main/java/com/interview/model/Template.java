@@ -23,7 +23,7 @@ public class Template extends AbstractDocument implements Serializable {
     private boolean favourite;
 
     @DBRef
-    @Existed(collection = "interviewers")
+    @Existed(collection = "interviewers", empty = false)
     private Interviewer interviewer;
 
     @DBRef
@@ -31,6 +31,10 @@ public class Template extends AbstractDocument implements Serializable {
     private List<Question> questions;
 
     public Template() {}
+
+    public Template(final Interviewer interviewer) {
+        setInterviewer(interviewer);
+    }
 
     @PersistenceConstructor
     public Template(String name, List<Question> questions, boolean favourite, Interviewer interviewer) {
