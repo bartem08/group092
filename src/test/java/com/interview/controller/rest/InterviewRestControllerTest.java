@@ -1,7 +1,9 @@
 package com.interview.controller.rest;
 
+import com.interview.Application;
 import com.interview.config.MvcConfigurer;
 import com.interview.model.Interview;
+import com.interview.model.InterviewQuestion;
 import com.interview.model.Interviewer;
 import com.interview.service.InterviewerService;
 import com.jayway.restassured.RestAssured;
@@ -23,7 +25,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * @author Artem Baranovskiy
  */
-@SpringApplicationConfiguration(MvcConfigurer.class)
+@SpringApplicationConfiguration(Application.class)
 @WebIntegrationTest("server.port:0")
 @DirtiesContext
 public class InterviewRestControllerTest extends AbstractTestNGSpringContextTests {
@@ -42,7 +44,7 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
 
     @BeforeClass
     public void initInterview() {
-        interviewer = interviewerService.createInterviewer(new Interviewer());
+        interviewer = interviewerService.createInterviewer(new Interviewer("A", "B", "C", "D", "E"));
         interview = new Interview(interviewer);
         RestAssured.port = port;
     }
@@ -117,7 +119,7 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
 
     @Test(dependsOnMethods = "okWhenReadAllInterviews")
     public void okWhenUpdateExistedInterview() {
-        interview.addComment("CommentFromTest");
+        interview.setComments("CommentFromTest");
         given()
                 .contentType(JSON)
                 .body(interview)
@@ -127,7 +129,7 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
                 .statusCode(SC_OK)
                 .extract()
                 .jsonPath()
-                .param("comments", hasItem("CommentFromTest"));
+                .param("comments", is("CommentFromTest"));
     }
 
     @Test(dependsOnMethods = "okWhenUpdateExistedInterview")
@@ -153,12 +155,12 @@ public class InterviewRestControllerTest extends AbstractTestNGSpringContextTest
 
     @Test(dependsOnMethods = "noContentWhenUpdateNonexistentInterview")
     public void badRequestWhenUpdateInterviewOnInterviewWithNonexistentInterviewer() {
-        interview.setInterviewer(new Interviewer());
+        interview.setInterviewer(new Interviewer("A", "B", "C", "D", "E"));
         given()
                 .contentType(JSON)
                 .body(interview)
         .when()
-                .put("/rest/interviews/01100")
+                .put("/rest/interviews/" + id)
         .then()
                 .statusCode(SC_BAD_REQUEST)
                 .assertThat()

@@ -11,8 +11,9 @@ public class InterviewQuestion extends Question {
 
     public InterviewQuestion() {}
 
-    public InterviewQuestion(Question question, double finalQuestionValue, boolean skipped, boolean failed) {
+    public InterviewQuestion(Question question, double finalQuestionValue, boolean skipped) {
         super(question.getQuestionString(), question.getMaxQuestionValue());
+        setId(question.getId());
         setFinalQuestionValue(finalQuestionValue);
         setSkipped(skipped);
     }

@@ -19,8 +19,8 @@ public class InterviewTest {
     @BeforeMethod
     public void setUp() {
         Set<InterviewQuestion> questionSet = new HashSet<>();
-        questionSet.add(new InterviewQuestion(new Question("A", 10), 9, false, false));
-        interview = new Interview(questionSet, new Interviewer(), new ArrayList<>());
+        questionSet.add(new InterviewQuestion(new Question("A", 10), 9, false));
+        interview = new Interview(questionSet, new Interviewer(), null);
         empty = new Interview();
     }
 
@@ -34,7 +34,7 @@ public class InterviewTest {
 
         assertNull(interview.getId());
         assertNotNull(interview.getInterviewer());
-        assertNotNull(interview.getComments());
+        assertNull(interview.getComments());
         assertEquals(interview.getQuestions().size(), 1);
         assertEquals(interview.getResult(), 90.0);
     }
@@ -49,11 +49,6 @@ public class InterviewTest {
         assertEquals(empty.hashCode(), new Interview().hashCode());
     }
 
-    @Test
-    public void addCommentInitializeCommentList() {
-        empty.addComment("Comment");
-        assertNotNull(empty.getComments());
-    }
 
     @Test
     public void notNullToString() {
