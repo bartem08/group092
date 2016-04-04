@@ -1,6 +1,9 @@
 package com.interview.service.mongo;
 
+import com.interview.model.Group;
+import com.interview.model.Interview;
 import com.interview.model.Interviewer;
+import com.interview.repository.GroupRepository;
 import com.interview.repository.InterviewerRepository;
 import com.interview.service.InterviewerService;
 import org.slf4j.Logger;
@@ -21,6 +24,9 @@ public class InterviewerServiceImpl  implements InterviewerService {
 
     @Autowired
     private InterviewerRepository interviewerRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Override
     public Interviewer readInterviewer(String id) {
@@ -80,5 +86,30 @@ public class InterviewerServiceImpl  implements InterviewerService {
         }
         LOG.info(String.format("Interviewer with id '%s' doesn't exists in database. Nothing to be removed", id));
         return false;
+    }
+
+    @Override
+    public Interviewer addGroupToInterviewer(Interviewer interviewer, Group group) {
+        if ( !interviewer.getGroups().contains(group) ) {
+            interviewer.addGroup(group);
+            LOG.info(String.format("Interviewer has been added group with id = '%s'", group.getId()));
+            return interviewerRepository.save(interviewer);
+        } else {
+            LOG.error(String.format("Interviewer contains group with id      = '%s'", group.getId()));
+            return interviewer;
+        }
+    }
+
+    @Override
+    public boolean deleteGroupFromInterviewer(Interviewer interviewer, Group group) {
+        if (interviewer.getGroups().contains(group)) {
+            interviewer.removeGroup(group);
+            interviewerRepository.save(interviewer);
+            LOG.info(String.format("Group with id = '%s' has been deleted from interviewer ", group.getId()));
+            return true;
+        } else {
+            LOG.error(String.format("Interviewer doesn't contain group with id = '%s'", group.getId()));
+            return false;
+        }
     }
 }

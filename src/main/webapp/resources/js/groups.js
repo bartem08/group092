@@ -3,17 +3,18 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: "/rest/groups/dto",    //all groups so far (not wired with Interviewer)
+        url: "/rest/interviewers/login/" + userPrincipal,
         success: function(result) {
-            var groupDtoList = JSON.stringify(result);
-            console.log("groupDtoList JSON: " + groupDtoList);
-            groupDtoList = JSON.parse(groupDtoList);
+            var interviewer = JSON.stringify(result);
+            console.log("interviewer JSON: " + interviewer);
+            interviewer = JSON.parse(interviewer);
 
-            $.each(groupDtoList, function(i, groupDto) {
+            $.each(interviewer.groups, function(i, group) {
                 $("#groupsTable > tbody").append(
                     '<tr>' +
-                        '<td>' + groupDto.name + '</td>' +
-                        '<td><a href="/web/groups/' + groupDto.id + '">&gt;</a></td>' +
+                    '<td>' + group.name + '</td>' +
+                    '<td><a href="/web/groups/' + group.id + '"><img src="../../../resources/images/icons/Clock-50.png" ' +
+                    'alt="&gt;" style="height: 1.8em" title="day"/></a></td>' +
                     '</tr>'
                 );
             });

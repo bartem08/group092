@@ -4,19 +4,25 @@
 <html>
 <head>
     <title>Interviewer</title>
+
+    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+
+    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
         $(document).ready(function() {
             var login = $("#userPrincipal").val();
             $.ajax({
                 type: "GET",
-                url: "/rest/interviewers/login/dto/" + login,
+                url: "/rest/interviewers/" + login + "/groups/dto",
                 success: function(result) {
                     var interviewer = JSON.stringify(result);
                     console.log("JSON: " + interviewer);
                     interviewer = JSON.parse(interviewer);
 
-                    $("#interviewerName").text(interviewer.name);
+                    $("#interviewerFullName").text(interviewer.fullName);
                 }
             });
         });
@@ -25,7 +31,7 @@
 </head>
 <body>
 <input id="userPrincipal" type="hidden" value="${pageContext.request.remoteUser}"/>
-<h1>Hello, <span id="interviewerName"></span></h1>
+<h1>Hello, <span id="interviewerFullName"></span></h1>
 <a href="/web/groups">Groups</a>
 </body>
 </html>

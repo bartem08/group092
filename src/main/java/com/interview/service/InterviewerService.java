@@ -1,5 +1,6 @@
 package com.interview.service;
 
+import com.interview.model.Group;
 import com.interview.model.Interviewer;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface InterviewerService {
     Interviewer updateInterviewer(Interviewer interviewer);
 
     boolean deleteInterviewer(String id);
+
+    Interviewer addGroupToInterviewer(Interviewer interviewer, Group group);
+
+    boolean deleteGroupFromInterviewer(Interviewer interviewer, Group group);
 }
