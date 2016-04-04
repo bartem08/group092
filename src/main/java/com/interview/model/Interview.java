@@ -27,7 +27,7 @@ public class Interview extends AbstractDocument implements Serializable {
 
     private double result;
 
-    private List<String> comments;
+    private String comments;
 
     public Interview() {}
 
@@ -36,7 +36,7 @@ public class Interview extends AbstractDocument implements Serializable {
     }
 
     @PersistenceConstructor
-    public Interview(Set<InterviewQuestion> questions, Interviewer interviewer, List<String> comments) {
+    public Interview(Set<InterviewQuestion> questions, Interviewer interviewer, String comments) {
         this(interviewer);
         setQuestions(questions);
         setComments(comments);
@@ -63,19 +63,12 @@ public class Interview extends AbstractDocument implements Serializable {
         return result;
     }
 
-    public List<String> getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public void addComment(final String comment) {
-        if (comments == null) {
-            comments = new ArrayList<>();
-        }
-        comments.add(comment);
     }
 
     @Override
