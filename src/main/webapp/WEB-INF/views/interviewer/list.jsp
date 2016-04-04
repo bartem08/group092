@@ -35,11 +35,35 @@
                 }
             });
         });
+
+        function deleteQuestion(id){
+                $.ajax({
+                    type: "DELETE",
+                    url: "/rest/interviewers/" + id,
+                            success: function() {
+                            console.log("/rest/interviewers/" + id);
+                        },
+                    error: function(result) {
+                        console.log(result);
+                    }
+                });
+        }
     </script>
 
 </head>
 <body>
 <div class="container" style="padding-top: 5em">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/web/logout">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <h1 style="color: #add8e6">Interviewers</h1>
     <table id="interviewesTable" class="table table-striped table-hover">
         <thead>

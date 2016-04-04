@@ -105,8 +105,8 @@ public class InterviewerWebController {
     }
 
 
-    @RequestMapping(value = "/interviewers", method = RequestMethod.POST)
-    public ModelAndView addInterviewer(@ModelAttribute("interviewer") Interviewer interviewer) {
+    @RequestMapping(value = "/interviewers?form", method = RequestMethod.GET)
+    public ModelAndView addInterviewer() {
         ModelAndView model = new ModelAndView();
         model.setViewName("interviewer/create");
         return model;

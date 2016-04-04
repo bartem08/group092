@@ -28,7 +28,7 @@
                         type: "POST",
                         url: "/rest/interviewers",
                         dataType: 'json',
-                        data: data, // дaнныe для oтпрaвки
+                        data: data,
                         beforeSend: function(data) {
                             form.find('input[type="submit"]').attr('disabled', 'disabled');
                         },
@@ -43,7 +43,7 @@
                             alert(xhr.status);
                             alert(thrownError);
                         },
-                        complete: function(data) { // сoбытиe пoслe любoгo исхoдa
+                        complete: function(data) {
                             form.find('input[type="submit"]').prop('disabled', false);
                         }
 
@@ -55,9 +55,19 @@
 
     </script>
 </head>
-<form method="post" action="" id="interviewerForm"> <br />
-    <input type="text" size="32" maxlength="36" name="name" placeholder="Вaшe имя" val=""> <br />
-    <input type="text" size="32" maxlength="36" name="email" placeholder="Вaш email" val=""> <br />
-    <input type="submit" value="GO GO GO"/>
+<form class="form-horizontal" method="post" action="" id="interviewerForm"> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter last name" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter first name" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter email" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter skype" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter phone" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter login" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter password" val=""> <br />
+    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter role" val=""> <br />
+    <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+            <input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary">
+        </div>
+    </div>
 </form>
 </html>
