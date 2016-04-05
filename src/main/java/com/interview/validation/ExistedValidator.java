@@ -28,16 +28,19 @@ public class ExistedValidator implements ConstraintValidator<Existed, Object> {
 
     private DBCollection collection;
 
+    private boolean empty;
+
     @Override
     public void initialize(Existed existed) {
         collection = mongoOperations.getCollection(existed.collection());
+        empty = existed.empty();
     }
 
     @Override
     public boolean isValid(final Object o, ConstraintValidatorContext constraintValidatorContext) {
+        System.err.println(empty);
         if (o == null) {
-            LOG.error("Could not validate null");
-            return false;
+            return empty;
         }
         if (o instanceof Collection) {
             return validateCollection((Collection) o);
@@ -56,7 +59,7 @@ public class ExistedValidator implements ConstraintValidator<Existed, Object> {
         try {
             query = new BasicDBObject("_id", new ObjectId(o.getId()));
         } catch (IllegalArgumentException ex) {
-            LOG.error("Does not exist in {}", collection.getName());
+            LOG.error("id {} does not exist in {}", o.getId(), collection.getName());
             return false;
         }
         return collection.findOne(query) != null;

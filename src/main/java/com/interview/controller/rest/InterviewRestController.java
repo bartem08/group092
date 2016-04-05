@@ -1,7 +1,6 @@
 package com.interview.controller.rest;
 
 import com.interview.model.Interview;
-import com.interview.model.InterviewQuestion;
 import com.interview.service.InterviewService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,8 +83,8 @@ public class InterviewRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity updateInterview(@RequestBody @Valid Interview interview,
-                                 BindingResult result,
-                                 @PathVariable("id") String id) {
+                                          BindingResult result,
+                                          @PathVariable("id") String id) {
         if (result.hasErrors()) {
             LOG.error("Updating interview: {}, BAD_REQUEST", result.getFieldError().getDefaultMessage());
             return new ResponseEntity<>(result.getFieldError().getDefaultMessage(), BAD_REQUEST);

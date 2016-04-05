@@ -15,7 +15,7 @@
 
 <input id="groupId" type="hidden" value="${groupId}"/>
 
-<input id="userPrincipal" type="hidden" value=""/>
+<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}"/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -40,8 +40,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/profile">Profile</a></li>
-                <li><a href="/login">Log Out</a></li>
+                <li><a href="/web/interviewer">Profile</a></li>
+                <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

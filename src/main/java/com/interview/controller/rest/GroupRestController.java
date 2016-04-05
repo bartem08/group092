@@ -1,9 +1,16 @@
 package com.interview.controller.rest;
 
+import com.interview.model.Candidate;
 import com.interview.model.Group;
 import com.interview.model.Interview;
+import com.interview.model.Interviewer;
+import com.interview.model.dto.CandidateDTO;
 import com.interview.model.dto.GroupDTO;
+import com.interview.model.dto.GroupDayDTO;
+import com.interview.service.CandidateService;
 import com.interview.service.GroupService;
+import com.interview.service.InterviewService;
+import com.interview.service.InterviewerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +22,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
- * Simple rest controller which is responsible for C.R.U.D.
- * and for interview manipulating operations interacting with actual database:
+ * REST controller for entity Group
+ * Basic CRUD methods:
  *      GET    - /rest/groups           - get all groups
  *      GET    - /rest/groups/{id}      - get particular group with specified id
  *      POST   - /rest/groups           - add new group
@@ -31,6 +36,15 @@ import java.util.List;
  * Interacting with groups through DTO:
  *      GET    - /rest/groups/dto       - get all group DTO
  *      GET    - /rest/groups/{id}/dto  - get particular group DTO with specified id
+ *      GET    - /rest/groups/{groupId}/interviewer/{interviewerId}/days    - get list of GroupDayDTO
+ *
+ * Managing candidates:
+ *      PUT    - /rest/groups/{groupId}/addCandidate/{candidateId}          - add candidate to group
+ *      PUT    - /rest/groups/{groupId}/removeCandidate/{candidateId}       - remove candidate from group
+ *
+ * Managing interviewers:
+ *      PUT    - /rest/groups/{groupId}/addInterviewer/{interviewerId}      - add interviewer to group
+ *      PUT    - /rest/groups/{groupId}/removeInterviewer/{interviewerId}   - remove interviewer from group
  *
  * @author Yegor Gulimov
  */
@@ -43,6 +57,15 @@ public class GroupRestController {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private CandidateService candidateService;
+
+    @Autowired
+    private InterviewerService interviewerService;
+
+    @Autowired
+    private InterviewService interviewService;
 
     @RequestMapping()
     public ResponseEntity readAllGroups() {
@@ -163,4 +186,219 @@ public class GroupRestController {
         log.info("Fetching group '{}' DTO: OK", id);
         return new ResponseEntity<>(new GroupDTO(actualGroup), HttpStatus.OK);
     }
+
+    //Manage candidates
+
+    @RequestMapping(value = "/{groupId}/addCandidate/{candidateId}", method = RequestMethod.PUT)
+    public ResponseEntity addCandidateToGroup(@PathVariable("groupId") String groupId,
+                                              @PathVariable("candidateId") String candidateId) {
+        boolean validRequest = true;
+
+        Group group = groupService.readGroup(groupId);
+        if (group == null) {
+            log.error("Group with id '{}' doesn't exist in database", groupId);
+            validRequest = false;
+        }
+
+        Candidate candidate = candidateService.readCandidate(candidateId);
+        if (candidate == null) {
+            log.error("Candidate with id '{}' doesn't exist in database", candidateId);
+            validRequest = false;
+        }
+
+        if (!validRequest) {
+            log.error("Adding candidate to group: BAD REQUEST");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Candidate> candidates = group.getCandidates();
+        for (Candidate c : candidates) {
+            if (c.getId().equals(candidateId)) {
+                log.error("Cannot add candidate to group. Group '{}' with id '{}' already contains candidate with id '{}'",
+                        group.getName(), groupId, candidateId);
+                log.error("Adding candidate to group: CONFLICT");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
+        candidates.add(candidate);
+        group.setCandidates(candidates);
+        group = groupService.updateGroup(groupId, group);
+
+        log.info("Candidate with id '{}' has been added to group '{}' with id '{}'",
+                candidateId, group.getName(), groupId);
+        log.info("Adding candidate to group: OK");
+        return new ResponseEntity<>(group, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{groupId}/removeCandidate/{candidateId}", method = RequestMethod.PUT)
+    public ResponseEntity removeCandidateFromGroup(@PathVariable("groupId") String groupId,
+                                              @PathVariable("candidateId") String candidateId) {
+        boolean validRequest = true;
+
+        Group group = groupService.readGroup(groupId);
+        if (group == null) {
+            log.error("Group with id '{}' doesn't exist in database", groupId);
+            validRequest = false;
+        }
+
+        Candidate candidate = candidateService.readCandidate(candidateId);
+        if (candidate == null) {
+            log.error("Candidate with id '{}' doesn't exist in database", candidateId);
+            validRequest = false;
+        }
+
+        if (!validRequest) {
+            log.error("Removing candidate from group: BAD REQUEST");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Candidate> candidates = group.getCandidates();
+        for (int i = 0; i < candidates.size(); i++) {
+            if (candidates.get(i).getId().equals(candidateId)) {
+                candidates.remove(i);
+                group.setCandidates(candidates);
+                group = groupService.updateGroup(groupId, group);
+
+                log.info("Candidate with id '{}' has been removed from group '{}' with id '{}'",
+                        candidateId, group.getName(), groupId);
+                log.info("Removing candidate from group: OK");
+                return new ResponseEntity<>(group, HttpStatus.OK);
+            }
+        }
+
+        log.error("Cannot remove candidate from group. Group '{}' with id '{}' doesn't contain candidate with id '{}'",
+                group.getName(), groupId, candidateId);
+        log.error("Removing candidate from group: CONFLICT");
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    //Manage interviewers
+
+    @RequestMapping(value = "/{groupId}/addInterviewer/{interviewerId}", method = RequestMethod.PUT)
+    public ResponseEntity addInterviewerToGroup(@PathVariable("groupId") String groupId,
+                                              @PathVariable("interviewerId") String interviewerId) {
+        boolean validRequest = true;
+
+        Group group = groupService.readGroup(groupId);
+        if (group == null) {
+            log.error("Group with id '{}' doesn't exist in database", groupId);
+            validRequest = false;
+        }
+
+        Interviewer interviewer = interviewerService.readInterviewer(interviewerId);
+        if (interviewer == null) {
+            log.error("Interviewer with id '{}' doesn't exist in database", interviewerId);
+            validRequest = false;
+        }
+
+        if (!validRequest) {
+            log.error("Adding interviewer to group: BAD REQUEST");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Interviewer> interviewers = group.getInterviewers();
+        for (Interviewer c : interviewers) {
+            if (c.getId().equals(interviewerId)) {
+                log.error("Cannot add interviewer to group. Group '{}' with id '{}' already contains interviewer with id '{}'",
+                        group.getName(), groupId, interviewerId);
+                log.error("Adding interviewer to group: CONFLICT");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
+        interviewers.add(interviewer);
+        group.setInterviewers(interviewers);
+        group = groupService.updateGroup(groupId, group);
+
+        log.info("Interviewer with id '{}' has been added to group '{}' with id '{}'",
+                interviewerId, group.getName(), groupId);
+        log.info("Adding interviewer to group: OK");
+        return new ResponseEntity<>(group, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{groupId}/removeInterviewer/{interviewerId}", method = RequestMethod.PUT)
+    public ResponseEntity removeInterviewerFromGroup(@PathVariable("groupId") String groupId,
+                                                   @PathVariable("interviewerId") String interviewerId) {
+        boolean validRequest = true;
+
+        Group group = groupService.readGroup(groupId);
+        if (group == null) {
+            log.error("Group with id '{}' doesn't exist in database", groupId);
+            validRequest = false;
+        }
+
+        Interviewer interviewer = interviewerService.readInterviewer(interviewerId);
+        if (interviewer == null) {
+            log.error("Interviewer with id '{}' doesn't exist in database", interviewerId);
+            validRequest = false;
+        }
+
+        if (!validRequest) {
+            log.error("Removing interviewer from group: BAD REQUEST");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<Interviewer> interviewers = group.getInterviewers();
+        for (int i = 0; i < interviewers.size(); i++) {
+            if (interviewers.get(i).getId().equals(interviewerId)) {
+                interviewers.remove(i);
+                group.setInterviewers(interviewers);
+                group = groupService.updateGroup(groupId, group);
+
+                log.info("Interviewer with id '{}' has been removed from group '{}' with id '{}'",
+                        interviewerId, group.getName(), groupId);
+                log.info("Removing interviewer from group: OK");
+                return new ResponseEntity<>(group, HttpStatus.OK);
+            }
+        }
+
+        log.error("Cannot remove interviewer from group. Group '{}' with id '{}' doesn't contain interviewer with id '{}'",
+                group.getName(), groupId, interviewerId);
+        log.error("Removing interviewer from group: CONFLICT");
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    //For convenient work with UI
+
+    @RequestMapping("/{groupId}/interviewer/{interviewerId}/days")
+    public ResponseEntity getGroupDays(@PathVariable("groupId") String groupId,
+                                       @PathVariable("interviewerId") String interviewerId) {
+        List<Calendar> dayDates = groupService.getGroupDates(groupId);
+        Interviewer interviewer = interviewerService.readInterviewer(interviewerId);
+        if (dayDates == null || interviewer == null) {
+            log.error("Getting group days: BAD REQUEST");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<GroupDayDTO> groupDayDTOList = new ArrayList<>();
+        if (dayDates.isEmpty()) {
+            log.info("Getting group days: NO CONTENT");
+            return new ResponseEntity<>(groupDayDTOList, HttpStatus.NO_CONTENT);
+        }
+
+        for (Calendar dayDate : dayDates) {
+            List<Candidate> candidates = groupService.getGroupCandidatesByDate(groupId, dayDate);
+            List<CandidateDTO> candidateDTOList = new ArrayList<>();
+            for (Candidate candidate : candidates) {
+                //Interview interview = interviewService.getInterviewByCandidateAndInterviewer(candidate.getId(), interviewerId);
+                //String interviewId = "0";
+                //if (interview != null) {
+                //  interviewId = interview.getId();
+                //}
+                //CandidateDTO candidateDTO = new CandidateDTO(candidate, interviewId); //instead of below line
+                CandidateDTO candidateDTO = new CandidateDTO(candidate, "so far empty");
+                candidateDTOList.add(candidateDTO);
+            }
+            Collections.sort(candidateDTOList);
+            groupDayDTOList.add(new GroupDayDTO(candidateDTOList, dayDate));
+        }
+
+        Collections.sort(groupDayDTOList);
+
+        log.info("{} days found for group with id '{}'", dayDates.size(), groupId);
+        log.info("Getting group days: OK");
+        return new ResponseEntity<>(groupDayDTOList, HttpStatus.OK);
+    }
+
 }

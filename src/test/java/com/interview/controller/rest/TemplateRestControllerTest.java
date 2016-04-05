@@ -1,6 +1,6 @@
 package com.interview.controller.rest;
 
-import com.interview.config.MvcConfigurer;
+import com.interview.Application;
 import com.interview.model.Interviewer;
 import com.interview.model.Question;
 import com.interview.model.Template;
@@ -21,14 +21,12 @@ import org.testng.annotations.Test;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.*;
-import static org.apache.http.HttpStatus.SC_NO_CONTENT;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.*;
 
 /**
  * @author Anton Kruglikov.
  */
-@SpringApplicationConfiguration(MvcConfigurer.class)
+@SpringApplicationConfiguration(Application.class)
 @WebIntegrationTest("server.port:0")
 @DirtiesContext
 public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests {
@@ -44,6 +42,7 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
     private InterviewerService interviewerService;
 
     private String templateId;
+    private String templateId2;
     private Template template;
 
     private Question question;
@@ -58,7 +57,7 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
 
     @BeforeClass
     public void initQuestion() {
-        question = questionService.createQuestion(new Question("Do you have brain?", 100));
+        question = questionService.createQuestion(new Question("Do you have brain?", (byte)100));
         interviewer = interviewerService.createInterviewer(new Interviewer("Test", "Test", "Test", "Test", "Test"));
         template = new Template();
         template.addQuestion(question);
@@ -70,6 +69,7 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
     @AfterClass
     public void tearDown() {
         templateService.deleteTemplate(template.getId());
+        templateService.deleteTemplate(templateId2);
         questionService.deleteQuestion(question.getId());
         interviewerService.deleteInterviewer(interviewer.getId());
     }
@@ -99,6 +99,22 @@ public class TemplateRestControllerTest extends AbstractTestNGSpringContextTests
     }
 
     @Test(dependsOnMethods = "badRequestWhenCreateTemplateWithNoBody")
+    public void okWhenCreateTemplateWithNullQuestionList() {
+        Template template = new Template();
+        template.setInterviewer(interviewer);
+        templateId2 = given()
+                .contentType(JSON)
+                .body(template)
+        .when()
+                .post(TEMPLATES)
+        .then()
+                .statusCode(SC_CREATED)
+                .extract()
+                .jsonPath()
+                .getString("id").replaceAll("\\[", "").replaceAll("\\]", "");
+    }
+
+    @Test(dependsOnMethods = "okWhenCreateTemplateWithNullQuestionList")
     public void okWhenReadTemplate() {
         given()
             .contentType(JSON)

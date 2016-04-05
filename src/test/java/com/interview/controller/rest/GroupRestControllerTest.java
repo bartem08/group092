@@ -3,8 +3,10 @@ package com.interview.controller.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.interview.config.MvcConfigurer;
+import com.interview.model.Candidate;
 import com.interview.model.Group;
 import com.interview.model.dto.GroupDTO;
+import com.interview.service.CandidateService;
 import com.interview.service.GroupService;
 import com.jayway.restassured.RestAssured;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,9 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private CandidateService candidateService;
 
     @Test
      public void givenWhenCreateGroupCallThenStatusCodeCreated() {
@@ -153,6 +158,7 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         .then()
                 .statusCode(SC_NO_CONTENT);
     }
+
 
     @Test
     public void givenWhenUpdateGroupWithValidIdAndGroupThenStatusCodeOk() {
@@ -326,4 +332,126 @@ public class GroupRestControllerTest extends AbstractTestNGSpringContextTests {
         .then()
                 .statusCode(SC_NO_CONTENT);
     }
+
+    @Test
+    public void givenWhenAddCandidateToGroupCallWithExistedIdsThenStatusCodeOk() {
+        Group group = groupService.createGroup(new Group("Test"));
+
+        Candidate candidate = new Candidate();
+        candidate.setFirstName("Test");
+        candidate = candidateService.createCandidate(candidate);
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/addCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_OK);
+
+        group = groupService.readGroup(group.getId());
+        assertEquals(group.getCandidates().size(), 1);
+        assertEquals(group.getCandidates().get(0).getId(), candidate.getId());
+        assertEquals(group.getCandidates().get(0).getFirstName(), candidate.getFirstName());
+
+        groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate.getId());
+    }
+
+    @Test
+    public void givenWhenAddCandidateToGroupCallWithDuplicateCandidateIdThenStatusCodeConflict() {
+        Group group = groupService.createGroup(new Group("Test"));
+        Candidate candidate = candidateService.createCandidate(new Candidate());
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/addCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_OK);
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/addCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_CONFLICT);
+
+        group = groupService.readGroup(group.getId());
+        assertEquals(group.getCandidates().size(), 1); //duplicate candidate doesn't added
+
+        groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate.getId());
+    }
+
+    @Test
+    public void givenWhenAddCandidateToGroupCallWithWrongGroupOrCandidateIdThenStatusCodeBadRequest() {
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/invalidId/addCandidate/invalidId")
+        .then()
+                .statusCode(SC_BAD_REQUEST);
+    }
+
+    @Test
+    public void givenWhenRemoveCandidateFromGroupCallWithExistedIdsThenStatusCodeOk() {
+        Group group = groupService.createGroup(new Group("Test"));
+
+        Candidate candidate = new Candidate();
+        candidate.setFirstName("Test");
+        candidate = candidateService.createCandidate(candidate);
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/addCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_OK);
+
+        group = groupService.readGroup(group.getId());
+        assertEquals(group.getCandidates().size(), 1);
+        assertEquals(group.getCandidates().get(0).getId(), candidate.getId());
+        assertEquals(group.getCandidates().get(0).getFirstName(), candidate.getFirstName());
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/removeCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_OK);
+
+        group = groupService.readGroup(group.getId());
+        assertTrue(group.getCandidates().isEmpty());
+
+        groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate.getId());
+    }
+
+    @Test
+    public void givenWhenRemoveNotPresentCandidateFromGroupCallThenStatusCodeConflict() {
+        Group group = groupService.createGroup(new Group("Test"));
+        Candidate candidate = candidateService.createCandidate(new Candidate());
+
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/" + group.getId() + "/removeCandidate/" + candidate.getId())
+        .then()
+                .statusCode(SC_CONFLICT);
+
+        groupService.deleteGroup(group.getId());
+        candidateService.deleteCandidate(candidate.getId());
+    }
+
+    @Test
+    public void givenWhenRemoveCandidateFromGroupCallWithNotExistedCandidateOrGroupIdThenStatusCodeBadRequest() {
+        given()
+                .contentType(JSON)
+        .when()
+                .put("/rest/groups/invalidId/removeCandidate/invalidId")
+        .then()
+                .statusCode(SC_BAD_REQUEST);
+    }
+
+
 }
