@@ -16,14 +16,19 @@
         <div id="login">
             <h2 class="form-signin-heading">Please sign in...</h2>
             <form class="form-signin" action="/web/login" method="POST">
+                <c:if test="${param.logout != null}">
+                    <div class="alert alert-success">
+                        <p>You have been logged out successfully.</p>
+                    </div>
+                </c:if>
                 <table>
                     <tr>
                         <td>User Name:</td>
-                        <td><input class="form-control" type="text" name="username" placeholder="Enter login" required autofocus/></td>
+                        <td><input class="form-control" type="text" name="username" placeholder="Enter your login" required autofocus/></td>
                     </tr>
                     <tr>
                         <td>Password:</td>
-                        <td><input class="form-control" type="password" name="password" placeholder="Enter password" /></td>
+                        <td><input class="form-control" type="password" name="password" placeholder="Enter your password" /></td>
                     </tr>
                     <tr>
                         <td>Remember me</td>

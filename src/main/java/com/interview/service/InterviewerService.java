@@ -21,8 +21,4 @@ public interface InterviewerService {
     Interviewer updateInterviewer(Interviewer interviewer);
 
     boolean deleteInterviewer(String id);
-
-    Interviewer addGroupToInterviewer(Interviewer interviewer, Group group);
-
-    boolean deleteGroupFromInterviewer(Interviewer interviewer, Group group);
 }
