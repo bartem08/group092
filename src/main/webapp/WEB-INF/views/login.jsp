@@ -16,7 +16,15 @@
         <div id="login">
             <h2 class="form-signin-heading">Please sign in...</h2>
             <form class="form-signin" action="/web/login" method="POST">
-                <c:if test="${param.logout != null}">
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">
+                        <p>
+                            Your fake login attempt was bursted, dare again !!<br />
+                            Caused : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+                        </p>
+                    </div>
+                </c:if>
+                <c:if test="${not empty logout}">
                     <div class="alert alert-success">
                         <p>You have been logged out successfully.</p>
                     </div>
