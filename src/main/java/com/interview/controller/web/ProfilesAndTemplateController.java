@@ -11,18 +11,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/web")
 public class ProfilesAndTemplateController {
-    @RequestMapping("/candidate/{id}")
+    @RequestMapping("/candidates/{id}")
     public ModelAndView candidateProfile(@PathVariable("id") String id) {
         return new ModelAndView( "profilesAndTemplate/candidateProfile", "id", id);
     }
 
-    @RequestMapping("/interviewer/{id}")
-    public ModelAndView interviewerProfile(@PathVariable("id") String id) {
-        return new ModelAndView("profilesAndTemplate/interviewerProfile", "id", id);
+    @RequestMapping("/interviewer")
+    public ModelAndView interviewerProfile() {
+        return new ModelAndView("profilesAndTemplate/interviewerProfile");
     }
 
-    @RequestMapping("/template")
+    @RequestMapping("/templates")
     public ModelAndView template() {
-        return new ModelAndView("profilesAndTemplate/template");
+        return new ModelAndView("profilesAndTemplate/templates");
     }
 }

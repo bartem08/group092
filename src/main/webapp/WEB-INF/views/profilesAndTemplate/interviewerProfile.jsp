@@ -36,14 +36,17 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/web/profile">Profile</a></li>
-                <li><a href="/login">Log Out</a></li>
+                <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
+<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}">
+<input type="hidden" id="interviewerId" value="">
+
 <div class="container" style="padding-top: 5em">
-    <input type="hidden" id="idHidden" value="${id}">
+
     <h1>My profile</h1>
     <table id="interviewerTable" class="table table-striped table-hover">
         <tbody>
@@ -52,8 +55,8 @@
             <tr><td>E-mail</td><td><input id="eMail"></td></tr>
             <tr><td>Skype</td><td><input id="skype"></td></tr>
             <tr><td>Phone</td><td><input id="phone"></td></tr>
-            <tr><td>Groups</td><td id="groups"></td></tr>
-            <tr><td>Templates</td><td id="templates"></td></tr>
+<%--            <tr><td>Groups</td><td id="groups"></td></tr>--%>
+            <tr><td>My templates</td><td id="templates"></td></tr>
         </tbody>
     </table>
 

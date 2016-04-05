@@ -10,7 +10,7 @@
     <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="../../../resources/js/header.js"></script>
-    <script src="../../../resources/js/template.js"></script>
+    <script src="../../../resources/js/templates.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -38,8 +38,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/profile">Profile</a></li>
-                <li><a href="/login">Log Out</a></li>
+                <li><a href="/web/interviewerProfile">Profile</a></li>
+                <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -104,7 +104,7 @@
                 <th>Questions</th>
             </tr>
             </thead>
-            <tbody id="tbodyId">
+            <tbody id="tbodyId" style="width: 80%">
                 <!-- Populated by JS-->
             </tr>
             </tbody>

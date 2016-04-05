@@ -1,12 +1,13 @@
 $(document).ready(function() {
-    var id = $("#idHidden").val();
+    var userPrincipal = $("#userPrincipal").val();
     $.ajax({
         type: "GET",
-        url: "/rest/interviewers/" + id,
+        url: "/rest/interviewers/login/" + userPrincipal,
         success: function(result) {
-            console.log("RESULT: " + JSON.stringify(result));
             var interviewer = JSON.stringify(result);
+            console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
+            $("#interviewerId").val(interviewer.id);
             var firstName = interviewer.firstName;
             var lastName = interviewer.lastName;
             var mail = interviewer.email;
@@ -19,12 +20,13 @@ $(document).ready(function() {
             $("#eMail").val(mail);
             $("#skype").val(skype);
             $("#phone").val(phone);
-            $.each(groups, function(group){
-                $("#groups").append().html(group.name);
-            });
-            $.each(templates, function(template){
-                $("#templates").append().html(template.name);
-            });
+/*            $.each(groups, function(i, group){
+                $("#groups").append(group.name);
+            });*/
+            $("#templates").html('<a href = "/web/templates">Templates</a>');
+/*            $.each(templates, function(i, template){
+                $("#templates").append(template.name);
+            });*/
 
         }
     });
@@ -42,7 +44,7 @@ $(document).ready(function() {
                 type: "PUT",
                 data: JSON.stringify(interviewer),
                 contentType: "application/json;",
-                url: "/rest/interviewers/56f82895d39f2411782b4344"
+                url: "/rest/interviewers/" + $("#interviewerId").val(),
             })
             .done(function () {
                 $("#message").html("Saved");
