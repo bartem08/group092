@@ -1,13 +1,10 @@
 package com.interview.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author NSS
@@ -32,12 +29,9 @@ public class Interviewer extends AbstractDocument implements Serializable {
 
     private String role;
 
-    private List<Group> groups = new ArrayList();
-
-    private List<Template> templates = new ArrayList();
-
     public Interviewer() {}
 
+    @PersistenceConstructor
     public Interviewer(String lastName, String firstName, String email, String skype, String phone) {
         setLastName(lastName);
         setFirstName(firstName);
@@ -46,7 +40,6 @@ public class Interviewer extends AbstractDocument implements Serializable {
         setPhone(phone);
     }
 
-    @PersistenceConstructor
     public Interviewer(String lastName, String firstName, String email, String skype, String phone,
                        String login, String password, String role) {
         this(lastName, firstName, email, skype, phone);
@@ -63,20 +56,20 @@ public class Interviewer extends AbstractDocument implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -127,30 +120,6 @@ public class Interviewer extends AbstractDocument implements Serializable {
         this.role = role;
     }
 
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
-    public void removeGroup(Group group) {
-        groups.remove(group);
-    }
-
-    public void addGroup(Group group) {
-        groups.add(group);
-    }
-
-    public List<Template> getTemplates() {
-        return templates;
-    }
-
-    public void setTemplates(List<Template> templates) {
-        this.templates = templates;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -180,5 +149,4 @@ public class Interviewer extends AbstractDocument implements Serializable {
     public String toString() {
         return String.format("%s %s", firstName, lastName);
     }
-
 }

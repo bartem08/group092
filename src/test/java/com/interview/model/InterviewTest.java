@@ -14,13 +14,14 @@ import static org.testng.Assert.*;
 public class InterviewTest {
 
     private Interview interview;
+
     private Interview empty;
 
     @BeforeMethod
     public void setUp() {
         Set<InterviewQuestion> questionSet = new HashSet<>();
-        questionSet.add(new InterviewQuestion(new Question("A", 10), 9, false, false));
-        interview = new Interview(questionSet, new Interviewer(), new ArrayList<>());
+        questionSet.add(new InterviewQuestion(new Question("A", (byte) 10), 9, false));
+        interview = new Interview(questionSet, new Interviewer(), new Candidate(), null);
         empty = new Interview();
     }
 
@@ -29,14 +30,16 @@ public class InterviewTest {
         assertNull(empty.getId());
         assertNull(empty.getComments());
         assertNull(empty.getInterviewer());
+        assertNull(empty.getCandidate());
         assertNull(empty.getQuestions());
-        assertEquals(empty.getResult(), 0.0);
+        assertEquals(empty.getResult(), 0f);
 
         assertNull(interview.getId());
         assertNotNull(interview.getInterviewer());
-        assertNotNull(interview.getComments());
+        assertNotNull(interview.getCandidate());
+        assertNull(interview.getComments());
         assertEquals(interview.getQuestions().size(), 1);
-        assertEquals(interview.getResult(), 90.0);
+        assertEquals(interview.getResult(), 90f);
     }
 
     @Test
@@ -47,12 +50,6 @@ public class InterviewTest {
     @Test
     public void twoSameInterviewReturnsSameHashCode() {
         assertEquals(empty.hashCode(), new Interview().hashCode());
-    }
-
-    @Test
-    public void addCommentInitializeCommentList() {
-        empty.addComment("Comment");
-        assertNotNull(empty.getComments());
     }
 
     @Test

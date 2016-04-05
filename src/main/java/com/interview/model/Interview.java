@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,24 +18,29 @@ import java.util.Set;
 @TypeAlias("Interview")
 public class Interview extends AbstractDocument implements Serializable {
 
-    @DBRef @Existed(collection = "interviewers")
+    @DBRef @Existed(collection = "interviewers", empty = false)
     private Interviewer interviewer;
+
+    @DBRef @Existed(collection = "candidates", empty = false)
+    private Candidate candidate;
 
     private Set<InterviewQuestion> questions;
 
-    private double result;
+    private float result;
 
-    private List<String> comments;
+    private String comments;
 
     public Interview() {}
 
-    public Interview(final Interviewer interviewer) {
+    public Interview(final Interviewer interviewer, final Candidate candidate) {
         setInterviewer(interviewer);
+        setCandidate(candidate);
     }
 
     @PersistenceConstructor
-    public Interview(Set<InterviewQuestion> questions, Interviewer interviewer, List<String> comments) {
-        this(interviewer);
+    public Interview(final Set<InterviewQuestion> questions, final Interviewer interviewer,
+                     final Candidate candidate, final String comments) {
+        this(interviewer, candidate);
         setQuestions(questions);
         setComments(comments);
     }
@@ -59,23 +62,24 @@ public class Interview extends AbstractDocument implements Serializable {
         this.interviewer = interviewer;
     }
 
-    public double getResult() {
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(final Candidate candidate) {
+        this.candidate = candidate;
+    }
+
+    public float getResult() {
         return result;
     }
 
-    public List<String> getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public void addComment(final String comment) {
-        if (comments == null) {
-            comments = new ArrayList<>();
-        }
-        comments.add(comment);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class Interview extends AbstractDocument implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Interview {comments=%s, interviewer=%s, result=%.2f}", comments, interviewer, result);
+        return String.format("Interview {interviewer=%s, candidate=%s, result=%.2f}", interviewer, candidate, result);
     }
 
 }

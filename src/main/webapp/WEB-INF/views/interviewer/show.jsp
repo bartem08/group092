@@ -16,7 +16,7 @@
             var login = $("#userPrincipal").val();
             $.ajax({
                 type: "GET",
-                url: "/rest/interviewers/" + login + "/groups/dto",
+                url: "/rest/interviewers/" + login + "/dto",
                 success: function(result) {
                     var interviewer = JSON.stringify(result);
                     console.log("JSON: " + interviewer);

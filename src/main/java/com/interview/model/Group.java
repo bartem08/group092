@@ -31,6 +31,9 @@ public class Group extends AbstractDocument implements Serializable {
     @DBRef
     private List<Candidate> candidates = new ArrayList<>();
 
+    @DBRef
+    private List<Interviewer> interviewers = new ArrayList<>();
+
     public Group() { }
 
     public Group(String name) {
@@ -47,6 +50,14 @@ public class Group extends AbstractDocument implements Serializable {
 
     public List<Candidate> getCandidates() {
         return candidates;
+    }
+
+    public List<Interviewer> getInterviewers() {
+        return interviewers;
+    }
+
+    public void setInterviewers(List<Interviewer> interviewers) {
+        this.interviewers = interviewers;
     }
 
     public void setCandidates(List<Candidate> candidates) {

@@ -15,10 +15,11 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = ExistedValidator.class)
 public @interface Existed {
 
-    String message() default "Does not exist";
+    String message() default "Id does not exist in database";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
     String collection();
+    boolean empty() default true;
 
 }
