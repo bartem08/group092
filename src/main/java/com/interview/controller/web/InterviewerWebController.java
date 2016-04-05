@@ -42,7 +42,8 @@ public class InterviewerWebController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        model.setViewName("redirect:/web/login?logout");
+        model.addObject("logout", "true");
+        model.setViewName("login");
         return model;
     }
 
@@ -50,7 +51,7 @@ public class InterviewerWebController {
     public ModelAndView loginError() {
         ModelAndView model = new ModelAndView();
         model.addObject("error", "true");
-        model.setViewName("failed");
+        model.setViewName("login");
         return model;
     }
 

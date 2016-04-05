@@ -8,14 +8,14 @@
     <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
     <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 
-  <spring:url value="/web/login" var="loginUrl"/>
+  <spring:url value="/web/logout" var="logOutUrl"/>
 
   <c:if test="${not empty message}">
     <div style="color:red">
-        <strong>${username},</strong>
+        Dear <strong>${username},</strong>
         <strong>${message}</strong>
     </div>
   </c:if>
 
-  <a href="${loginUrl}">Login</a>
+  <a href="${loginUrl}">Logout</a>
 </div>
