@@ -14,7 +14,7 @@ public class ResultFormer {
         if (questions == null) {
             return 0;
         }
-        byte max = 0;
+        short max = 0;
         float actual = 0;
         for (InterviewQuestion question: questions) {
             if (!question.isSkipped()) {

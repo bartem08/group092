@@ -119,7 +119,7 @@
 </div>
 <div class="custom-comments">
     <textarea name="comments" readonly form="interview"></textarea>
-    <input type="text" value="Common comment: " id="text-common-comment" />
+    <input type="text" id="text-common-comment" />
     <button id="add-common-comment" type="submit" class="btn btn-primary">Add Comment</button>
 </div>
 <form id="interview" action="/interview/save/${interview.id}" method="post"></form>
