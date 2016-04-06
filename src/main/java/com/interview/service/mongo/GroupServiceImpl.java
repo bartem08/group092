@@ -2,7 +2,12 @@ package com.interview.service.mongo;
 
 import com.interview.model.Candidate;
 import com.interview.model.Group;
+import com.interview.model.Interview;
+import com.interview.model.Interviewer;
+import com.interview.repository.CandidateRepository;
 import com.interview.repository.GroupRepository;
+import com.interview.repository.InterviewRepository;
+import com.interview.repository.InterviewerRepository;
 import com.interview.service.GroupService;
 import com.interview.util.GroupTool;
 import org.slf4j.Logger;
@@ -28,6 +33,15 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private CandidateRepository candidateRepository;
+
+    @Autowired
+    private InterviewerRepository interviewerRepository;
+
+    @Autowired
+    private InterviewRepository interviewRepository;
 
     /**
      * adds group to database
@@ -286,5 +300,43 @@ public class GroupServiceImpl implements GroupService {
         }
 
         return validGroup;
+    }
+
+    @Override
+    public List<Group> getGroupsByInterviewer(String interviewerId) {
+        return groupRepository.findByInterviewersId(interviewerId);
+    }
+
+    @Override
+    public List<Interview> generateInterviewsForGroup(String groupId) {
+        Group group = groupRepository.findOne(groupId);
+        List<Interview> generatedInterviews = new ArrayList<>();
+        if (group == null) {
+            log.error("Cannot read group. Group with id '{}' doesn't exists in database", groupId);
+            return generatedInterviews;
+        }
+
+        List<Interviewer> interviewers = group.getInterviewers();
+        List<Candidate> candidates = group.getCandidates();
+
+        for (Interviewer interviewer : interviewers) {
+            for (Candidate candidate : candidates) {
+                Interview foundInterview = interviewRepository.
+                        findByCandidateIdAndInterviewerId(candidate.getId(), interviewer.getId());
+                if (foundInterview == null) {
+                    Interview interview = new Interview(interviewer, candidate);
+                    interview = interviewRepository.insert(interview);
+                    generatedInterviews.add(interview);
+                }
+            }
+        }
+        int generatedInterviewsCount = generatedInterviews.size();
+        if (generatedInterviewsCount > 0) {
+            log.info("New interviews has been generated. Count: " + generatedInterviewsCount);
+        } else {
+            log.info("No new interviews has been generated");
+        }
+
+        return generatedInterviews;
     }
 }

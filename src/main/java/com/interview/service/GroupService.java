@@ -2,6 +2,7 @@ package com.interview.service;
 
 import com.interview.model.Candidate;
 import com.interview.model.Group;
+import com.interview.model.Interview;
 
 import java.util.Calendar;
 import java.util.List;
@@ -26,5 +27,9 @@ public interface GroupService {
     List<Candidate> getGroupCandidatesByDate(String id, Calendar date);
 
     List<Calendar> getGroupDates(String id);
+
+    List<Group> getGroupsByInterviewer(String interviewerId);
+
+    List<Interview> generateInterviewsForGroup(String groupId);
 
 }
