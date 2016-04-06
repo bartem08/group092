@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
  * @author Artem Baranovskiy
  */
 @Repository
-public interface InterviewRepository extends MongoRepository<Interview, String> {}
+public interface InterviewRepository extends MongoRepository<Interview, String> {
+    Interview findByCandidateIdAndInterviewerId(String c_id, String i_id);
+}

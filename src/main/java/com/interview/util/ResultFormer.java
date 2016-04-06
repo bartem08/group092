@@ -18,7 +18,7 @@ public class ResultFormer {
         float actual = 0;
         for (InterviewQuestion question: questions) {
             if (!question.isSkipped()) {
-                max += question.getMaxQuestionValue();
+                max += question.getQuestion().getMaxQuestionValue();
                 actual += question.getFinalQuestionValue();
             }
         }

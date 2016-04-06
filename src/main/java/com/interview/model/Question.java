@@ -55,8 +55,8 @@ public class Question extends AbstractDocument implements Serializable {
 
         Question question = (Question) o;
 
-        if (questionString != null ? !questionString.equals(question.questionString) : question.questionString != null) return false;
-        return true;
+        return questionString != null ? questionString.equals(question.questionString)
+                : question.questionString == null;
     }
 
     @Override
