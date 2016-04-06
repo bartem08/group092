@@ -381,13 +381,13 @@ public class GroupRestController {
             List<Candidate> candidates = groupService.getGroupCandidatesByDate(groupId, dayDate);
             List<CandidateDTO> candidateDTOList = new ArrayList<>();
             for (Candidate candidate : candidates) {
-                //Interview interview = interviewService.getInterviewByCandidateAndInterviewer(candidate.getId(), interviewerId);
-                //String interviewId = "0";
-                //if (interview != null) {
-                //  interviewId = interview.getId();
-                //}
-                //CandidateDTO candidateDTO = new CandidateDTO(candidate, interviewId); //instead of below line
-                CandidateDTO candidateDTO = new CandidateDTO(candidate, "so far empty");
+                Interview interview = interviewService.readInterviewByCandidateIdAndInterviewerId(candidate.getId(), interviewerId);
+                String interviewId = "not_found";
+                if (interview != null) {
+                  interviewId = interview.getId();
+                }
+                CandidateDTO candidateDTO = new CandidateDTO(candidate, interviewId);
+                //CandidateDTO candidateDTO = new CandidateDTO(candidate, "so far empty");
                 candidateDTOList.add(candidateDTO);
             }
             Collections.sort(candidateDTOList);
@@ -399,6 +399,20 @@ public class GroupRestController {
         log.info("{} days found for group with id '{}'", dayDates.size(), groupId);
         log.info("Getting group days: OK");
         return new ResponseEntity<>(groupDayDTOList, HttpStatus.OK);
+    }
+
+    @RequestMapping("/interviewer/{interviewerId}/dto")
+    public ResponseEntity getGroupsByInterviewer(@PathVariable("interviewerId") String interviewerId) {
+        List<Group> interviewerGroups = groupService.getGroupsByInterviewer(interviewerId);
+        List<GroupDTO> interviewerGroupsDto = new ArrayList<>();
+        for (Group group : interviewerGroups) {
+            groupService.generateInterviewsForGroup(group.getId());
+            interviewerGroupsDto.add(new GroupDTO(group));
+        }
+
+        Collections.sort(interviewerGroupsDto);
+
+        return new ResponseEntity<>(interviewerGroupsDto, HttpStatus.OK);
     }
 
 }

@@ -15,7 +15,7 @@ $(document).ready(function() {
     //get current interviewer
     $.ajax({
         type: "GET",
-        url: "/rest/interviewers/login/" + userPrincipal,
+        url: "/rest/interviewers/" + userPrincipal + "/dto",
         success: function(result) {
             var interviewer = JSON.stringify(result);
             console.log("interviewer JSON: " + interviewer);
@@ -35,7 +35,7 @@ $(document).ready(function() {
                     //get group days
                     $.ajax({
                         type: "GET",
-                        url: "/rest/groups/" + groupId + "/days",
+                        url: "/rest/groups/" + groupId + "/interviewer/" + interviewer.id + "/days",
                         success: function(result) {
                             var groupDayDtoList = JSON.stringify(result);
                             console.log("groupDayDtoList JSON: " + groupDayDtoList);
@@ -55,18 +55,31 @@ $(document).ready(function() {
                                 );
 
                                 $.each(day.candidates, function(j, candidate) {
-                                    var fullName = candidate.surname + " " + candidate.name;
+                                    var fullName = candidate.fullName;
                                     var candidateDate = new Date(candidate.date);
                                     var showTime = candidateDate.getHours() + ":" + candidateDate.getMinutes();
                                     $("#groupTable").append(
                                         '<tr class="iw-' + i + '">' +
                                             '<td><a href="/web/candidates/' + candidate.id + '">' + fullName + '</a></td>' +
                                             '<td>' + showTime + '</td>' +
-                                            '<td><a href="/web/interviews/' + 0 + '">' +
+                                            /*'<td><a href="/web/interviews/' + candidate.interviewId + '">' +
                                         '<img src="../../../resources/images/icons/Skull-48.png" ' +
                                         'alt="&gt;" style="height: 1.5em" title="interview"/>' + '</a></td>' +
+                                        '</tr>'*/
+                                            '<td><form action="/interview/' + candidate.interviewId + '" method="POST">' +
+                                                    '<input type="hidden" name="template_id" class="interviewTemplate" value="5703b149226c8031545be733"/>' +
+                                                    '<input type="submit" class="btn btn-default" value="submit"/>' +
+                                            '</form></td>' +
                                         '</tr>'
                                     );
+
+                                    /*
+                                        <form action="/web/interviews/' + candidate.interviewId + '" method="POST"><input type="hidden" class="interviewTemplate" value="default"/><input type="submit" class="btn btn-default" value="submit"/></form>
+
+
+
+
+                                     */
                                 });
                             });
 
