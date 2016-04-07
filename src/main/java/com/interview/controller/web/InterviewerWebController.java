@@ -91,7 +91,7 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/admin/interviewers", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/interviewers/save", method = RequestMethod.POST)
     public ModelAndView updateOrInsert() {
         ModelAndView model = new ModelAndView();
         model.setViewName("interviewer/list");

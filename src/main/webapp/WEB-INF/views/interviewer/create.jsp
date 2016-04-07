@@ -13,7 +13,7 @@
     <script>
 
         $(document).ready(function () {
-            $("#submit").click(function () {
+            $("#interviewerForm").submit(function () {
                 var interviewer = new Object();
                 interviewer.lastName = $('#lastName').val();
                 interviewer.firstName = $('#firstName').val();
@@ -66,7 +66,7 @@
 
     <strong><h1>Add Interviewer</h1></strong>
 
-    <form role="form-horizontal" method="post" action="" id="interviewerForm">
+    <form role="form-horizontal" method="post" action="/web/admin/interviewers/save" id="interviewerForm">
         <div class="form-group">
             <label for="lastName">Last Name</label>
             <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Enter last name" val="">

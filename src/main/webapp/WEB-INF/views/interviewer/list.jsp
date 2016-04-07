@@ -36,7 +36,7 @@
             });
         });
 
-        $('.delete').on('click', function() {
+        $('a.delete').on('click', function() {
             var id = $(this).attr("value");
             $.ajax({
                 type: "DELETE",
