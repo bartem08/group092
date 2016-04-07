@@ -45,9 +45,12 @@
     </div>
 </nav>
 
+<input id="userLogin" type="hidden" value="${pageContext.request.userPrincipal.name}">
+<input id="editQuestionId" type="hidden" value="">
+<input id="activeTemplateId" type="hidden" value="">
+
 <div class="myContainer" style="padding-top: 3em">
     <div class="left">
-        <input hidden id="editQuestionId" value="">
         <form class="form-horizontal" style="padding-top: 5em">
             <fieldset>
                 <legend style="padding-left: 7em">Add a question to template</legend>
@@ -58,7 +61,7 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 Templates <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu selectTemplate">
+                            <ul class="dropdown-menu selectedTemplates">
                                 <li><a href="#" onclick="addNewTemplate()">New template</a></li>
                                 <li class="divider"></li>
                             </ul>
@@ -94,7 +97,6 @@
         </form>
     </div>
     <div class="right" style="padding-top: 5em; padding-right: 2em">
-        <input hidden id="activeTemplateId" value="">
         <div>
             <legend style="float: left">Active template : <span id="activeTemplate"></span></legend>
         </div>

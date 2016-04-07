@@ -35,15 +35,14 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/profile">Profile</a></li>
+                <li><a href="/web/interviewer">Profile</a></li>
                 <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
-<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}">
-<input type="hidden" id="interviewerId" value="">
+<input id="userLogin" type="hidden" value="${pageContext.request.userPrincipal.name}">
 
 <div class="container" style="padding-top: 5em">
 

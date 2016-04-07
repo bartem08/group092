@@ -31,6 +31,7 @@ import static org.springframework.http.HttpStatus.OK;
  *      GET    - /rest/templates/id/questions     - get all questions from template with specified id
  *      POST   - /rest/templates/id/questions     - add question to template with specified id
  *      DELETE - /rest/templates/id/questions/id  - remove from template with specified id question with specified id
+ *      GET    - /rest/templates/interviewers/id  - get all templates of the specified interviewer
  *
  * @author Anton Kruglikov.
  */
@@ -119,7 +120,7 @@ public class TemplateRestController {
     @RequestMapping(value = "/{id}/questions", method = RequestMethod.GET)
     public ResponseEntity getAllQuestionsFromTemplate(@PathVariable("id") String id){
         final List<Question> questions = templateService.getAllQuestionsFromTemplate(id);
-        if (questions.isEmpty()){
+        if (questions==null||questions.isEmpty()){
             return new ResponseEntity(NO_CONTENT);
         } else {
             LOG.info("Fetching all questions from template: OK");
@@ -159,6 +160,18 @@ public class TemplateRestController {
         } else {
             LOG.error("Deleting question from template: NO_CONTENT");
             return new ResponseEntity(NO_CONTENT);
+        }
+    }
+
+    @RequestMapping(value = "/interviewers/{interviewerId}", method = RequestMethod.GET)
+    public ResponseEntity readTemplateByInterviewerId(@PathVariable("interviewerId") String interviewerId) {
+
+        final List<Template> templates = templateService.findTemplateByInterviewerId(interviewerId);
+        if (templates==null||templates.isEmpty()) {
+            return new ResponseEntity(NO_CONTENT);
+        } else {
+            LOG.info("Fetching all templates: OK");
+            return new ResponseEntity<>(templates, OK);
         }
     }
 }

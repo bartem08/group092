@@ -1,33 +1,27 @@
 $(document).ready(function() {
-    var userPrincipal = $("#userPrincipal").val();
+    var userLogin = $("#userLogin").val();
+    var userId;
     $.ajax({
         type: "GET",
-        url: "/rest/interviewers/login/" + userPrincipal,
+        url: "/rest/interviewers/"+ userLogin + "/dto",
         success: function(result) {
             var interviewer = JSON.stringify(result);
             console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
-            $("#interviewerId").val(interviewer.id);
+            userId = interviewer.id;
+
             var firstName = interviewer.firstName;
             var lastName = interviewer.lastName;
             var mail = interviewer.email;
             var skype = interviewer.skype;
             var phone = interviewer.phone;
-            var groups = interviewer.groups;
-            var templates = interviewer.templates;
+
             $("#fName").val(firstName);
             $("#lName").val(lastName);
             $("#eMail").val(mail);
             $("#skype").val(skype);
             $("#phone").val(phone);
-/*            $.each(groups, function(i, group){
-                $("#groups").append(group.name);
-            });*/
             $("#templates").html('<a href = "/web/templates">Templates</a>');
-/*            $.each(templates, function(i, template){
-                $("#templates").append(template.name);
-            });*/
-
         }
     });
 
@@ -38,15 +32,17 @@ $(document).ready(function() {
             lastName : $("#lName").val(),
             email : $("#eMail").val(),
             skype : $("#skype").val(),
-            phone : $("#phone").val()
+            phone : $("#phone").val(),
+            login : userLogin,
         };
         $.ajax({
                 type: "PUT",
                 data: JSON.stringify(interviewer),
                 contentType: "application/json;",
-                url: "/rest/interviewers/" + $("#interviewerId").val(),
+                url: "/rest/interviewers/" + userId,
             })
             .done(function () {
+                console.log("/rest/interviewers/" + userId);
                 $("#message").html("Saved");
             })
             .fail(function () {
