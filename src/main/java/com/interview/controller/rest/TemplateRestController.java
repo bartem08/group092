@@ -1,7 +1,9 @@
 package com.interview.controller.rest;
 
+import com.interview.model.Interviewer;
 import com.interview.model.Question;
 import com.interview.model.Template;
+import com.interview.service.InterviewerService;
 import com.interview.service.TemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +44,9 @@ public class TemplateRestController {
 
     @Autowired
     TemplateService templateService;
+
+    @Autowired
+    InterviewerService interviewerService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity readAllTemplates(){
@@ -161,4 +166,12 @@ public class TemplateRestController {
             return new ResponseEntity(NO_CONTENT);
         }
     }
+
+    @RequestMapping("/interviewer/{interviewerId}")
+    public ResponseEntity readTemplatesByInterviewer(@PathVariable("interviewerId") String interviewerId) {
+        List<Template> templates = templateService.readTemplatesByInterviewer(interviewerId);
+
+        return new ResponseEntity<>(templates, OK);
+    }
+
 }
