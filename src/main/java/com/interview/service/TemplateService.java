@@ -26,4 +26,6 @@ public interface TemplateService {
 
     boolean deleteQuestionFromTemplate(String templateId, String questionId);
 
+    List<Template> readTemplatesByInterviewer(String interviewerId);
+
 }
