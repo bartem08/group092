@@ -1,15 +1,9 @@
 package com.interview.controller.rest;
 
-import com.interview.config.MvcConfigurer;
 import com.interview.model.Question;
 import com.interview.service.QuestionService;
 import com.jayway.restassured.RestAssured;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,20 +11,12 @@ import org.testng.annotations.Test;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.*;
-import static org.apache.http.HttpStatus.SC_NO_CONTENT;
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.Matchers.*;
 
 /**
  * @author Anton Kruglikov.
  */
-@SpringApplicationConfiguration(MvcConfigurer.class)
-@WebIntegrationTest("server.port:0")
-@DirtiesContext
-public class QuestionRestControllerTest extends AbstractTestNGSpringContextTests {
-
-    @Value("${local.server.port}")
-    protected int port;
+public class QuestionRestControllerTest extends RestIntegrationBase {
 
     @Autowired
     private QuestionService questionService;
