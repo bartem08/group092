@@ -68,13 +68,6 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/groups", method = RequestMethod.GET)
-    public ModelAndView showInterviewer() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("groups");
-        return model;
-    }
-
     @RequestMapping(value = "/admin/interviewers", method = RequestMethod.GET)
     public ModelAndView showInterviewers() {
         ModelAndView model = new ModelAndView();
