@@ -10,10 +10,10 @@ label_logout=Logout
 #menu
 menu_add_interviewer=New Interviewer
 
-# Labels for contacts
+# Labels for Interviewer
 label_interviewer_list=Interviewer Listing
-label_interviewer_first_name=First Name
 label_interviewer_last_name=Last Name
+label_interviewer_first_name=First Name
 label_interviewer_phone=Phone Number
 label_interviewer_skype=Skype
 label_interviewer_email=E-mail
