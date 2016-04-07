@@ -66,7 +66,7 @@
         </tbody>
     </table>
     <h2 style="color: #add8e6">Templates</h2>
-    <select class="form-control btn btn-default selectTemplate"><option value="default">none</option></select>
+    <select class="form-control btn btn-default selectTemplate"></select>
     <a href="/web/groups" style="padding-top: 2em; color: #add8e6">Back to the session</a>
 </div>
 

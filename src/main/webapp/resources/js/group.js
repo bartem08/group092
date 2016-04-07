@@ -30,7 +30,7 @@ $(document).ready(function() {
             //get templates
             $.ajax({
                 type: "GET",
-                url: "/rest/templates/interviewer/" + interviewer.id,
+                url: "/rest/templates/interviewers/" + interviewer.id,
                 success: function(result) {
                     var templates = JSON.stringify(result);
                     console.log("templates JSON: " + templates);
