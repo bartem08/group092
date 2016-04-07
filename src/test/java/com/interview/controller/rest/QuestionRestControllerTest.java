@@ -73,7 +73,7 @@ public class QuestionRestControllerTest extends RestIntegrationBase {
             .statusCode(SC_OK)
             .body("id", notNullValue())
             .body("questionString", nullValue())
-            .body("maxQuestionValue", is(0f));
+            .body("maxQuestionValue", is(0));
     }
 
     @Test(dependsOnMethods = "okWhenReadQuestion")
@@ -88,7 +88,7 @@ public class QuestionRestControllerTest extends RestIntegrationBase {
 
     @Test(dependsOnMethods = "okWhenReadAllQuestions")
     public void okWhenUpdateExistedQuestion() {
-        question.setMaxQuestionValue(3.2);
+        question.setMaxQuestionValue((byte)3);
         given()
             .contentType(JSON)
             .body(question)
@@ -98,7 +98,7 @@ public class QuestionRestControllerTest extends RestIntegrationBase {
             .statusCode(SC_OK)
             .extract()
             .jsonPath()
-            .param("maxQuestionValue", hasItem(3.2));
+            .param("maxQuestionValue", hasItem(3));
     }
 
     @Test(dependsOnMethods = "okWhenUpdateExistedQuestion")

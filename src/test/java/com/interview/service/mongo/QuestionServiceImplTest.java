@@ -30,7 +30,7 @@ public class QuestionServiceImplTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void beforeEachTest() {
-        question = questionService.createQuestion(new Question("Test Question", 12.6));
+        question = questionService.createQuestion(new Question("Test Question", (byte)12));
     }
 
     @AfterClass
@@ -42,7 +42,7 @@ public class QuestionServiceImplTest extends AbstractTestNGSpringContextTests {
     public void createQuestionShouldAddQuestionToDB() {
         assertNotNull(question);
         assertEquals(question.getQuestionString(), "Test Question");
-        assertEquals(question.getMaxQuestionValue(), 12.6);
+        assertEquals(question.getMaxQuestionValue(), 12);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class QuestionServiceImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteQuestionShouldReturnTrue() {
-        Question question = questionService.createQuestion(new Question("For Deleting", 0.01));
+        Question question = questionService.createQuestion(new Question("For Deleting", (byte)1));
         assertTrue(questionService.deleteQuestion(question.getId()));
         assertFalse(questionService.deleteQuestion(question.getId()));
     }
@@ -65,7 +65,7 @@ public class QuestionServiceImplTest extends AbstractTestNGSpringContextTests {
     public void updateQuestionShouldPostInDBUpdatedQuestion() {
         Question oldQuestion = questionService.readQuestion(question.getId());
         question.setQuestionString("Updated Question");
-        question.setMaxQuestionValue(25.0);
+        question.setMaxQuestionValue((byte)25);
         Question updatedQuestion = questionService.updateQuestion(question);
 
         assertNotNull(updatedQuestion);

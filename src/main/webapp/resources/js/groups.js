@@ -3,20 +3,32 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: "/rest/interviewers/login/" + userPrincipal,
+        url: "/rest/interviewers/" + userPrincipal + "/dto",
         success: function(result) {
             var interviewer = JSON.stringify(result);
             console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
 
-            $.each(interviewer.groups, function(i, group) {
-                $("#groupsTable > tbody").append(
-                    '<tr>' +
-                    '<td>' + group.name + '</td>' +
-                    '<td><a href="/web/groups/' + group.id + '"><img src="../../../resources/images/icons/Clock-50.png" ' +
-                    'alt="&gt;" style="height: 1.8em" title="day"/></a></td>' +
-                    '</tr>'
-                );
+            $("#interviewerProfile").attr("href", "/web/interviewers/" + interviewer.id);
+
+            $.ajax({
+                type: "GET",
+                url: "/rest/groups/interviewer/" + interviewer.id + "/dto",
+                success: function(result) {
+                    var groupDtoList = JSON.stringify(result);
+                    console.log("groupDtoList JSON: " + groupDtoList);
+                    groupDtoList = JSON.parse(groupDtoList);
+
+                    $.each(groupDtoList, function(i, group) {
+                        $("#groupsTable > tbody").append(
+                            '<tr>' +
+                            '<td>' + group.name + '</td>' +
+                            '<td><a href="/web/groups/' + group.id + '"><img src="../../../resources/images/icons/Clock-50.png" ' +
+                            'alt="&gt;" style="height: 1.8em" title="day"/></a></td>' +
+                            '</tr>'
+                        );
+                    });
+                }
             });
         }
     });

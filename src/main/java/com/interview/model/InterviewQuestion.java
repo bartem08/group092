@@ -3,22 +3,31 @@ package com.interview.model;
 /**
  * @author Anton Kruglikov.
  */
-public class InterviewQuestion extends Question {
+public class InterviewQuestion {
 
-    private double finalQuestionValue;
+    private Question question;
+
+    private float finalQuestionValue;
 
     private boolean skipped;
 
     public InterviewQuestion() {}
 
-    public InterviewQuestion(Question question, double finalQuestionValue, boolean skipped) {
-        super(question.getQuestionString(), question.getMaxQuestionValue());
-        setId(question.getId());
+    public InterviewQuestion(Question question, float finalQuestionValue, boolean skipped) {
+        setQuestion(question);
         setFinalQuestionValue(finalQuestionValue);
         setSkipped(skipped);
     }
 
-    public void setFinalQuestionValue(double value) {
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public void setFinalQuestionValue(float value) {
         this.finalQuestionValue = value;
     }
 
@@ -36,11 +45,9 @@ public class InterviewQuestion extends Question {
 
     @Override
     public String toString() {
-        return "[" + getQuestionString()
-                + ", " + getMaxQuestionValue()
-                + ", " + getFinalQuestionValue()
-                + ", " + isSkipped()
-                + "]";
+        return question == null ? "empty interview question"
+                : String.format("Question %s, max: %d, final: %.2f, skipped %b",
+                question.getQuestionString(), question.getMaxQuestionValue(), getFinalQuestionValue(), skipped);
     }
 
 }

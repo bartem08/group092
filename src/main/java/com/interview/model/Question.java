@@ -15,12 +15,12 @@ public class Question extends AbstractDocument implements Serializable {
 
     private String questionString;
 
-    private double maxQuestionValue;
+    private byte maxQuestionValue;
 
     public Question() {}
 
     @PersistenceConstructor
-    public Question(String questionString, double maxQuestionValue) {
+    public Question(String questionString, byte maxQuestionValue) {
         setQuestionString(questionString);
         setMaxQuestionValue(maxQuestionValue);
     }
@@ -33,11 +33,11 @@ public class Question extends AbstractDocument implements Serializable {
         return questionString;
     }
 
-    public void setMaxQuestionValue(double maxQuestionValue) {
+    public void setMaxQuestionValue(byte maxQuestionValue) {
         this.maxQuestionValue = maxQuestionValue;
     }
 
-    public double getMaxQuestionValue() {
+    public byte getMaxQuestionValue() {
         return maxQuestionValue;
     }
 
@@ -55,8 +55,8 @@ public class Question extends AbstractDocument implements Serializable {
 
         Question question = (Question) o;
 
-        if (questionString != null ? !questionString.equals(question.questionString) : question.questionString != null) return false;
-        return true;
+        return questionString != null ? questionString.equals(question.questionString)
+                : question.questionString == null;
     }
 
     @Override

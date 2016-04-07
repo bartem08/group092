@@ -13,6 +13,8 @@ public interface InterviewService {
 
     Interview readInterview(String id);
 
+    Interview readInterviewByCandidateIdAndInterviewerId(String c_id, String i_id);
+
     List<Interview> readAllInterviews();
 
     Interview updateInterview(Interview interview);

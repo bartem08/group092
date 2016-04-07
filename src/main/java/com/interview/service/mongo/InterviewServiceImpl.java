@@ -3,6 +3,8 @@ package com.interview.service.mongo;
 import com.interview.model.Interview;
 import com.interview.repository.InterviewRepository;
 import com.interview.service.InterviewService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.List;
  */
 @Service
 public class InterviewServiceImpl implements InterviewService{
+
+    private static final Logger LOG = LoggerFactory.getLogger(InterviewServiceImpl.class);
 
     @Autowired
     private InterviewRepository repository;
@@ -34,8 +38,14 @@ public class InterviewServiceImpl implements InterviewService{
     }
 
     @Override
+    public Interview readInterviewByCandidateIdAndInterviewerId(String c_id, String i_id) {
+        return repository.findByCandidateIdAndInterviewerId(c_id, i_id);
+    }
+
+    @Override
     public Interview updateInterview(Interview interview) {
         if (!repository.exists(interview.getId())) {
+            LOG.error("Interview with id {} does not exist", interview.getId());
             return null;
         }
         return repository.save(interview);
@@ -47,6 +57,8 @@ public class InterviewServiceImpl implements InterviewService{
             repository.delete(id);
             return true;
         }
+        LOG.error("Interview with id {} does not exist", id);
         return false;
     }
+
 }
