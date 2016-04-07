@@ -1,6 +1,8 @@
 $(document).ready(function() {
     var userLogin = $("#userLogin").val();
     var userId;
+    var userPwd;
+    var userRoles;
     $.ajax({
         type: "GET",
         url: "/rest/interviewers/"+ userLogin + "/dto",
@@ -9,6 +11,16 @@ $(document).ready(function() {
             console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
             userId = interviewer.id;
+
+            $.ajax({
+                type: "GET",
+                url: "/rest/interviewers/"+ userId,
+                success: function(interviewer) {
+                    userPwd = interviewer.password;
+                    userRoles = interviewer.role;
+                    console.log("Pwd: " + userPwd + " Roles: " + userRoles);
+                }
+            });
 
             var firstName = interviewer.firstName;
             var lastName = interviewer.lastName;
@@ -34,6 +46,8 @@ $(document).ready(function() {
             skype : $("#skype").val(),
             phone : $("#phone").val(),
             login : userLogin,
+            password : userPwd,
+            role : userRoles
         };
         $.ajax({
                 type: "PUT",

@@ -20,8 +20,6 @@ $(document).ready(function () {
         }
     });
 
-
-
     $("#addQuestion").click(function () {
         console.log("Function addQuestion binded to button Add question fired");
         var templateId = $("#activeTemplateId").val();
