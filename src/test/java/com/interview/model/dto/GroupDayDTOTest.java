@@ -35,13 +35,13 @@ public class GroupDayDTOTest {
         assertEquals(groupDayDTO.getCandidates(), candidateDTOList);
     }
 
-    @Test
-    public void givenWhenCompareToCallThenResultsMayVaryDependsOnOtherDtoFields() {
-        GroupDayDTO groupDayDTO = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 2));
-        GroupDayDTO groupDayDTOLess = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 1));
-        GroupDayDTO groupDayDTOGreater = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 3));
-
-        assertTrue(groupDayDTO.compareTo(groupDayDTOLess) > 0);
-        assertTrue(groupDayDTO.compareTo(groupDayDTOGreater) < 0);
-    }
+//    @Test
+//    public void givenWhenCompareToCallThenResultsMayVaryDependsOnOtherDtoFields() {
+//        GroupDayDTO groupDayDTO = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 2));
+//        GroupDayDTO groupDayDTOLess = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 1));
+//        GroupDayDTO groupDayDTOGreater = new GroupDayDTO(new ArrayList<>(), new GregorianCalendar(2000, 1, 3));
+//
+//        assertTrue(groupDayDTO.compareTo(groupDayDTOLess) > 0);
+//        assertTrue(groupDayDTO.compareTo(groupDayDTOGreater) < 0);
+//    }
 }
