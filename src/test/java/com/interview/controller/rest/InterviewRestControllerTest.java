@@ -1,9 +1,6 @@
 package com.interview.controller.rest;
 
-<<<<<<< HEAD
-=======
 import com.interview.model.Candidate;
->>>>>>> bf046c44896192a2a91f685f6a923e12c4f7e085
 import com.interview.model.Interview;
 import com.interview.model.Interviewer;
 import com.interview.service.CandidateService;
