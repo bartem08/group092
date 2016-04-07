@@ -75,14 +75,14 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/interviewers", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/interviewers", method = RequestMethod.GET)
     public ModelAndView showInterviewers() {
         ModelAndView model = new ModelAndView();
         model.setViewName("interviewer/list");
         return model;
     }
 
-    @RequestMapping(value = "/interviewers/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/interviewers/{id}", method = RequestMethod.GET)
     public ModelAndView showInterviewer(@PathVariable("id") String id) {
         ModelAndView model = new ModelAndView();
         model.addObject("interviewerId", id);
@@ -90,7 +90,7 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/interviewers/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/interviewers/{id}", method = RequestMethod.DELETE)
     public ModelAndView deleteInterviewer(@PathVariable("id") String id) {
         ModelAndView model = new ModelAndView();
         model.addObject("interviewerId", id);
@@ -98,14 +98,14 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/interviewers", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/interviewers", method = RequestMethod.POST)
     public ModelAndView updateOrInsert() {
         ModelAndView model = new ModelAndView();
         model.setViewName("interviewer/list");
         return model;
     }
 
-    @RequestMapping(value = "/interviewers/{id}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/interviewers/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id) {
         ModelAndView model = new ModelAndView();
         model.addObject("interviewerId", id);
@@ -113,7 +113,7 @@ public class InterviewerWebController {
         return "customers/edit";
     }
 
-    @RequestMapping(value = "/interviewers", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/interviewers", params = "form", method = RequestMethod.GET)
     public ModelAndView createForm() {
         ModelAndView model = new ModelAndView();
         model.setViewName("interviewer/create");

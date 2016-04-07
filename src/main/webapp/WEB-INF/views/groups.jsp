@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
     <title>Session</title>
@@ -38,6 +40,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <sec:authorize access="hasAnyAuthority('ADMIN') and isAuthenticated()">
+                    <li><a href="/web/admin/interviewers">Admin Console</a></li>
+                </sec:authorize>
                 <li><a id="interviewerProfile">Profile</a></li>
                 <li><a href="/web/logout">Log Out</a></li>
             </ul>
