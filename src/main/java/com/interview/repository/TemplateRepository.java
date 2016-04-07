@@ -15,6 +15,6 @@ public interface TemplateRepository extends MongoRepository<Template, String> {
     Template findTemplateByName(String name);
     List<Template> findByInterviewerId(String interviewerId);
 
-    List<Template> findByInterviewerId(String id);
+
 
 }

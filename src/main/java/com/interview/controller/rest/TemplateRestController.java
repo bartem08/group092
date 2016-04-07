@@ -166,7 +166,7 @@ public class TemplateRestController {
     @RequestMapping(value = "/interviewers/{interviewerId}", method = RequestMethod.GET)
     public ResponseEntity readTemplateByInterviewerId(@PathVariable("interviewerId") String interviewerId) {
 
-        final List<Template> templates = templateService.findTemplateByInterviewerId(interviewerId);
+        final List<Template> templates = templateService.readTemplatesByInterviewer(interviewerId);
         if (templates==null||templates.isEmpty()) {
             return new ResponseEntity(NO_CONTENT);
         } else {
