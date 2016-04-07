@@ -1,0 +1,17 @@
+.form-group {
+    max-width: 800px;
+}
+
+.myContainer{
+    margin: auto;
+}
+
+.left {
+    float: left;
+    width: 47%;
+}
+
+.right {
+    float: right;
+    width: 47%;
+}

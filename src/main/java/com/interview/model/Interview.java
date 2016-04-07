@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,7 +25,7 @@ public class Interview extends AbstractDocument implements Serializable {
     @DBRef @Existed(collection = "candidates", empty = false)
     private Candidate candidate;
 
-    private Set<InterviewQuestion> questions;
+    private List<InterviewQuestion> questions;
 
     private float result;
 
@@ -38,18 +39,18 @@ public class Interview extends AbstractDocument implements Serializable {
     }
 
     @PersistenceConstructor
-    public Interview(final Set<InterviewQuestion> questions, final Interviewer interviewer,
+    public Interview(final List<InterviewQuestion> questions, final Interviewer interviewer,
                      final Candidate candidate, final String comments) {
         this(interviewer, candidate);
         setQuestions(questions);
         setComments(comments);
     }
 
-    public Set<InterviewQuestion> getQuestions() {
+    public List<InterviewQuestion> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(final Set<InterviewQuestion> questions) {
+    public void setQuestions(final List<InterviewQuestion> questions) {
         this.questions = questions;
         result = ResultFormer.form(this.questions);
     }

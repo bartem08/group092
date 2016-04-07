@@ -1,22 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Day</title>
+    <title>My Profile</title>
+    <link rel="stylesheet" href="../../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/input.css"/>
 
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="../../resources/js/header.js"></script>
-    <script src="../../resources/js/group.js"></script>
+    <script src="../../../resources/js/header.js"></script>
+    <script src="../../../resources/js/candidateProfile.js"></script>
 </head>
+
 <body>
-
-<input id="groupId" type="hidden" value="${groupId}"/>
-
-<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}"/>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -41,34 +37,32 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/web/interviewer">Profile</a></li>
-                <li><a href="/web/logout">Log Out</a></li>
+                <li><a href="/login">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 <div class="container" style="padding-top: 5em">
-
-
-
-    <h2><span id="groupName" style="color: #add8e6"></span></h2>
-
-    <table id="groupTable" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th style="width: 10em">Time</th>
-            <th style="width: 10em">Interview</th>
-        </tr>
-        </thead>
+    <input type="hidden" id="idHidden" value="${id}">
+    <h1>Candidate</h1>
+    <table id="interviewerTable" class="table table-striped table-hover">
         <tbody>
-        <!-- Populated by JS -->
+        <tr><td>LastName</td><td><input id="surname"></td></tr>
+        <tr><td>FirstName</td><td><input id="name"></td></tr>
+        <tr><td>E-mail</td><td><input id="eMail"></td></tr>
+        <tr><td>Skype</td><td><input id="skype"></td></tr>
+        <tr><td>Phone</td><td><input id="phone"></td></tr>
+        <tr><td>English Level</td><td><span id="englishLevel"></span></td></tr>
         </tbody>
     </table>
-    <h2 style="color: #add8e6">Templates</h2>
-    <select class="form-control btn btn-default selectTemplate"></select>
-    <a href="/web/groups" style="padding-top: 2em; color: #add8e6">Back to the session</a>
-</div>
 
+    <div id = "save">
+        <a href="#" class="btn btn-default">Update candidate profile</a>
+    </div>
+    <div>
+        <h3 id="message"></h3>
+    </div>
+</div>
 </body>
 </html>

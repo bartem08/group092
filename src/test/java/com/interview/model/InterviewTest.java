@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -19,9 +20,9 @@ public class InterviewTest {
 
     @BeforeMethod
     public void setUp() {
-        Set<InterviewQuestion> questionSet = new HashSet<>();
-        questionSet.add(new InterviewQuestion(new Question("A", (byte) 10), 9, false));
-        interview = new Interview(questionSet, new Interviewer(), new Candidate(), null);
+        List<InterviewQuestion> questionList = new ArrayList<>();
+        questionList.add(new InterviewQuestion(new Question("A", (byte) 10), 9, false));
+        interview = new Interview(questionList, new Interviewer(), new Candidate(), null);
         empty = new Interview();
     }
 

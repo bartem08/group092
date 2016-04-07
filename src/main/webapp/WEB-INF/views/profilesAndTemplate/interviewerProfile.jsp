@@ -1,22 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Day</title>
+    <title>My Profile</title>
+    <link rel="stylesheet" href="../../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../../resources/css/input.css"/>
 
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="../../resources/js/header.js"></script>
-    <script src="../../resources/js/group.js"></script>
+    <script src="../../../resources/js/interviewerProfile.js"></script>
+    <script src="../../../resources/js/header.js"></script>
 </head>
 <body>
-
-<input id="groupId" type="hidden" value="${groupId}"/>
-
-<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}"/>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -47,28 +42,30 @@
     </div>
 </nav>
 
+<input id="userLogin" type="hidden" value="${pageContext.request.userPrincipal.name}">
+
 <div class="container" style="padding-top: 5em">
 
-
-
-    <h2><span id="groupName" style="color: #add8e6"></span></h2>
-
-    <table id="groupTable" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th style="width: 10em">Time</th>
-            <th style="width: 10em">Interview</th>
-        </tr>
-        </thead>
+    <h1>My profile</h1>
+    <table id="interviewerTable" class="table table-striped table-hover">
         <tbody>
-        <!-- Populated by JS -->
+            <tr><td>First Name</td><td><input id="fName"></td></tr>
+            <tr><td>Last Name</td><td><input id="lName"></td></tr>
+            <tr><td>E-mail</td><td><input id="eMail"></td></tr>
+            <tr><td>Skype</td><td><input id="skype"></td></tr>
+            <tr><td>Phone</td><td><input id="phone"></td></tr>
+<%--            <tr><td>Groups</td><td id="groups"></td></tr>--%>
+            <tr><td>My templates</td><td id="templates"></td></tr>
         </tbody>
     </table>
-    <h2 style="color: #add8e6">Templates</h2>
-    <select class="form-control btn btn-default selectTemplate"></select>
-    <a href="/web/groups" style="padding-top: 2em; color: #add8e6">Back to the session</a>
-</div>
 
+    <div id = "save">
+        <a href="#" class="btn btn-default">Update profile</a>
+    </div>
+    <div>
+        <h3 id="message"></h3>
+    </div>
+
+</div>
 </body>
 </html>
