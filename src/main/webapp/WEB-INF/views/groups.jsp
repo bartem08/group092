@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -40,16 +40,15 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <sec:authorize access="hasAnyAuthority('ADMIN') and isAuthenticated()">
+                <c:if test="${isAdmin}">
                     <li><a href="/web/admin/interviewers">Admin Console</a></li>
-                </sec:authorize>
+                </c:if>
                 <li><a id="interviewerProfile">Profile</a></li>
                 <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
 <div class="container" style="padding-top: 5em">
     <h1 style="color: #add8e6">Session</h1>
     <table id="groupsTable" class="table table-striped table-hover">
