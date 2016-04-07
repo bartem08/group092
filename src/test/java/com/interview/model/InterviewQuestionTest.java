@@ -8,15 +8,14 @@ import static org.testng.Assert.*;
  * @author Anton Kruglikov.
  */
 public class InterviewQuestionTest {
+
     private InterviewQuestion emptyInterviewQuestion = new InterviewQuestion();
 
     @Test
     public void createInterviewQuestionWithEmptyConstructor() {
         assertNotNull(emptyInterviewQuestion);
-        assertNull(emptyInterviewQuestion.getId());
+        assertNull(emptyInterviewQuestion.getQuestion());
         assertNotNull(emptyInterviewQuestion.getFinalQuestionValue());
-        assertNotNull(emptyInterviewQuestion.getMaxQuestionValue());
-        assertNull(emptyInterviewQuestion.getQuestionString());
         assertEquals(emptyInterviewQuestion.isSkipped(), false);
     }
 

@@ -101,7 +101,7 @@ $(function () {
 
 });
 
-xt = setInterval("tm()", 1000), xt2 = 0, xt3 = 0;
+var xt = setInterval("tm()", 1000), xt2 = 0, xt3 = 0;
 function tm() {
     xt2++;
     if(xt2 > 59) {

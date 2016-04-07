@@ -38,7 +38,6 @@ public class ExistedValidator implements ConstraintValidator<Existed, Object> {
 
     @Override
     public boolean isValid(final Object o, ConstraintValidatorContext constraintValidatorContext) {
-        System.err.println(empty);
         if (o == null) {
             return empty;
         }

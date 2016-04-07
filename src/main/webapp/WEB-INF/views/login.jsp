@@ -32,11 +32,21 @@
                 <table>
                     <tr>
                         <td>User Name:</td>
-                        <td><input class="form-control" type="text" name="username" placeholder="Enter your login" required autofocus/></td>
+                        <td>
+                            <div class="form-group">
+                                <label class="login-field-icon fui-user" for="username"></label>
+                                <input class="form-control" type="text" id="username" name="username" placeholder="Enter your login" required autofocus/>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Password:</td>
-                        <td><input class="form-control" type="password" name="password" placeholder="Enter your password" /></td>
+                        <td>
+                            <div class="form-group">
+                                <label class="login-field-icon fui-lock" for="password"></label>
+                                <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password" />
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>Remember me</td>

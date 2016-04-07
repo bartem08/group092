@@ -11,63 +11,98 @@
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
-        $(document).ready(function() {
 
-            $("#interviewerForm").submit(function(){
-                var form = $(this);
-                var error = false;
-                form.find('input, textarea').each( function(){
-                    if ($(this).val() == '') {
-                        alert('Fill in the field"'+$(this).attr('placeholder')+'"!');
-                        error = true;
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                var interviewer = new Object();
+                interviewer.lastName = $('#lastName').val();
+                interviewer.firstName = $('#firstName').val();
+                interviewer.email = $('#email').val();
+                interviewer.skype = $('#skype').val();
+                interviewer.phone = $('#phone').val();
+                interviewer.login = $('#login').val();
+                interviewer.password = $('#password').val();
+                interviewer.role = $('#role').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/rest/interviewers",
+                    dataType: 'json',
+                    data:interviewer,
+                    beforeSend: function(interviewer) {
+                        form.find('input[type="submit"]').attr('disabled', 'disabled');
+                    },
+                    success: function(interviewer){
+                        if (interviewer['error']) {
+                            alert(interviewer['error']);
+                        } else {
+                            alert("Data has been sent!");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    },
+                    complete: function(interviewer) {
+                        form.find('input[type="submit"]').prop('disabled', false);
                     }
                 });
-                if (!error) {
-                    var data = form.serialize();
-                    $.ajax({
-                        type: "POST",
-                        url: "/rest/interviewers",
-                        dataType: 'json',
-                        data: data,
-                        beforeSend: function(data) {
-                            form.find('input[type="submit"]').attr('disabled', 'disabled');
-                        },
-                        success: function(data){
-                            if (data['error']) {
-                                alert(data['error']);
-                            } else {
-                                alert("Data has been sent!");
-                            }
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                        },
-                        complete: function(data) {
-                            form.find('input[type="submit"]').prop('disabled', false);
-                        }
-
-                    });
-                }
-                return false;
             });
         });
-
     </script>
 </head>
-<form class="form-horizontal" method="post" action="" id="interviewerForm"> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter last name" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter first name" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter email" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="name" placeholder="Enter skype" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter phone" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter login" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter password" val=""> <br />
-    <input class="form-control" type="text" size="32" maxlength="36" name="email" placeholder="Enter role" val=""> <br />
-    <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-            <input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary">
+<body>
+
+<div class="container" style="padding-top: 5em">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/web/admin/interviewers">Home</a></li>
+                    <li><a href="/web/logout">Log Out</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</form>
+    </nav>
+
+    <strong><h1>Add Interviewer</h1></strong>
+
+    <form role="form-horizontal" method="post" action="" id="interviewerForm">
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Enter last name" val="">
+        </div>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Enter first name" val="">
+        </div>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input class="form-control" type="text" id="email" name="email" placeholder="Enter email" val="">
+        </div>
+        <div class="form-group">
+            <label for="skype">Skype</label>
+            <input class="form-control" type="text" id="skype" name="skype" placeholder="Enter skype" val="">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input class="form-control" type="text" id="phone" name="phone" placeholder="Enter phone" val="">
+        </div>
+        <div class="form-group">
+            <label for="login">Login</label>
+            <input class="form-control" type="text" id="login" name="login" placeholder="Enter login" val="">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="text" id="password" name="password" placeholder="Enter password" val="">
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <input class="form-control" type="text" id="role" name="role" placeholder="Enter role" val="">
+        </div>
+        <div class="form-group">
+                <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Submit"/>
+        </div>
+    </form>
+</div>
+</body>
 </html>

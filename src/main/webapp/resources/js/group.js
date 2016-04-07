@@ -12,14 +12,37 @@ $(document).ready(function() {
         }
     });
 
+    $('body').on('change', '.selectTemplate', function() {
+        var chosenTemplate = $(this).val();
+        console.log("***** CHOSEN TEMPLATE: " + chosenTemplate);
+        $('.interviewTemplate').val(chosenTemplate);
+    });
+
     //get current interviewer
     $.ajax({
         type: "GET",
-        url: "/rest/interviewers/login/" + userPrincipal,
+        url: "/rest/interviewers/" + userPrincipal + "/dto",
         success: function(result) {
             var interviewer = JSON.stringify(result);
             console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
+
+            //get templates
+            $.ajax({
+                type: "GET",
+                url: "/rest/templates/interviewer/" + interviewer.id,
+                success: function(result) {
+                    var templates = JSON.stringify(result);
+                    console.log("templates JSON: " + templates);
+                    templates = JSON.parse(templates);
+
+                    $.each(templates, function(i, template) {
+                        $(".selectTemplate").append(
+                            '<option value="' + template.id + '">' + template.name + '</option>'
+                        );
+                    });
+                }
+            });
 
             //get current group
             $.ajax({
@@ -35,7 +58,7 @@ $(document).ready(function() {
                     //get group days
                     $.ajax({
                         type: "GET",
-                        url: "/rest/groups/" + groupId + "/days",
+                        url: "/rest/groups/" + groupId + "/interviewer/" + interviewer.id + "/days",
                         success: function(result) {
                             var groupDayDtoList = JSON.stringify(result);
                             console.log("groupDayDtoList JSON: " + groupDayDtoList);
@@ -55,16 +78,18 @@ $(document).ready(function() {
                                 );
 
                                 $.each(day.candidates, function(j, candidate) {
-                                    var fullName = candidate.surname + " " + candidate.name;
+                                    var fullName = candidate.fullName;
                                     var candidateDate = new Date(candidate.date);
                                     var showTime = candidateDate.getHours() + ":" + candidateDate.getMinutes();
                                     $("#groupTable").append(
                                         '<tr class="iw-' + i + '">' +
                                             '<td><a href="/web/candidates/' + candidate.id + '">' + fullName + '</a></td>' +
                                             '<td>' + showTime + '</td>' +
-                                            '<td><a href="/web/interviews/' + 0 + '">' +
-                                        '<img src="../../../resources/images/icons/Skull-48.png" ' +
-                                        'alt="&gt;" style="height: 1.5em" title="interview"/>' + '</a></td>' +
+                                            '<td><form action="/interview/' + candidate.interviewId + '" method="POST">' +
+                                                    '<input type="hidden" name="template_id" class="interviewTemplate" value=""/>' +
+                                                    '<input type="hidden" name="group_name" value="' + group.name +'"/>' +
+                                                    '<input type="submit" class="btn btn-default" value="submit"/>' +
+                                            '</form></td>' +
                                         '</tr>'
                                     );
                                 });

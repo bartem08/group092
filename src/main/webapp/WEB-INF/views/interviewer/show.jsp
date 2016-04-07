@@ -11,27 +11,83 @@
     <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+
     <script>
         $(document).ready(function() {
-            var login = $("#userPrincipal").val();
+            var interviewerId = $("#interviewerId").val();
             $.ajax({
                 type: "GET",
-                url: "/rest/interviewers/" + login + "/dto",
+                url: "/rest/interviewers/" + interviewerId,
                 success: function(result) {
                     var interviewer = JSON.stringify(result);
                     console.log("JSON: " + interviewer);
                     interviewer = JSON.parse(interviewer);
-
-                    $("#interviewerFullName").text(interviewer.fullName);
+                    var id = interviewer.id;
+                    $("#ID").val(id);
+                    $("#interviewerTable").append(
+                            '<tr>' +
+                            '<td>' + 'Last Name' + '</td>' +
+                            '<td>' + interviewer.lastName + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'First Name' + '</td>' +
+                            '<td>' + interviewer.firstName + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'E-mail' + '</td>' +
+                            '<td>' + interviewer.email + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'Skype' + '</td>' +
+                            '<td>' + interviewer.skype + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'Phone Number' + '</td>' +
+                            '<td>' + interviewer.phone + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'Login' + '</td>' +
+                            '<td>' + interviewer.login + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'Password' + '</td>' +
+                            '<td>' + interviewer.password + '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td>' + 'Role' + '</td>' +
+                            '<td>' + interviewer.role + '</td>' +
+                            '</tr>'
+                    );
                 }
             });
         });
-
     </script>
 </head>
 <body>
-<input id="userPrincipal" type="hidden" value="${pageContext.request.remoteUser}"/>
-<h1>Hello, <span id="interviewerFullName"></span></h1>
-<a href="/web/groups">Groups</a>
+
+<input id="interviewerId" type="hidden" value="${interviewerId}"/>
+
+<div class="container" style="padding-top: 5em">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/web/admin/interviewers">Home</a></li>
+                    <li><a href="/web/logout">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1 style="color: #add8e6">Interviewer</h1>
+    <table id="interviewerTable" class="table table-striped table-hover">
+        <tbody>
+
+        </tbody>
+    </table>
+    <strong>
+        <a class="active" href="/web/admin/interviewers?form">Edit Profile<span class="glyphicon glyphicon-edit"></span></a>
+    </strong>
+</div>
 </body>
 </html>

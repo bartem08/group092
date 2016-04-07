@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>Session</title>
@@ -38,13 +40,15 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/interviewer">Profile</a></li>
+                <c:if test="${isAdmin}">
+                    <li><a href="/web/admin/interviewers">Admin Console</a></li>
+                </c:if>
+                <li><a id="interviewerProfile">Profile</a></li>
                 <li><a href="/web/logout">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
 <div class="container" style="padding-top: 5em">
     <h1 style="color: #add8e6">Session</h1>
     <table id="groupsTable" class="table table-striped table-hover">

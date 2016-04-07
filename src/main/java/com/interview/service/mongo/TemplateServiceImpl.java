@@ -88,8 +88,7 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public List<Template> findTemplateByInterviewerId(String interviewerId) {
+    public List<Template> readTemplatesByInterviewer(String interviewerId) {
         return repository.findByInterviewerId(interviewerId);
-
     }
 }

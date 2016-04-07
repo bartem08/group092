@@ -20,13 +20,17 @@ public class InterviewWebController {
     @Autowired
     private TemplateService templateService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView start(@PathVariable String id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public ModelAndView start(@PathVariable String id,
+                              @RequestParam("template_id") String template_id) {
         final Interview interview = interviewService.readInterview(id);
         if (interview == null) {
-            return new ModelAndView("failed");
+            return new ModelAndView("groups");
         }
-        return new ModelAndView("interview", "interview", interview);
+        ModelAndView modelAndView = new ModelAndView("interview");
+        modelAndView.addObject("template_id", template_id);
+        modelAndView.addObject("interview", interview);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
@@ -42,7 +46,7 @@ public class InterviewWebController {
         interview.setQuestions(questionSet);
         interview.setComments(comments);
         interviewService.updateInterview(interview);
-        return new ModelAndView("interview");
+        return new ModelAndView("groups");
     }
 
 }

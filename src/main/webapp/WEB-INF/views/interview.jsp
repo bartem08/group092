@@ -51,8 +51,8 @@
             <h3 class="panel-title">Candidate</h3>
         </div>
         <div class="panel-body">
-            <div id="candidate-lastname">Doctor</div>
-            <div id="candidate-firstname">House</div>
+            <div id="candidate-lastname">${interview.candidate.firstName}</div>
+            <div id="candidate-firstname">${interview.candidate.lastName}</div>
             <div id="candidate-cv"><a href="#">CV</a></div>
         </div>
     </div>
@@ -78,7 +78,7 @@
             <h3 class="panel-title">Template</h3>
         </div>
         <div class="panel-body">
-            <input name="template" form="interview" type="hidden" id="template-id" value="56ff7f5e6e4d2712fcbba42c">
+            <input name="template" form="interview" type="hidden" id="template-id" value="${template_id}">
             <div id="template-name">
                 <img src="../../resources/images/icons/preload_xs.gif" />
             </div>
@@ -106,7 +106,7 @@
         </thead>
         <tbody>
             <tr class="loading">
-                <td colspan="4"><!--<img src="../../resources/images/icons/preload_large.gif"/>--></td>
+                <td colspan="4"></td>
             </tr>
         </tbody>
     </table>
@@ -119,7 +119,7 @@
 </div>
 <div class="custom-comments">
     <textarea name="comments" readonly form="interview"></textarea>
-    <input type="text" value="Common comment: " id="text-common-comment" />
+    <input type="text" id="text-common-comment" />
     <button id="add-common-comment" type="submit" class="btn btn-primary">Add Comment</button>
 </div>
 <form id="interview" action="/interview/save/${interview.id}" method="post"></form>
