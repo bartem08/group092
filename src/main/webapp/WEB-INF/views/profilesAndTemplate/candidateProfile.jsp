@@ -36,7 +36,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/profile">Profile</a></li>
+                <li><a href="/web/interviewer">Profile</a></li>
                 <li><a href="/login">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -48,12 +48,12 @@
     <h1>Candidate</h1>
     <table id="interviewerTable" class="table table-striped table-hover">
         <tbody>
-        <tr><td>Surname</td><td><input id="surname"></td></tr>
-        <tr><td>Name</td><td><input id="name"></td></tr>
-        <tr><td>Patronymic</td><td><input id="patronymic"></td></tr>
+        <tr><td>LastName</td><td><input id="surname"></td></tr>
+        <tr><td>FirstName</td><td><input id="name"></td></tr>
         <tr><td>E-mail</td><td><input id="eMail"></td></tr>
         <tr><td>Skype</td><td><input id="skype"></td></tr>
         <tr><td>Phone</td><td><input id="phone"></td></tr>
+        <tr><td>English Level</td><td><span id="englishLevel"></span></td></tr>
         </tbody>
     </table>
 

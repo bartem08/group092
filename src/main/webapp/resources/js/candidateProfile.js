@@ -7,16 +7,16 @@ $(document).ready(function() {
             console.log("RESULT: " + JSON.stringify(result));
             var candidate = JSON.stringify(result);
             candidate = JSON.parse(candidate);
-            var surname = candidate.surname;
-            var name = candidate.name;
-            var patronymic = candidate.patronymic;
-            var mail = candidate.email;
+            var surname = candidate.lastName;
+            var name = candidate.firstName;
+            var englishLevel = candidate.englishLevel;
+            var email = candidate.email;
             var skype = candidate.skype;
             var phone = candidate.phoneNumber;
             $("#surname").val(surname);
             $("#name").val(name);
-            $("#patronymic").val(patronymic);
-            $("#eMail").val(mail);
+            $("#englishLevel").html(englishLevel);
+            $("#eMail").val(email);
             $("#skype").val(skype);
             $("#phone").val(phone);
         }
@@ -25,9 +25,9 @@ $(document).ready(function() {
     $("#save").click(function() {
         console.log("Save function triggered")
         var candidate = {
-            surname : $("#surname").val(),
-            name : $("#name").val(),
-            patronymic : $("#patronymic").val(),
+            lastName : $("#surname").val(),
+            firstName : $("#name").val(),
+            englishLevel : $("#englishLevel").html(),
             email : $("#eMail").val(),
             skype : $("#skype").val(),
             phoneNumber : $("#phone").val(),
