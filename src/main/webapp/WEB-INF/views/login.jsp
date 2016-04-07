@@ -66,9 +66,3 @@
     </body>
 </center>
 </html>
-<!--
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<sec:authorize access="hasAnyAuthority('ADMIN') and isAuthenticated()">
-    <li><a href="/web/interviewers">Admin Console</a></li>
-</sec:authorize>
--->

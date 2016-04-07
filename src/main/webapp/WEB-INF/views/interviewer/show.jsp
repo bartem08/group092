@@ -72,7 +72,7 @@
         <div class="container">
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/web/interviewers">Home</a></li>
+                    <li><a href="/web/admin/interviewers">Home</a></li>
                     <li><a href="/web/logout">Log Out</a></li>
                 </ul>
             </div>
@@ -86,7 +86,7 @@
         </tbody>
     </table>
     <strong>
-        <a class="active" href="/web/interviewers?form">Edit Profile<span class="glyphicon glyphicon-edit"></span></a>
+        <a class="active" href="/web/admin/interviewers?form">Edit Profile<span class="glyphicon glyphicon-edit"></span></a>
     </strong>
 </div>
 </body>

@@ -77,7 +77,7 @@
         <div class="container">
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/web/interviewers">Home</a></li>
+                    <li><a href="/web/admin/interviewers">Home</a></li>
                     <li><a href="/web/logout">Log Out</a></li>
                 </ul>
             </div>

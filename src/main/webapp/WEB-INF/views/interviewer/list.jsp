@@ -24,7 +24,7 @@
                     $.each(interviewers, function(i, interviewer) {
                         $("#interviewersTable").append(
                                 '<tr>' +
-                                '<td><a class="active" href="/web/interviewers/' + interviewer.id + '">' + interviewer.lastName + '</a>' +
+                                '<td><a class="active" href="/web/admin/interviewers/' + interviewer.id + '">' + interviewer.lastName + '</a>' +
                                 '<span class="glyphicon glyphicon-edit"></span></td>' +
                                 '<td>' + interviewer.firstName + '</td>' +
                                 '<td><a href="#" class="delete" value="' + interviewer.id + '">' +
@@ -71,7 +71,7 @@
     <h1 style="color: #add8e6">Interviewers</h1>
 
     <div class="left-container">
-        <a href="/web/interviewers?form"><span class="glyphicon glyphicon-plus-sign"></span>Add Interviewer</a>
+        <a href="/web/admin/interviewers?form"><span class="glyphicon glyphicon-plus-sign"></span>Add Interviewer</a>
     </div>
 
     <table id="interviewersTable" class="table table-striped table-hover">
