@@ -51,8 +51,8 @@
             <h3 class="panel-title">Candidate</h3>
         </div>
         <div class="panel-body">
-            <div id="candidate-lastname">${interview.candidate.firstName}</div>
-            <div id="candidate-firstname">${interview.candidate.lastName}</div>
+            <div id="candidate-lastname"></div>
+            <div id="candidate-firstname"></div>
             <div id="candidate-cv"><a href="#">CV</a></div>
         </div>
     </div>
@@ -61,8 +61,8 @@
             <h3 class="panel-title">Interviewer</h3>
         </div>
         <div class="panel-body">
-            <div id="interviewer-lastname">${interview.interviewer.lastName}</div>
-            <div id="interviewer-firstname">${interview.interviewer.firstName}</div>
+            <div id="interviewer-lastname"></div>
+            <div id="interviewer-firstname"></div>
         </div>
     </div>
     <div class="panel panel-primary info-panel">
@@ -70,7 +70,7 @@
             <h3 class="panel-title">Group</h3>
         </div>
         <div class="panel-body">
-            <div id="group-name">Java-DP-092</div>
+            <div id="group-name">${group_name}</div>
         </div>
     </div>
     <div class="panel panel-primary info-panel">
@@ -78,10 +78,7 @@
             <h3 class="panel-title">Template</h3>
         </div>
         <div class="panel-body">
-            <input name="template" form="interview" type="hidden" id="template-id" value="${template_id}">
-            <div id="template-name">
-                <img src="../../resources/images/icons/preload_xs.gif" />
-            </div>
+            <div id="template-name">${template_name}</div>
         </div>
     </div>
     <div class="panel panel-primary info-panel">
@@ -90,7 +87,8 @@
         </div>
         <div class="panel-body" style="text-align: center">
             <div id="tm1" style="margin-bottom: 10px">0:00</div>
-            <button type="submit" form="interview" class="btn btn-primary">Finish</button>
+            <div id="res" style="margin-bottom: 10px"></div>
+            <button id="f_finish" type="submit" form="interview" class="btn btn-primary">Finish</button>
         </div>
     </div>
 </div>
@@ -105,9 +103,9 @@
         </tr>
         </thead>
         <tbody>
-            <tr class="loading">
-                <td colspan="4"></td>
-            </tr>
+        <tr class="loading">
+            <td colspan="4"></td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -118,10 +116,17 @@
     </form>
 </div>
 <div class="custom-comments">
-    <textarea name="comments" readonly form="interview"></textarea>
+    <textarea name="comments" readonly form="interview" placeholder="Comments..."></textarea>
     <input type="text" id="text-common-comment" />
-    <button id="add-common-comment" type="submit" class="btn btn-primary">Add Comment</button>
+    <button id="add-common-comment" type="submit" class="btn btn-xs btn-primary">Add Comment</button>
 </div>
-<form id="interview" action="/interview/save/${interview.id}" method="post"></form>
+<div class="custom-result">
+    <div class="result"></div>
+    <div class="progress">
+        <div class="progress-bar progress-bar-success custom-bar" role="progressbar" aria-valuemin="0" ><span class="sr-only">40% Complete (success)</span></div>
+    </div>
+</div>
+<input type="hidden" value="${interview_id}" id="int_id" />
+<form id="interview" action="/interview/save/${interview_id}" method="post"></form>
 </body>
 </html>

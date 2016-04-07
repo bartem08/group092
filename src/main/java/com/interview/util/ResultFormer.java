@@ -1,5 +1,6 @@
 package com.interview.util;
 
+import com.interview.model.Interview;
 import com.interview.model.InterviewQuestion;
 import com.interview.model.Question;
 
@@ -10,7 +11,7 @@ import java.util.*;
  */
 public class ResultFormer {
 
-    public static float form(final Set<InterviewQuestion> questions) {
+    public static float form(final List<InterviewQuestion> questions) {
         if (questions == null) {
             return 0;
         }
@@ -25,22 +26,30 @@ public class ResultFormer {
         return (actual != 0) && (max != 0) ? (actual/max) * 100 : 0;
     }
 
-    public static Set<InterviewQuestion> formQuestionSet(List<Question> questions,
-                                                         String[] values, String[] skipped) {
+    public static List<InterviewQuestion> formQuestionList(List<InterviewQuestion> questions,
+                                                           List<String> values, String[] skipped) {
         final List<String> toSkip = formSkippedList(skipped);
-        final Set<InterviewQuestion> interviewQuestions = new HashSet<>();
-        for (byte i = 0; i < values.length; i++)  {
-            interviewQuestions.add(interviewQuestion(toSkip, questions.get(i), values[i]));
+        for (byte i = 0; i < questions.size(); i++)  {
+            questions.set(i, interviewQuestion(toSkip, questions.get(i).getQuestion(), values.get(i)));
+        }
+        return questions;
+    }
+
+    public static List<InterviewQuestion> formQuestionList(List<Question> questions) {
+        final List<InterviewQuestion> interviewQuestions = new ArrayList<>();
+        for (Question question: questions) {
+            interviewQuestions.add(new InterviewQuestion(question, 0, false));
         }
         return interviewQuestions;
     }
 
-    private static List<String> formSkippedList(String[] skipped) {
+    public static List<String> formSkippedList(String[] skipped) {
         return skipped == null ? Collections.EMPTY_LIST : Arrays.asList(skipped);
     }
 
-    private static InterviewQuestion interviewQuestion(List<String> toSkip, Question question, String value) {
-        return toSkip.contains(question.getId()) ? new InterviewQuestion(question, Float.parseFloat(value), true)
+    public static InterviewQuestion interviewQuestion(List<String> toSkip, Question question, String value) {
+        return toSkip.contains(question.getId())
+                ? new InterviewQuestion(question, Float.parseFloat(value), true)
                 : new InterviewQuestion(question, Float.parseFloat(value), false);
     }
 

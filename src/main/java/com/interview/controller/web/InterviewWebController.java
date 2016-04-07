@@ -22,28 +22,29 @@ public class InterviewWebController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ModelAndView start(@PathVariable String id,
-                              @RequestParam("template_id") String template_id) {
+                              @RequestParam(value = "template_id") String template_id,
+                              @RequestParam(value = "group_name", required = false) String group) {
         final Interview interview = interviewService.readInterview(id);
-        if (interview == null) {
-            return new ModelAndView("groups");
+        final Template template = templateService.readTemplate(template_id);
+        if (interview.getQuestions() == null || interview.getQuestions().isEmpty()) {
+            interview.setQuestions(ResultFormer.formQuestionList(template.getQuestions()));
+            interviewService.updateInterview(interview);
         }
         ModelAndView modelAndView = new ModelAndView("interview");
-        modelAndView.addObject("template_id", template_id);
-        modelAndView.addObject("interview", interview);
+        modelAndView.addObject("interview_id", interview.getId());
+        modelAndView.addObject("group_name", group);
+        modelAndView.addObject("template_name", template.getName());
         return modelAndView;
     }
 
     @RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
-    public ModelAndView save(@PathVariable String id,
-                             @RequestParam("template") String template,
+    public ModelAndView save(@PathVariable("id") String id,
                              @RequestParam(value = "skipped", required = false) String[] skipped,
                              @RequestParam("values") String[] values,
                              @RequestParam("comments") String comments) {
 
         final Interview interview = interviewService.readInterview(id);
-        List<Question> questionList = templateService.readTemplate(template).getQuestions();
-        Set<InterviewQuestion> questionSet = ResultFormer.formQuestionSet(questionList, values, skipped);
-        interview.setQuestions(questionSet);
+        interview.setQuestions(ResultFormer.formQuestionList(interview.getQuestions(), Arrays.asList(values), skipped));
         interview.setComments(comments);
         interviewService.updateInterview(interview);
         return new ModelAndView("groups");
