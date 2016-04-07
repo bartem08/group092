@@ -1,9 +1,7 @@
 package com.interview.controller.rest;
 
-import com.interview.model.Interviewer;
 import com.interview.model.Question;
 import com.interview.model.Template;
-import com.interview.service.InterviewerService;
 import com.interview.service.TemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +31,7 @@ import static org.springframework.http.HttpStatus.OK;
  *      GET    - /rest/templates/id/questions     - get all questions from template with specified id
  *      POST   - /rest/templates/id/questions     - add question to template with specified id
  *      DELETE - /rest/templates/id/questions/id  - remove from template with specified id question with specified id
+ *      GET    - /rest/templates/interviewers/id  - get all templates of the specified interviewer
  *
  * @author Anton Kruglikov.
  */
@@ -44,9 +43,6 @@ public class TemplateRestController {
 
     @Autowired
     TemplateService templateService;
-
-    @Autowired
-    InterviewerService interviewerService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity readAllTemplates(){
@@ -124,7 +120,7 @@ public class TemplateRestController {
     @RequestMapping(value = "/{id}/questions", method = RequestMethod.GET)
     public ResponseEntity getAllQuestionsFromTemplate(@PathVariable("id") String id){
         final List<Question> questions = templateService.getAllQuestionsFromTemplate(id);
-        if (questions.isEmpty()){
+        if (questions==null||questions.isEmpty()){
             return new ResponseEntity(NO_CONTENT);
         } else {
             LOG.info("Fetching all questions from template: OK");
@@ -167,11 +163,15 @@ public class TemplateRestController {
         }
     }
 
-    @RequestMapping("/interviewer/{interviewerId}")
-    public ResponseEntity readTemplatesByInterviewer(@PathVariable("interviewerId") String interviewerId) {
-        List<Template> templates = templateService.readTemplatesByInterviewer(interviewerId);
+    @RequestMapping(value = "/interviewers/{interviewerId}", method = RequestMethod.GET)
+    public ResponseEntity readTemplateByInterviewerId(@PathVariable("interviewerId") String interviewerId) {
 
-        return new ResponseEntity<>(templates, OK);
+        final List<Template> templates = templateService.readTemplatesByInterviewer(interviewerId);
+        if (templates==null||templates.isEmpty()) {
+            return new ResponseEntity(NO_CONTENT);
+        } else {
+            LOG.info("Fetching all templates: OK");
+            return new ResponseEntity<>(templates, OK);
+        }
     }
-
 }
