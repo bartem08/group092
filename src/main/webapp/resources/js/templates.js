@@ -86,7 +86,6 @@ function loadTemplates () {
         url: "/rest/templates/interviewers/" + userId,
         success: function (result) {
             console.log("/rest/templates/interviewers/" + userId);
-            console.log(result);
             var templates = JSON.stringify(result);
             templates = JSON.parse(templates);
             console.log("TEMPLATES JSON: " + templates);
@@ -131,14 +130,11 @@ function getQuestions(id, name) {
     $.ajax({
         type: "GET",
         url: "/rest/templates/" + id + "/questions",
-        success: function (result) {
+        success: function (questions) {
             console.log("URL for REST: /rest/templates/" + id + "/questions");
-            var questions = JSON.stringify(result);
-            questions = JSON.parse(questions);
             $("#tbodyId").empty();
             $.each(questions, function (i, question) {
                 console.log("---" + question.id + "---" + question.questionString);
-                //Do we need separate question.jsp?
                 $("#templateQuestions").append('<tr><td><a id="questionString" href="/web/questions/' + question.id + '">' +
                     question.questionString + '</a></td>' +
                     '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
