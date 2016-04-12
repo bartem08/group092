@@ -151,7 +151,8 @@ function getQuestions(id, name) {
                 console.log("---" + question.id + "---" + question.questionString);
                 $("#templateQuestions").append('<tr><td><span id="questionString">' + question.questionString + '</span></td>' +
                     '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
-                    + '\'' + question.id + '\',' + '\'' + question.questionString + '\')" class="glyphicon glyphicon-pencil">&nbsp;' +
+                    + '\'' + question.id + '\',' + '\'' + question.questionString +  '\',' + '\'' + question.maxQuestionValue + '\')"' +
+                ' class="glyphicon glyphicon-pencil">&nbsp;' +
                     '<a id="deleteQuestion" onclick="deleteQuestion(\'' + id + '\','
                     + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td></tr>');
             });
@@ -190,12 +191,14 @@ function deleteQuestion(templateId, questionId){
     });
 }
 
-function editQuestion(templateId, questionId, questionString){
-    console.log("Function deleteQuestion binded to ref deleteQuestion fired");
-    console.log("Template Id is: " + templateId + " Question Id is: " + questionId +
-        " QuestionString is: " + questionString);
-    $("#textArea").val(questionString);
-    $("#editQuestionId").val(questionId);
+function editQuestion(templateId, qId, qString, qMaxValue){
+    console.log("Function editQuestion binded to ref editQuestion fired");
+    console.log("Template Id is: " + templateId + " Question Id is: " + qId +
+        " QuestionString is: " + qString +" MaxValue is: " + qMaxValue);
+    $("#textArea").val(qString);
+    $("#editQuestionId").val(qId);
+    $("#maxValue").html(qMaxValue);
+    $("#slider").slider("value", qMaxValue);
 }
 
 
