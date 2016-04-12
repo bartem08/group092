@@ -20,11 +20,25 @@ $(document).ready(function () {
         }
     });
 
+    $(function() {
+        console.log("in the slider method");
+        $("#slider").slider({
+            value: 50,
+            step : 1,
+            min: 1,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#maxValue" ).html(  ui.value );
+            }
+        });
+        $( "#maxValue" ).html($("#slider").slider( "value" ) );
+    });
+
     $("#addQuestion").click(function () {
         console.log("Function addQuestion binded to button Add question fired");
         var templateId = $("#activeTemplateId").val();
         var questionString = $("#textArea").val();
-        var maxValue = $("#maxValue").val();
+        var maxValue = $("#maxValue").html();
         var question = {
             questionString: questionString,
             maxQuestionValue: maxValue,
@@ -135,14 +149,16 @@ function getQuestions(id, name) {
             $("#tbodyId").empty();
             $.each(questions, function (i, question) {
                 console.log("---" + question.id + "---" + question.questionString);
-                $("#templateQuestions").append('<tr><td><a id="questionString" href="/web/questions/' + question.id + '">' +
-                    question.questionString + '</a></td>' +
+                $("#templateQuestions").append('<tr><td><span id="questionString">' + question.questionString + '</span></td>' +
                     '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
                     + '\'' + question.id + '\',' + '\'' + question.questionString + '\')" class="glyphicon glyphicon-pencil">&nbsp;' +
                     '<a id="deleteQuestion" onclick="deleteQuestion(\'' + id + '\','
                     + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td></tr>');
             });
         }
+    });
+    $("#tbodyId").sortable({
+        revert : true,
     });
 }
 
