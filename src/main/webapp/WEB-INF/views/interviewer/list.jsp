@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <html>
 <head>
@@ -27,28 +26,21 @@
                                 '<td><a class="active" href="/web/admin/interviewers/' + interviewer.id + '">' + interviewer.lastName + '</a>' +
                                 '<span class="glyphicon glyphicon-edit"></span></td>' +
                                 '<td>' + interviewer.firstName + '</td>' +
-                                '<td><a href="#" class="delete" value="' + interviewer.id + '">' +
-                                '<span class="glyphicon glyphicon-floppy-remove"></span></a></td>' +
+                                '<td><button id="'+interviewer.id+'" class="btn btn-danger btn-xs btn-delete">' +
+                                '<span class="glyphicon glyphicon-floppy-remove"></span></button></td>' +
                                 '</tr>'
                         );
+                        $("#" + interviewer.id).click(function () {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "/rest/interviewers/" + interviewer.id,
+                                success: function () {
+                                    location.href="/web/admin/interviewers";
+                                    console.log("success delete");
+                                }
+                            });
+                        });
                     });
-                }
-            });
-        });
-
-        $('a.delete').on('click', function() {
-            var id = $(this).attr("value");
-            $.ajax({
-                type: "DELETE",
-                url: "/rest/interviewers/" + id,
-                beforeSend: function() {
-                    parent.animate({'backgroundColor':'#fb6c6c'},300);
-                },
-                success: function() {
-                    console.log("/rest/interviewers/" + id);
-                },
-                error: function(result) {
-                    console.log(result);
                 }
             });
         });
@@ -82,7 +74,7 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Populated by JS -->
+
         </tbody>
     </table>
 </div>
