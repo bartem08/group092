@@ -26,7 +26,7 @@ public class InterviewWebController {
                               @RequestParam(value = "group_name", required = false) String group) {
         final Interview interview = interviewService.readInterview(id);
         final Template template = templateService.readTemplate(template_id);
-        if (interview.getQuestions() == null || interview.getQuestions().isEmpty()) {
+        if (interview.getResult() == 0) {
             interview.setQuestions(ResultFormer.formQuestionList(template.getQuestions()));
             interviewService.updateInterview(interview);
         }
@@ -41,10 +41,12 @@ public class InterviewWebController {
     public ModelAndView save(@PathVariable("id") String id,
                              @RequestParam(value = "skipped", required = false) String[] skipped,
                              @RequestParam("values") String[] values,
-                             @RequestParam("comments") String comments) {
+                             @RequestParam(value = "comments", required = false) String comments) {
 
         final Interview interview = interviewService.readInterview(id);
-        interview.setQuestions(ResultFormer.formQuestionList(interview.getQuestions(), Arrays.asList(values), skipped));
+        if (interview.getResult() == 0) {
+            interview.setQuestions(ResultFormer.formQuestionList(interview.getQuestions(), Arrays.asList(values), skipped));
+        }
         interview.setComments(comments);
         interviewService.updateInterview(interview);
         return new ModelAndView("groups");

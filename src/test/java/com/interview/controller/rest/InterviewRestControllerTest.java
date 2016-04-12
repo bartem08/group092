@@ -1,6 +1,5 @@
 package com.interview.controller.rest;
 
-import com.interview.Application;
 import com.interview.model.Candidate;
 import com.interview.model.Interview;
 import com.interview.model.Interviewer;
@@ -8,11 +7,6 @@ import com.interview.service.CandidateService;
 import com.interview.service.InterviewerService;
 import com.jayway.restassured.RestAssured;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -27,13 +21,8 @@ import static org.hamcrest.Matchers.*;
 /**
  * @author Artem Baranovskiy
  */
-@SpringApplicationConfiguration(Application.class)
-@WebIntegrationTest("server.port:0")
-@DirtiesContext
-public class InterviewRestControllerTest extends AbstractTestNGSpringContextTests {
 
-    @Value("${local.server.port}")
-    protected int port;
+public class InterviewRestControllerTest extends RestIntegrationBase {
 
     private String id;
 

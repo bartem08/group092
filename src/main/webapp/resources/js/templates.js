@@ -20,11 +20,25 @@ $(document).ready(function () {
         }
     });
 
+    $(function() {
+        console.log("in the slider method");
+        $("#slider").slider({
+            value: 50,
+            step : 1,
+            min: 1,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#maxValue" ).html(  ui.value );
+            }
+        });
+        $( "#maxValue" ).html($("#slider").slider( "value" ) );
+    });
+
     $("#addQuestion").click(function () {
         console.log("Function addQuestion binded to button Add question fired");
         var templateId = $("#activeTemplateId").val();
         var questionString = $("#textArea").val();
-        var maxValue = $("#maxValue").val();
+        var maxValue = $("#maxValue").html();
         var question = {
             questionString: questionString,
             maxQuestionValue: maxValue,
@@ -86,7 +100,6 @@ function loadTemplates () {
         url: "/rest/templates/interviewers/" + userId,
         success: function (result) {
             console.log("/rest/templates/interviewers/" + userId);
-            console.log(result);
             var templates = JSON.stringify(result);
             templates = JSON.parse(templates);
             console.log("TEMPLATES JSON: " + templates);
@@ -131,22 +144,22 @@ function getQuestions(id, name) {
     $.ajax({
         type: "GET",
         url: "/rest/templates/" + id + "/questions",
-        success: function (result) {
+        success: function (questions) {
             console.log("URL for REST: /rest/templates/" + id + "/questions");
-            var questions = JSON.stringify(result);
-            questions = JSON.parse(questions);
             $("#tbodyId").empty();
             $.each(questions, function (i, question) {
                 console.log("---" + question.id + "---" + question.questionString);
-                //Do we need separate question.jsp?
-                $("#templateQuestions").append('<tr><td><a id="questionString" href="/web/questions/' + question.id + '">' +
-                    question.questionString + '</a></td>' +
+                $("#templateQuestions").append('<tr><td><span id="questionString">' + question.questionString + '</span></td>' +
                     '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
-                    + '\'' + question.id + '\',' + '\'' + question.questionString + '\')" class="glyphicon glyphicon-pencil">&nbsp;' +
+                    + '\'' + question.id + '\',' + '\'' + question.questionString +  '\',' + '\'' + question.maxQuestionValue + '\')"' +
+                ' class="glyphicon glyphicon-pencil">&nbsp;' +
                     '<a id="deleteQuestion" onclick="deleteQuestion(\'' + id + '\','
                     + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td></tr>');
             });
         }
+    });
+    $("#tbodyId").sortable({
+        revert : true,
     });
 }
 
@@ -178,12 +191,14 @@ function deleteQuestion(templateId, questionId){
     });
 }
 
-function editQuestion(templateId, questionId, questionString){
-    console.log("Function deleteQuestion binded to ref deleteQuestion fired");
-    console.log("Template Id is: " + templateId + " Question Id is: " + questionId +
-        " QuestionString is: " + questionString);
-    $("#textArea").val(questionString);
-    $("#editQuestionId").val(questionId);
+function editQuestion(templateId, qId, qString, qMaxValue){
+    console.log("Function editQuestion binded to ref editQuestion fired");
+    console.log("Template Id is: " + templateId + " Question Id is: " + qId +
+        " QuestionString is: " + qString +" MaxValue is: " + qMaxValue);
+    $("#textArea").val(qString);
+    $("#editQuestionId").val(qId);
+    $("#maxValue").html(qMaxValue);
+    $("#slider").slider("value", qMaxValue);
 }
 
 

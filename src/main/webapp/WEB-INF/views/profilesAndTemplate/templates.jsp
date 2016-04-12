@@ -5,8 +5,10 @@
     <link rel="stylesheet" href="../../../resources/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../../resources/css/input.css"/>
     <link rel="stylesheet" href="../../../resources/css/template.css"/>
+    <link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
 
     <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="../../../resources/js/header.js"></script>
@@ -74,28 +76,24 @@
                                   style="width: 100%; max-width: 100%"></textarea>
                         <span class="help-block"></span>
                     </div>
-                    <label for="maxValue" class="col-lg-2 control-label">Maximum value</label>
+                    <label for="maxValue" class="col-lg-2 control-label">Maximum value: </label>
+
                     <div class="col-lg-10">
-                        <select class="form-control" id="maxValue" style="max-width: 70px">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
+                        <br>
+                        <span type="text" id="maxValue" style="font-weight:bold"></span>
+                        <br>
+                        <br>
+                        <div id="slider"></div>
                         <br>
                         <a href="#" class="btn btn-default" id="addQuestion">Save question</a>
                     </div>
+
                     <br><br>
                 </div>
             </fieldset>
         </form>
     </div>
+
     <div class="right" style="padding-top: 5em; padding-right: 2em">
         <div>
             <legend style="float: left">Active template : <span id="activeTemplate"></span></legend>

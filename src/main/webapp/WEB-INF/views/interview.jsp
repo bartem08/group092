@@ -116,9 +116,7 @@
     </form>
 </div>
 <div class="custom-comments">
-    <textarea name="comments" readonly form="interview" placeholder="Comments..."></textarea>
-    <input type="text" id="text-common-comment" />
-    <button id="add-common-comment" type="submit" class="btn btn-xs btn-primary">Add Comment</button>
+    <textarea name="comments" form="interview" placeholder="Comments..."></textarea>
 </div>
 <div class="custom-result">
     <div class="result"></div>

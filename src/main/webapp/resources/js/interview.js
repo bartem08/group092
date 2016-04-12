@@ -1,3 +1,4 @@
+var xt;
 $(function () {
 
     var int_id = $("#int_id").val();
@@ -56,7 +57,7 @@ $(function () {
                     '</td>' +
                     '<td>' +
                     '<button class="btn btn-xs btn-primary"' +
-                    ' type="submit" id="btn_'+q_id+'">Add Comment</button>' +
+                    ' type="submit" id="btn_' + q_id + '">Add Comment</button>' +
                     '</td>' +
                     '<td>' +
                     '<input class="f_check" id="ch_' + q_id +'" form="interview" name="skipped" type="checkbox" value="' + q_id + '"/>' +
@@ -101,27 +102,23 @@ $(function () {
             $(".custom-bar").css("width", result.result + "%");
 
             $(".result").text(result.result);
-        }
-    });
 
-    $("#add-common-comment").click(function(){
-        var comments = $(comments_selector).find("textarea").val();
-        var common_comment = $("#text-common-comment").val() + "\n";
-        comments = comments + common_comment;
-        $(comments_selector).find("textarea").text(comments);
+            if (result.result == 0) {
+                xt = setInterval("tm()", 1000);
+            }
+        }
     });
 
     function addComment() {
         var comments = $(comments_selector).find("textarea").val();
-        var question_comment = $("#text-question-comment").val() + "\n";
-        comments = comments + question_comment;
-        $(comments_selector).find("textarea").text(comments);
+        comments += $("#text-question-comment").val() + "\n";
+        $(comments_selector).find("textarea").val(comments);
         dialog.dialog("close");
     }
 
 });
 
-var xt = setInterval("tm()", 1000), xt2 = 0, xt3 = 0;
+var xt2 = 0, xt3 = 0;
 function tm() {
     xt2++;
     if(xt2 > 59) {
