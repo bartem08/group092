@@ -13,39 +13,28 @@
     <script>
 
         $(document).ready(function () {
-            $("#submit").click(function () {
-                var interviewer = new Object();
-                interviewer.lastName = $('#lastName').val();
-                interviewer.firstName = $('#firstName').val();
-                interviewer.email = $('#email').val();
-                interviewer.skype = $('#skype').val();
-                interviewer.phone = $('#phone').val();
-                interviewer.login = $('#login').val();
-                interviewer.password = $('#password').val();
-                interviewer.role = $('#role').val();
+            $("#save").click(function () {
+                var interviewer = {
+                    lastName : $("#lastName").val(),
+                    firstName : $("#firstName").val(),
+                    email : $("#email").val(),
+                    skype : $("#skype").val(),
+                    phone : $("#phone").val(),
+                    login : $("#login").val(),
+                    password : $("#password").val(),
+                    role : $("#role").val()
+                };
                 $.ajax({
                     type: "POST",
-                    url: "/rest/interviewers",
-                    dataType: 'json',
-                    data:interviewer,
-                    beforeSend: function(interviewer) {
-                        form.find('input[type="submit"]').attr('disabled', 'disabled');
-                    },
-                    success: function(interviewer){
-                        if (interviewer['error']) {
-                            alert(interviewer['error']);
-                        } else {
-                            alert("Data has been sent!");
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    },
-                    complete: function(interviewer) {
-                        form.find('input[type="submit"]').prop('disabled', false);
-                    }
-                });
+                    data: JSON.stringify(interviewer),
+                    contentType: "application/json;",
+                    url: "/rest/interviewers"
+                }).done(function () {
+                    location.href="/web/admin/interviewers";
+                    console.log("success save");
+                }).fail(function () {
+                    console.log("fail save");
+                })
             });
         });
     </script>
@@ -66,7 +55,7 @@
 
     <strong><h1>Add Interviewer</h1></strong>
 
-    <form role="form-horizontal" method="post" action="" id="interviewerForm">
+    <form role="form-horizontal" id="interviewerForm">
         <div class="form-group">
             <label for="lastName">Last Name</label>
             <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Enter last name" val="">
@@ -99,8 +88,8 @@
             <label for="role">Role</label>
             <input class="form-control" type="text" id="role" name="role" placeholder="Enter role" val="">
         </div>
-        <div class="form-group">
-                <input class="btn btn-lg btn-primary btn-block" id="submit" type="submit" value="Submit"/>
+        <div id = "save">
+            <a href="#" class="btn btn-default">Submit</a>
         </div>
     </form>
 </div>

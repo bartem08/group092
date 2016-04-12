@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
-    <title>Interviewer</title>
+    <title>Admin Console</title>
 
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
 
@@ -11,7 +10,6 @@
     <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-
     <script>
         $(document).ready(function() {
             var interviewerId = $("#interviewerId").val();
@@ -22,8 +20,6 @@
                     var interviewer = JSON.stringify(result);
                     console.log("JSON: " + interviewer);
                     interviewer = JSON.parse(interviewer);
-                    var id = interviewer.id;
-                    $("#ID").val(id);
                     $("#interviewerTable").append(
                             '<tr>' +
                             '<td>' + 'Last Name' + '</td>' +
@@ -56,18 +52,24 @@
                             '<tr>' +
                             '<td>' + 'Role' + '</td>' +
                             '<td>' + interviewer.role + '</td>' +
+                            '</tr>'+
+                            '<tr>' +
+                            '<td><a class="active" href="/web/admin/interviewers/' + interviewer.id + '?form">' + 'Edit interviewer' + '</a>' +
+                            '<span class="glyphicon glyphicon-edit"></span></td>'+
                             '</tr>'
                     );
                 }
             });
         });
     </script>
+
 </head>
 <body>
 
 <input id="interviewerId" type="hidden" value="${interviewerId}"/>
 
 <div class="container" style="padding-top: 5em">
+
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div id="navbar" class="navbar-collapse collapse">
@@ -80,14 +82,12 @@
     </nav>
 
     <h1 style="color: #add8e6">Interviewer</h1>
+
     <table id="interviewerTable" class="table table-striped table-hover">
         <tbody>
 
         </tbody>
     </table>
-    <strong>
-        <a class="active" href="/web/admin/interviewers?form">Edit Profile<span class="glyphicon glyphicon-edit"></span></a>
-    </strong>
 </div>
 </body>
 </html>
