@@ -104,9 +104,40 @@ function loadTemplates () {
             templates = JSON.parse(templates);
             console.log("TEMPLATES JSON: " + templates);
             $.each(templates, function (i, template) {
-                $(".selectedTemplates").append('<li onclick="getQuestions(\'' + template.id + '\', \'' + template.name + '\')">' +
-                    '<a class="chosenTemplate" href="#">' + template.name + '</a></li>');
+                $(".selectedTemplates").append('<li >' +
+                    '<a class="chosenTemplate" href="#" style="display: inline;" ' +
+                    'onclick="getQuestions(\'' + template.id + '\', \'' + template.name + '\')">' + template.name + '</a>'
+                    + '<a onclick="deleteTemplate(\''+ template.id +'\')" style="display: inline;" class="glyphicon glyphicon-trash badge">'
+                    + '</li>');
             });
+        }
+    });
+}
+
+function deleteTemplate(templateId){
+    console.log("Function deleteTemplate fired");
+    console.log("Template Id is: " + templateId);
+    $.ajax({
+        type: "GET",
+        url : "/rest/templates/" + templateId + "/questions",
+        success: function(questions) {
+            $.each(questions, function(i, question){
+                $.ajax({
+                    type: "DELETE",
+                    url : "/rest/questions/" + question.id,
+                    success: function(){
+                        console.log("Question with Id " + question.id + " deleted");
+                    }
+                })
+            });
+            $.ajax({
+                type: "DELETE",
+                url : "/rest/templates/" + templateId,
+                success: function(){
+                    console.log("Template with Id " + templateId + " deleted");
+                    loadTemplates();
+                }
+            })
         }
     });
 }
@@ -119,9 +150,9 @@ function addNewTemplate() {
             name: name,
             questions: null,
             favourite: false,
-            interviewer: user,
-        }
-        console.log(newTemplate)
+            interviewer: user
+        };
+        console.log(newTemplate);
         $.ajax({
             type: "POST",
             url: "/rest/templates/",
