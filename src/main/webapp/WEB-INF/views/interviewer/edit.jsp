@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>Interviewer Updating Page</title>
@@ -12,57 +11,57 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
         $(document).ready(function() {
-
-            $("#interviewerForm").submit(function(){
-                var form = $(this);
-                var error = false;
-                form.find('input, textarea').each( function(){
-                    if ($(this).val() == '') {
-                        alert('Fill in the field"'+$(this).attr('placeholder')+'"!');
-                        error = true;
-                    }
-                });
-                if (!error) {
-                    var data = form.serialize();
-                    $.ajax({
-                        type: "POST",
-                        url: "/rest/interviewers",
-                        dataType: 'json',
-                        data: data,
-                        beforeSend: function(data) {
-                            form.find('input[type="submit"]').attr('disabled', 'disabled');
-                        },
-                        success: function(data){
-                            if (data['error']) {
-                                alert(data['error']);
-                            } else {
-                                alert("Data has been sent!");
-                            }
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                        },
-                        complete: function(data) {
-                            form.find('input[type="submit"]').prop('disabled', false);
-                        }
-
-                    });
-                }
-                return false;
-            });
-
             var interviewerId = $("#interviewerId").val();
             $.ajax({
                 type: "GET",
-                url: "/rest/interviewers/" + interviewerId,
+                url: "/rest/interviewers/"+ interviewerId,
                 success: function(result) {
                     var interviewer = JSON.stringify(result);
-                    console.log("JSON: " + interviewer);
+                    console.log("interviewer JSON: " + interviewer);
                     interviewer = JSON.parse(interviewer);
-                    var id = interviewer.id;
-                    $("#ID").val(id);
+                    var lastName = interviewer.lastName;
+                    var firstName = interviewer.firstName;
+                    var email = interviewer.email;
+                    var skype = interviewer.skype;
+                    var phone = interviewer.phone;
+                    var login = interviewer.login;
+                    var password = interviewer.password;
+                    var role = interviewer.role;
+
+                    $("#lastName").val(lastName);
+                    $("#firstName").val(firstName);
+                    $("#email").val(email);
+                    $("#skype").val(skype);
+                    $("#phone").val(phone);
+                    $("#login").val(login);
+                    $("#password").val(password);
+                    $("#role").val(role);
                 }
+            });
+
+            $("#save").click(function() {
+                console.log("Button save function fired");
+                var interviewer = {
+                    lastName : $("#lastName").val(),
+                    firstName : $("#firstName").val(),
+                    email : $("#email").val(),
+                    skype : $("#skype").val(),
+                    phone : $("#phone").val(),
+                    login : $("#login").val(),
+                    password : $("#password").val(),
+                    role : $("#role").val()
+                };
+                $.ajax({
+                    type: "PUT",
+                    data: JSON.stringify(interviewer),
+                    contentType: "application/json;",
+                    url: "/rest/interviewers/"+interviewerId,
+                }).done(function () {
+                    location.href="/web/admin/interviewers";
+                    console.log("/rest/interviewers/" + interviewerId);
+                }).fail(function () {
+                    console.log("fail save");
+                })
             });
         });
     </script>
@@ -86,7 +85,7 @@
 
     <strong><h1>Edit Interviewer</h1></strong>
 
-    <form role="form-horizontal" method="post" action="" id="interviewerForm">
+    <form role="form-horizontal" id="interviewerForm">
         <div class="form-group">
             <label for="lastName">Last Name</label>
             <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Enter last name" val="">
@@ -119,10 +118,8 @@
             <label for="role">Role</label>
             <input class="form-control" type="text" id="role" name="role" placeholder="Enter role" val="">
         </div>
-        <div class="form-group">
-            <div align="center">
-                <input class="btn btn-lg btn-primary btn-block" name="submit" type="submit" value="Submit"/>
-            </div>
+        <div id = "save">
+            <a href="#" class="btn btn-default">Submit</a>
         </div>
     </form>
 </div>

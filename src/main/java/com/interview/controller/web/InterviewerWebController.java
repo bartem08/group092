@@ -91,19 +91,12 @@ public class InterviewerWebController {
         return model;
     }
 
-    @RequestMapping(value = "/admin/interviewers", method = RequestMethod.POST)
-    public ModelAndView updateOrInsert() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("interviewer/list");
-        return model;
-    }
-
     @RequestMapping(value = "/admin/interviewers/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Long id) {
+    public ModelAndView updateForm(@PathVariable("id") String id) {
         ModelAndView model = new ModelAndView();
         model.addObject("interviewerId", id);
-        model.setViewName("interviewer/create");
-        return "customers/edit";
+        model.setViewName("interviewer/edit");
+        return model;
     }
 
     @RequestMapping(value = "/admin/interviewers", params = "form", method = RequestMethod.GET)
