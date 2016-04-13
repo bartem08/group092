@@ -60,11 +60,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input class="checkbox" id="remember_me" name="remember_me" type="checkbox"/> Remember me
-                                                </label>
-                                            </div>
+                                            <br/>
                                         </div>
                                         <div class="form-group">
                                             <input class="btn btn-lg btn-primary btn-block" name="submit" type="submit" value="Sign In"/>
