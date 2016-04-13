@@ -3,10 +3,10 @@
 <head>
     <title>Interviewer Updating Page</title>
 
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css"/>
 
-    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
@@ -57,7 +57,7 @@
                     contentType: "application/json;",
                     url: "/rest/interviewers/"+interviewerId,
                 }).done(function () {
-                    location.href="/web/admin/interviewers";
+                    location.href="/web/admin/interviewers/"+interviewerId;
                     console.log("/rest/interviewers/" + interviewerId);
                 }).fail(function () {
                     console.log("fail save");
