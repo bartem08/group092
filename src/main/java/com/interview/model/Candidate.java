@@ -37,8 +37,7 @@ public class Candidate extends AbstractDocument implements Serializable {
         this.date = date;
     }
 
-    public Candidate(String surname, String name, String patronymic,
-                     List<Interview> interviewList, Calendar date, EnglishLevel englishLevel,
+    public Candidate(String surname, String name, Calendar date, EnglishLevel englishLevel,
                      String phoneNumber, String email, String skype) {
         setFirstName(name);
         setLastName(surname);
@@ -84,7 +83,7 @@ public class Candidate extends AbstractDocument implements Serializable {
 
         Candidate candidate = (Candidate) o;
 
-        return id != null ? !id.equals(candidate.id) : candidate.id != null;
+        return id != null ? id.equals(candidate.id) : candidate.id == null;
     }
 
     @Override
@@ -94,15 +93,7 @@ public class Candidate extends AbstractDocument implements Serializable {
 
     @Override
     public String toString() {
-        return "Candidate{" +
-                "id=" + id +
-                ", last name='" + lastName + '\'' +
-                ", first name='" + firstName + '\'' +
-                ", englishLevel='" + englishLevel + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", skype='" + skype + '\'' +
-                '}';
+        return String.format("LastName : %s, FirstName : %s", lastName, firstName);
     }
 
     public String getLastName() {
@@ -136,9 +127,4 @@ public class Candidate extends AbstractDocument implements Serializable {
     public enum EnglishLevel {
         INTERMEDIATE, UPPERINTERMEDIATE;
     }
-
-    public enum Group {
-        JAVA, PYTHON;
-    }
-
 }
