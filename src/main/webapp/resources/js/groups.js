@@ -9,7 +9,7 @@ $(document).ready(function () {
             console.log("interviewer JSON: " + interviewer);
             interviewer = JSON.parse(interviewer);
 
-            $("#interviewerProfile").attr("href", "/web/interviewers/" + interviewer.id);
+            $("#interviewerProfile").attr("href", "/web/interviewer");
 
             $.ajax({
                 type: "GET",
