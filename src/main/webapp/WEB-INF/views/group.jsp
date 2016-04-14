@@ -30,14 +30,15 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Home</a></li>
                 <li><a href="/web/groups">Session</a></li>
-                <li class="dropdown">
+                <li class="dropdown" class="active">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedule<span class="caret"></span></a>
                     <ul id="hdrDropdownSchedule" class="dropdown-menu">
                         <!-- Populate by JS -->
                     </ul>
                 </li>
+                <li><a href="/web/groups/${groupId}/report">Report</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/web/interviewer">Profile</a></li>
@@ -51,8 +52,10 @@
 
 
 
-    <h2><span id="groupName" style="color: #add8e6"></span></h2>
 
+
+    <div style="width: 80%; float: left; margin-right: 3em">
+    <h2><span id="groupName" style="color: #add8e6"></span></h2>
     <table id="groupTable" class="table table-striped table-hover">
         <thead>
         <tr>
@@ -65,9 +68,12 @@
         <!-- Populated by JS -->
         </tbody>
     </table>
-    <h2 style="color: #add8e6">Templates</h2>
-    <select class="form-control btn btn-default selectTemplate"></select>
-    <a href="/web/groups" style="padding-top: 2em; color: #add8e6">Back to the session</a>
+    </div>
+
+    <div style="width: 12em; float: left">
+        <h2 style="color: #add8e6">Templates</h2>
+        <select class="form-control btn btn-default selectTemplate"></select>
+    </div>
 </div>
 
 </body>
