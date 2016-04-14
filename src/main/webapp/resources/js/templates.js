@@ -4,6 +4,7 @@
 var userLogin;
 var userId;
 var user;
+var activeTemplateQuestions = [] ;
 
 $(document).ready(function () {
     userLogin = $("#userLogin").val();
@@ -11,7 +12,6 @@ $(document).ready(function () {
         type: "GET",
         url: "/rest/interviewers/"+ userLogin + "/dto",
         success: function(interviewer) {
-            console.log(interviewer);
             userId = interviewer.id;
             user = interviewer;
             console.log("interviewer JSON: " + JSON.stringify(user));
@@ -20,18 +20,20 @@ $(document).ready(function () {
         }
     });
 
+    // Slider settings
     $(function() {
-        console.log("in the slider method");
-        $("#slider").slider({
+        var sliderDiv = $("#slider");
+        var sliderValue = $( "#maxValue" );
+        sliderDiv.slider({
             value: 50,
             step : 1,
             min: 1,
             max: 100,
             slide: function( event, ui ) {
-                $( "#maxValue" ).html(  ui.value );
+                sliderValue.html(  ui.value );
             }
         });
-        $( "#maxValue" ).html($("#slider").slider( "value" ) );
+        sliderValue.html(sliderDiv.slider( "value" ) );
     });
 
     $("#addQuestion").click(function () {
@@ -41,8 +43,8 @@ $(document).ready(function () {
         var maxValue = $("#maxValue").html();
         var question = {
             questionString: questionString,
-            maxQuestionValue: maxValue,
-        }
+            maxQuestionValue: maxValue
+        };
         console.log(question);
         var questionToEditId= $("#editQuestionId");
         console.log(questionToEditId.val());
@@ -90,19 +92,42 @@ $(document).ready(function () {
         }
         $("#textArea").val("");
     });
-});
 
+    $("#saveQuestionsOrder").click(function(){
+        var rowArray = document.getElementsByClassName("questionsRow");
+        $.each(rowArray, function(i, row){
+            var spans = row.getElementsByTagName('span');
+            var questionString = spans[0].innerHTML;
+            var questionId = spans[1].innerHTML;
+            var questionMaxValue = spans[2].innerHTML;
+            var question = {
+                id: questionId,
+                questionString: questionString,
+                maxQuestionValue: questionMaxValue
+            };
+            activeTemplateQuestions.push(question);
+        });
+        console.log(JSON.stringify(activeTemplateQuestions));
+        $.ajax({
+            type: "POST",
+            url: "/rest/templates/"+ $("#activeTemplateId").val() + "/clearAddList",
+            data: JSON.stringify(activeTemplateQuestions),
+            contentType: "application/json",
+            success: function (result) {
+                console.log(JSON.stringify(result.questions));
+            }
+        });
+        activeTemplateQuestions = [];
+    });
+});
 
 function loadTemplates () {
     $(".selectedTemplates").find("li:gt(1)").remove();
     $.ajax({
         type: "GET",
         url: "/rest/templates/interviewers/" + userId,
-        success: function (result) {
+        success: function (templates) {
             console.log("/rest/templates/interviewers/" + userId);
-            var templates = JSON.stringify(result);
-            templates = JSON.parse(templates);
-            console.log("TEMPLATES JSON: " + templates);
             $.each(templates, function (i, template) {
                 $(".selectedTemplates").append('<li >' +
                     '<a class="chosenTemplate" href="#" style="display: inline;" ' +
@@ -110,34 +135,6 @@ function loadTemplates () {
                     + '<a onclick="deleteTemplate(\''+ template.id +'\')" style="display: inline;" class="glyphicon glyphicon-trash badge">'
                     + '</li>');
             });
-        }
-    });
-}
-
-function deleteTemplate(templateId){
-    console.log("Function deleteTemplate fired");
-    console.log("Template Id is: " + templateId);
-    $.ajax({
-        type: "GET",
-        url : "/rest/templates/" + templateId + "/questions",
-        success: function(questions) {
-            $.each(questions, function(i, question){
-                $.ajax({
-                    type: "DELETE",
-                    url : "/rest/questions/" + question.id,
-                    success: function(){
-                        console.log("Question with Id " + question.id + " deleted");
-                    }
-                })
-            });
-            $.ajax({
-                type: "DELETE",
-                url : "/rest/templates/" + templateId,
-                success: function(){
-                    console.log("Template with Id " + templateId + " deleted");
-                    loadTemplates();
-                }
-            })
         }
     });
 }
@@ -166,6 +163,34 @@ function addNewTemplate() {
     }
 }
 
+function deleteTemplate(templateId){
+    console.log("Function deleteTemplate fired");
+    console.log("Template Id is: " + templateId);
+    $.ajax({
+        type: "GET",
+        url : "/rest/templates/" + templateId + "/questions",
+        success: function(questions) {
+            $.each(questions, function(i, question){
+                $.ajax({
+                    type: "DELETE",
+                    url : "/rest/questions/" + question.id,
+                    success: function(){
+                        console.log("Question with Id " + question.id + " deleted");
+                    }
+                })
+            });
+            $.ajax({
+                type: "DELETE",
+                url : "/rest/templates/" + templateId,
+                success: function(){
+                    console.log("Template with Id " + templateId + " deleted");
+                    location.reload();
+                }
+            })
+        }
+    });
+}
+
 // Function to display all the questions from the chosen template
 function getQuestions(id, name) {
     console.log("Function getQuestion binded to template dropdown fired");
@@ -177,19 +202,21 @@ function getQuestions(id, name) {
         url: "/rest/templates/" + id + "/questions",
         success: function (questions) {
             console.log("URL for REST: /rest/templates/" + id + "/questions");
-            $("#tbodyId").empty();
+            $("#templateQuestionsBody").empty();
             $.each(questions, function (i, question) {
                 console.log("---" + question.id + "---" + question.questionString);
-                $("#templateQuestions").append('<tr><td><span id="questionString">' + question.questionString + '</span></td>' +
+                $("#templateQuestions").append('<tr class="questionsRow"><td><span id="questionString">' + question.questionString + '</span></td>' +
                     '<td><a id="editQuestion" onclick="editQuestion(\'' + id + '\','
                     + '\'' + question.id + '\',' + '\'' + question.questionString +  '\',' + '\'' + question.maxQuestionValue + '\')"' +
                 ' class="glyphicon glyphicon-pencil">&nbsp;' +
                     '<a id="deleteQuestion" onclick="deleteQuestion(\'' + id + '\','
-                    + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td></tr>');
+                    + '\'' + question.id + '\')" class="glyphicon glyphicon-trash" ></td>' +
+                    '<td><span id="questionId" hidden>' + question.id + '</span>'+
+                    '<span id="questionMaxValue" hidden>' + question.maxQuestionValue + '</span></td></tr>');
             });
         }
     });
-    $("#tbodyId").sortable({
+    $("#templateQuestionsBody").sortable({
         revert : true,
     });
 }
@@ -231,5 +258,3 @@ function editQuestion(templateId, qId, qString, qMaxValue){
     $("#maxValue").html(qMaxValue);
     $("#slider").slider("value", qMaxValue);
 }
-
-

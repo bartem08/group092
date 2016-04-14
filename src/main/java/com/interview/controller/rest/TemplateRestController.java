@@ -32,6 +32,7 @@ import static org.springframework.http.HttpStatus.OK;
  *      POST   - /rest/templates/id/questions     - add question to template with specified id
  *      DELETE - /rest/templates/id/questions/id  - remove from template with specified id question with specified id
  *      GET    - /rest/templates/interviewers/id  - get all templates of the specified interviewer
+ *      POST   - /rest/templates/id/clearAddList  - removes old list of questions in template and places new one instead
  *
  * @author Anton Kruglikov.
  */
@@ -172,6 +173,29 @@ public class TemplateRestController {
         } else {
             LOG.info("Fetching all templates: OK");
             return new ResponseEntity<>(templates, OK);
+        }
+    }
+
+    @RequestMapping(value = "/{id}/clearAddList", method = RequestMethod.POST)
+    public ResponseEntity deleteQuestionListFrTemplateAndAddNewOne(@PathVariable("id") String id,
+                                                                   @RequestBody @Valid List<Question> questions,
+                                                                   BindingResult result,
+                                                                   UriComponentsBuilder uriComponentsBuilder){
+
+        if (result.hasErrors()) {
+            LOG.error("Adding list of questions to template: {}, BAD_REQUEST", result.getFieldError().getDefaultMessage());
+            return new ResponseEntity<>(result.getFieldError().getDefaultMessage(), BAD_REQUEST);
+        }
+
+        if ((templateService.deleteQuestionListFrTemplateAndAddNewOne(id, questions)) != null) {
+            LOG.info("Adding list of questions to template: ADDED");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(uriComponentsBuilder.path("/rest/templates/{id}/questions").
+                    buildAndExpand(id).toUri());
+            return new ResponseEntity<>(templateService.readTemplate(id), headers, CREATED);
+        } else {
+            LOG.error("Adding list of questions to template: CONFLICT");
+            return new ResponseEntity(CONFLICT);
         }
     }
 }

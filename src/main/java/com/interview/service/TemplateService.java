@@ -28,4 +28,6 @@ public interface TemplateService {
 
     List<Template> readTemplatesByInterviewer(String interviewerId);
 
+    Template deleteQuestionListFrTemplateAndAddNewOne(String templateId, List<Question> questions);
+
 }

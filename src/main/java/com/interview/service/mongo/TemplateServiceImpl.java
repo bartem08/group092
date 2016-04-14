@@ -5,6 +5,7 @@ import com.interview.model.Template;
 import com.interview.repository.QuestionRepository;
 import com.interview.repository.TemplateRepository;
 import com.interview.service.TemplateService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +91,20 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public List<Template> readTemplatesByInterviewer(String interviewerId) {
         return repository.findByInterviewerId(interviewerId);
+    }
+
+    @Override
+    public Template deleteQuestionListFrTemplateAndAddNewOne(String templateId, List<Question> questions) {
+
+        if (repository.findOne(templateId) != null) {
+            Template template = repository.findOne(templateId);
+            template.getQuestions().clear();
+            for (Question question : questions){
+                template.addQuestion(question);
+                repository.save(template);
+            }
+            return template;
+        }
+        return null;
     }
 }

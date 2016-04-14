@@ -104,11 +104,13 @@
                 <th>Questions</th>
             </tr>
             </thead>
-            <tbody id="tbodyId" style="width: 80%">
+            <tbody id="templateQuestionsBody" style="width: 80%">
                 <!-- Populated by JS-->
             </tr>
             </tbody>
         </table>
+        <br><br><br>
+        <button id="saveQuestionsOrder">Save questions order</button>
     </div>
 </div>
 </body>
