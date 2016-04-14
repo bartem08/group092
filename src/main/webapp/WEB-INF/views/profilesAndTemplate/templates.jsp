@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="../../../resources/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../../resources/css/input.css"/>
     <link rel="stylesheet" href="../../../resources/css/template.css"/>
-    <link href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../../resources/jquery/jquery-ui/jquery-ui.css">
 
     <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../../../resources/jquery/jquery-ui/jquery-ui.js"></script>
     <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="../../../resources/js/header.js"></script>
@@ -87,7 +87,6 @@
                         <br>
                         <a href="#" class="btn btn-default" id="addQuestion">Save question</a>
                     </div>
-
                     <br><br>
                 </div>
             </fieldset>
@@ -98,6 +97,8 @@
         <div>
             <legend style="float: left">Active template : <span id="activeTemplate"></span></legend>
         </div>
+        <button class="btn btn-default" id="saveQuestionsOrder">Save questions order</button>
+        <br><br>
         <table class="table table-striped table-hover" id="templateQuestions">
             <thead>
             <tr>
@@ -109,8 +110,6 @@
             </tr>
             </tbody>
         </table>
-        <br><br><br>
-        <button id="saveQuestionsOrder">Save questions order</button>
     </div>
 </div>
 </body>
