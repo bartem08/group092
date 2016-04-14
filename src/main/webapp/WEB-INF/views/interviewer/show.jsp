@@ -2,12 +2,12 @@
 
 <html>
 <head>
-    <title>Admin Console</title>
+    <title>Interviewer Showing Page</title>
 
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css"/>
 
-    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script>
@@ -54,7 +54,7 @@
                             '<td>' + interviewer.role + '</td>' +
                             '</tr>'+
                             '<tr>' +
-                            '<td><a class="active" href="/web/admin/interviewers/' + interviewer.id + '?form">' + 'Edit interviewer' + '</a>' +
+                            '<td colspan="2"><a class="active" href="/web/admin/interviewers/' + interviewer.id + '?form">' + 'Edit interviewer' + '</a>' +
                             '<span class="glyphicon glyphicon-edit"></span></td>'+
                             '</tr>'
                     );
