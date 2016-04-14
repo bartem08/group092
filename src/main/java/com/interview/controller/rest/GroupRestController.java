@@ -5,6 +5,7 @@ import com.interview.model.Group;
 import com.interview.model.Interview;
 import com.interview.model.Interviewer;
 import com.interview.model.dto.CandidateDTO;
+import com.interview.model.dto.CandidateReportDTO;
 import com.interview.model.dto.GroupDTO;
 import com.interview.model.dto.GroupDayDTO;
 import com.interview.service.CandidateService;
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * REST controller for entity Group
@@ -413,6 +417,24 @@ public class GroupRestController {
         Collections.sort(interviewerGroupsDto);
 
         return new ResponseEntity<>(interviewerGroupsDto, HttpStatus.OK);
+    }
+
+    @RequestMapping("/{groupId}/{interviewerLogin}/groupReport")
+    public ResponseEntity getCandidates(@PathVariable("groupId") String groupId, @PathVariable("interviewerLogin") String interviewerLogin) {
+        Group group = groupService.readGroup(groupId);
+        String interviewerId = interviewerService.findInterviewer(interviewerLogin).getId();
+        if (group == null) {
+            log.error("Group with id '{}' doesn't exist in database", groupId);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Interview interview;
+        List<CandidateReportDTO> candidatesReport = new ArrayList<>();
+        for (Candidate candidate : group.getCandidates()) {
+            interview = interviewService.readInterviewByCandidateIdAndInterviewerId(candidate.getId(), interviewerId);
+            candidatesReport.add(new CandidateReportDTO(candidate, interview));
+        }
+        Collections.sort(candidatesReport);
+        return new ResponseEntity<>(candidatesReport, HttpStatus.OK);
     }
 
 }
