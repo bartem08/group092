@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var userPrincipal = $("#userPrincipal").val();
     var groupId = $("#groupId").val();
+    var defTemplateId = "57063f7e866dbe18343aca6a";
 
     $('body').on('click', '.dayRow', function() {
         var x = $(this).attr("id");
@@ -86,9 +87,12 @@ $(document).ready(function() {
                                             '<td><a href="/web/candidates/' + candidate.id + '">' + fullName + '</a></td>' +
                                             '<td>' + showTime + '</td>' +
                                             '<td><form action="/interview/' + candidate.interviewId + '" method="POST">' +
-                                                    '<input type="hidden" name="template_id" class="interviewTemplate" value=""/>' +
+                                                    '<input type="hidden" name="template_id" class="interviewTemplate" ' +
+                                                    'value="' + defTemplateId + '"/>' +
                                                     '<input type="hidden" name="group_name" value="' + group.name +'"/>' +
-                                                    '<input type="submit" class="btn btn-default" value="submit"/>' +
+                                                    '<input type="image" src="../../../resources/images/icons/Skull-48.png" style="height: 1.5em"/>' +
+                                                    //'style="height: 1.8em;/>' +
+                                                    //'<input type="submit" value="start"/>' +
                                             '</form></td>' +
                                         '</tr>'
                                     );
