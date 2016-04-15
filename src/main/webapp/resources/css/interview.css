@@ -3,7 +3,7 @@
 }
 
 .custom-left {
-    top: 9%;
+    top: 10%;
     left: 1%;
     bottom: 0;
     width: 19%;
@@ -11,8 +11,7 @@
 }
 .custom-main {
     width: 78%;
-    height: 70%;
-    top: 9%;
+    height: 90%;
     left: 21%;
     margin-right: 1%;
 }
@@ -25,14 +24,14 @@
     overflow-y: auto;
 }
 .custom-result {
-    position: fixed;
+    position: absolute;
     width: 37%;
-    height: 19%;
-    top: 80%;
+    height: 20%;
     left: 62%;
+    margin-top: 1%;
 }
 .custom-result .progress {
-    position: absolute;
+    position: relative;
     top: 70%;
     left: 15%;
     width: 70%;
@@ -78,11 +77,11 @@
     background-color: #4FAA4F;
 }
 .custom-comments {
-    position: fixed;
-    width: 40%;
-    height: 19%;
-    left: 21%;
-    top: 80%;
+    position: relative;
+    float: left;
+    width: 60%;
+    height: 20%;
+    margin-top: 1%;
 }
 .custom-comments > textarea {
     width: 100%;
@@ -133,7 +132,14 @@ textarea,
 }
 
 #question-table {
-    height: inherit;
+    height: 75%;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#question-table table {
+    height: 100%;
+    margin-bottom: 0;
 }
 
 .loading td {
