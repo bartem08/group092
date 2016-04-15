@@ -25,4 +25,6 @@ public class ProfilesAndTemplateController {
     public ModelAndView template() {
         return new ModelAndView("profilesAndTemplate/templates");
     }
+
+
 }
