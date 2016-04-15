@@ -1,22 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Day</title>
+    <title>Report</title>
 
-    <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="../../../resources/bootstrap/css/bootstrap.min.css"/>
 
-    <script src="../../resources/jquery/jquery-2.2.2.min.js"></script>
-    <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../resources/jquery/jquery-2.2.2.min.js"></script>
+    <script src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="../../resources/js/header.js"></script>
-    <script src="../../resources/js/group.js"></script>
+    <script src="../../../resources/js/groupReport.js"></script>
+    <script src="../../../resources/js/header.js"></script>
 </head>
 <body>
-
-<input id="groupId" type="hidden" value="${groupId}"/>
-
-<input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}"/>
-
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -30,19 +26,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
+                <li class="active"><a href="#">Home</a></li>
                 <li><a href="/web/groups">Session</a></li>
-                <li class="dropdown" class="active">
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schedule<span class="caret"></span></a>
                     <ul id="hdrDropdownSchedule" class="dropdown-menu">
                         <!-- Populate by JS -->
                     </ul>
                 </li>
-                <li><a href="/web/groups/${groupId}/report">Report</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/web/interviewer">Profile</a></li>
-                <li><a href="/web/logout">Log Out</a></li>
+                <li><a href="/web/profile">Profile</a></li>
+                <li><a href="/login">Log Out</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -50,30 +45,21 @@
 
 <div class="container" style="padding-top: 5em">
 
+    <input type="hidden" id="idHidden" value="${id}">
+    <input id="userPrincipal" type="hidden" value="${pageContext.request.userPrincipal.name}">
+    <h2><span id="groupNameSpan" style="color: #add8e6"></span></h2>
 
-
-
-
-    <div style="width: 80%; float: left; margin-right: 3em">
-    <h2><span id="groupName" style="color: #add8e6"></span></h2>
-    <table id="groupTable" class="table table-striped table-hover">
+    <table id="reportTable" class="table table-striped table-hover">
         <thead>
         <tr>
             <th>Name</th>
-            <th style="width: 10em">Time</th>
-            <th style="width: 10em">Interview</th>
+            <th>Rank</th>
         </tr>
         </thead>
         <tbody>
         <!-- Populated by JS -->
         </tbody>
     </table>
-    </div>
-
-    <div style="width: 12em; float: left">
-        <h2 style="color: #add8e6">Templates</h2>
-        <select class="form-control btn btn-default selectTemplate"></select>
-    </div>
 </div>
 
 </body>

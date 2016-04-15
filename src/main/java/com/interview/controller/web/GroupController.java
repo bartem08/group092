@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +33,11 @@ public class GroupController {
     @RequestMapping("/{id}")
     public ModelAndView group(@PathVariable("id") String id) {
         return new ModelAndView("group", "groupId", id);
+    }
+
+    @RequestMapping("/{id}/report")
+    public ModelAndView groupReport(@PathVariable("id") String id) {
+        return new ModelAndView("groupReport", "groupId", id);
     }
 
     protected boolean hasRole(String role) {
